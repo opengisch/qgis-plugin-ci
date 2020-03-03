@@ -98,10 +98,12 @@ In `.qgis-plugin-ci`, you should at least provide the following configuration:
 
 * plugin_path
 
+You can find a template `.qgis-plugin-ci` in this repository.
+
 ## QRC and UI files
 
-- any .qrc file in the source top directory (plugin_path) will be compiled and output as filename_rc.py. You can then import it using ``import plugin_path.resources_rc``
-- currently, qgis-plugin-ci does not compile any .ui file.
+- Any .qrc file in the source top directory (plugin_path) will be compiled and output as filename_rc.py. You can then import it using ``import plugin_path.resources_rc``
+- Currently, qgis-plugin-ci does not compile any .ui file.
 
 ## Publishing plugins
 
@@ -118,6 +120,10 @@ In the case of a pre-release, the plugin will not be pushed to the OSGEO repo. I
 
 ### Basic configuration
 
+**Notes**:
+* Python 3.7 is required. Check on Travis that you are using at least Python 3.7.
+* `qgis-plugin-ci` must find an existing GitHub release for the tag. Either you create the release from GitHub, which will trigger Travis or you can use Travis/GitHub Actions to create the release automatically.
+
 One can easily set up a deployment using Travis.
 
 1. Add `qgis-plugin-ci` to `requirements.txt` or have `pip install qgis-plugin-ci` in `install` step.
@@ -126,11 +132,25 @@ One can easily set up a deployment using Travis.
 
 ```
 deploy:
-  provider: script
-  script: qgis-plugin-ci release ${TRAVIS_TAG} --github-token ${GH_TOKEN} --osgeo-username ${OSGEO_USERNAME} --osgeo-password {OSGEO_PASSWORD}
-  on:
-    tags: true
+
+  - provider: script
+    script: qgis-plugin-ci release ${TRAVIS_TAG} --github-token ${GH_TOKEN} --osgeo-username ${OSGEO_USERNAME} --osgeo-password {OSGEO_PASSWORD}
+    on:
+      tags: true
 ```
+
+This assumes that you have an existing GitHub release. If you want, Travis can create the release itself. In the `deploy` section, you must add another `provider` before the script `qgis-plugin-ci`:
+
+```
+
+  - provider: releases
+    name: Title of the release ${TRAVIS_TAG}
+    api_key: ${GH_TOKEN}
+    on:
+      tags: true
+
+```
+
 
 ### Submodules
 
@@ -168,7 +188,6 @@ jobs:
 ```
 
 
-
 ## Debug
 
 In any Python module, you can have a global variable as `DEBUG = True`, which will be changed to `False` when packaging the plugin.
@@ -184,5 +203,4 @@ resources.qrc export-ignore
 
 * https://github.com/opengisch/qgis_geomapfish_locator (translated, released on official repo)
 * https://github.com/VeriVD/qgis_VeriVD (released on custom repo as Github release)
-
-  
+* https://github.com/3liz/lizmap-plugin (release on official repository, release created from Travis)
