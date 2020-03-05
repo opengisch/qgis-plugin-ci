@@ -68,15 +68,20 @@ def release(parameters: Parameters,
 
     archive_name = parameters.archive_name(release_version)
 
+    is_prerelease = False
+    if github_token is not None:
+        is_prerelease = is_prerelease(parameters, release_tag=release_version, github_token=github_token)
+    print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
+
     create_archive(
         parameters, release_version, archive_name,
         add_translations=transifex_token is not None,
-        allow_uncommitted_changes=allow_uncommitted_changes
+        allow_uncommitted_changes=allow_uncommitted_changes,
+        remove_debug=not is_prerelease
     )
 
-    is_prerelease = False
     if github_token is not None:
-        is_prerelease = upload_asset_to_github_release(
+        upload_asset_to_github_release(
             parameters, asset_path=archive_name, release_tag=release_version, github_token=github_token
         )
         if upload_plugin_repo_github:
@@ -108,7 +113,8 @@ def create_archive(
         release_version: str,
         archive_name: str,
         add_translations: bool = False,
-        allow_uncommitted_changes: bool = False):
+        allow_uncommitted_changes: bool = False,
+        remove_debug: bool = False):
 
     repo = git.Repo()
     
@@ -134,8 +140,9 @@ def create_archive(
     )
 
     # replace any DEBUG=False in all Python files
-    for file in glob('{}/**/*.py'.format(parameters.plugin_path), recursive=True):
-        replace_in_file(file, r'^DEBUG\s*=\s*True', 'DEBUG = False')
+    if remove_debug:
+        for file in glob('{}/**/*.py'.format(parameters.plugin_path), recursive=True):
+            replace_in_file(file, r'^DEBUG\s*=\s*True', 'DEBUG = False')
 
     # keep track of current state
     try:
@@ -218,7 +225,7 @@ def upload_asset_to_github_release(
         release_tag: str,
         github_token: str,
         asset_name: str = None
-) -> bool:
+):
 
     slug = '{}/{}'.format(parameters.github_organization_slug, parameters.project_slug)
     repo = Github(github_token).get_repo(slug)
@@ -243,6 +250,21 @@ def upload_asset_to_github_release(
             'Could not upload asset for release {}. '
             'Are you sure the user for the given token can upload asset to this repo?'.format(release_tag)
         )
+
+
+def is_prerelease(
+        parameters: Parameters,
+        release_tag: str,
+        github_token: str,
+) -> bool:
+    slug = '{}/{}'.format(parameters.github_organization_slug, parameters.project_slug)
+    repo = Github(github_token).get_repo(slug)
+    try:
+        print('Getting release on {}/{}'.format(parameters.github_organization_slug, parameters.project_slug))
+        gh_release = repo.get_release(id=release_tag)
+        print(gh_release, gh_release.tag_name, gh_release.upload_url)
+    except GithubException as e:
+        raise GithubReleaseNotFound('Release {} not found'.format(release_tag))
     return gh_release.prerelease
 
 
