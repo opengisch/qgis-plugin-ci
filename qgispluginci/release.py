@@ -70,7 +70,7 @@ def release(parameters: Parameters,
 
     is_prerelease = False
     if github_token is not None:
-        is_prerelease = is_prerelease(parameters, release_tag=release_version, github_token=github_token)
+        is_prerelease = release_is_prerelease(parameters, release_tag=release_version, github_token=github_token)
     print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
 
     create_archive(
@@ -252,7 +252,7 @@ def upload_asset_to_github_release(
         )
 
 
-def is_prerelease(
+def release_is_prerelease(
         parameters: Parameters,
         release_tag: str,
         github_token: str,
