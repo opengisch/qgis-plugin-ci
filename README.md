@@ -139,7 +139,8 @@ deploy:
       tags: true
 ```
 
-This assumes that you have an existing GitHub release. If you want, Travis can create the release itself. In the `deploy` section, you must add another `provider` before the script `qgis-plugin-ci`:
+This assumes that you have an existing GitHub release. 
+Alternatively, Travis can create the release by adding  a `releases`provider before the `script` provider:
 
 ```
 
