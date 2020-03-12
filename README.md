@@ -140,7 +140,7 @@ deploy:
 ```
 
 This assumes that you have an existing GitHub release. 
-Alternatively, Travis can create the release by adding  a `releases`provider before the `script` provider:
+Alternatively, Travis can create the release by adding a `releases` provider before the `script` provider:
 
 ```
 
