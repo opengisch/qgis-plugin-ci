@@ -6,7 +6,10 @@ These scripts are written for and tested on GitHub, Travis-CI and Transifex.
  - Deploy plugin releases on QGIS official plugin repository
  - Publish plugin in Github releases, option to deploy a custom repository
  - Easily integrated in Travis-CI
- - Completely handle translations with Transifex: create the project and the languages, pull and push translations 
+ - Completely handle translations with Transifex:
+    - create the project and the languages
+    - pull and push translations
+    - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
    
 # Command line
 
@@ -99,6 +102,8 @@ In `.qgis-plugin-ci`, you should at least provide the following configuration:
 * plugin_path
 
 You can find a template `.qgis-plugin-ci` in this repository.
+You can read the docstring of the file `qgispluginci/parameters.py`
+to know parameters which are available in the file.
 
 ## QRC and UI files
 

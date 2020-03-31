@@ -22,7 +22,6 @@ class Parameters:
     project_slug: str
         The project slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).
         Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable.
-        Otherwise, defaults to
 
     transifex_coordinator: str
         The username of the coordinator in Transifex.
@@ -30,7 +29,11 @@ class Parameters:
 
     transifex_organization: str
         The organization name in Transifex
-        Defaults to: `organization`
+        Defaults to: the GitHub organization slug
+
+    transifex_project_slug: str
+        The project slug on Transifex, which can be different from the one on GitHub.
+        Defaults to: the project slug
 
     transifex_resource: str
         The resource name in transifex
@@ -39,6 +42,9 @@ class Parameters:
     translation_source_language:
         The source language for translations.
         Defaults to: 'en'
+
+    translation_languages:
+        List of languages.
 
     create_date: datetime.date
         The date of creation of the plugin.
@@ -66,6 +72,7 @@ class Parameters:
         self.transifex_organization = definition.get('transifex_organization', self.github_organization_slug)
         self.translation_source_language = definition.get('translation_source_language', 'en')
         self.translation_languages = definition.get('translation_languages', {})
+        self.transifex_project_slug = definition.get('transifex_project_slug', self.project_slug)
         self.transifex_resource = definition.get('transifex_resource', self.project_slug)
         self.create_date = datetime.datetime.strptime(str(definition.get('create_date', datetime.date.today())), '%Y-%m-%d')
         self.lrelease_path = definition.get('lrelease_path', 'lrelease')
