@@ -64,13 +64,14 @@ optional arguments:
 ## Pull translations
 
 ```commandline
-usage: qgis-plugin-ci pull-translation [-h] transifex_token
+usage: qgis-plugin-ci pull-translation [-h] [--compile] transifex_token
 
 positional arguments:
   transifex_token  The Transifex API token
 
 optional arguments:
   -h, --help       show this help message and exit
+  --compile        Will compile TS files into QM files
 ```
 
 ## Push translations
