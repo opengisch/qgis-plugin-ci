@@ -128,7 +128,7 @@ def create_archive(
         for diff in diff:
             print(diff)
         if not allow_uncommitted_changes:
-            raise UncommitedChanges('You have uncommitted changes. Stash or commit them.')
+            raise UncommitedChanges('You have uncommitted changes. Stash or commit them or use --allow-uncommitted-changes.')
         else:
             initial_stash = repo.git.stash('create')
 
