@@ -47,6 +47,10 @@ def main():
     # pull-translation
     pull_tr_parser = subparsers.add_parser('pull-translation', help='pull translations from Transifex')
     pull_tr_parser.add_argument('transifex_token', help='The Transifex API token')
+    pull_tr_parser.add_argument(
+        '--compile', action='store_true',
+        help='Will compile TS files into QM files'
+    )
 
     # push-translation
     push_tr_parser = subparsers.add_parser('push-translation', help='update strings and push translations')
@@ -93,7 +97,10 @@ def main():
 
     # TRANSLATION PULL
     elif args.command == 'pull-translation':
-        Translation(parameters, args.transifex_token).pull()
+        t = Translation(parameters, args.transifex_token)
+        t.pull()
+        if args.compile:
+            t.compile_strings()
 
     # TRANSLATION PUSH
     elif args.command == 'push-translation':
