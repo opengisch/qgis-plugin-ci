@@ -101,7 +101,7 @@ class Translation:
                 existing_langs.append(lang)
         for lang in existing_langs:
             ts_file = '{dir}/i18n/{res}_{lan}.ts'.format(dir=self.parameters.plugin_path,
-                                                         res=self.parameters.transifex_project,
+                                                         res=self.parameters.transifex_resource,
                                                          lan=lang)
             print('downloading translation file: {}'.format(ts_file))
             self._t.get_translation(self.parameters.transifex_project, resource['slug'], lang, ts_file)
@@ -116,7 +116,7 @@ class Translation:
         print('done: {}'.format(result))
 
     def __get_resource(self) -> dict:
-        resources = self._t.list_resources(self.parameters.transifex_resource)
+        resources = self._t.list_resources(self.parameters.transifex_project)
         if len(resources) == 0:
             raise TransifexNoResource("project '{}' has no resource on Transifex".format(self.parameters.transifex_project))
         if len(resources) > 1:
@@ -125,6 +125,8 @@ class Translation:
                     return resource
             raise TransifexManyResources("project '{p}' has several resources on Transifex "
                                          "and none is named as the project slug."
-                                         "Specify one in the parameters with transifex_resource"
-                                         .format(p=self.parameters.transifex_project))
+                                         "Specify one in the parameters with transifex_resource."
+                                         "These resources have been found: {r}"
+                                         .format(p=self.parameters.transifex_project,
+                                                 r=', '.join([r['name'] for r in resources])))
         return resources[0]
