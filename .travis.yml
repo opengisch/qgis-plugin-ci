@@ -19,7 +19,7 @@ install:
 
 script:
   - qgis-plugin-ci --version
-  - LD_LIBRARY_PATH=/home/travis/virtualenv/python$(python3 --version | cut -d ' ' -f2)/lib/python${TRAVIS_PYTHON_VERSION}/site-packages/PyQt5/Qt/lib:$LD_LIBRARY_PATH nose2 -v
+  - nose2 -v
 
 deploy:
   on:
