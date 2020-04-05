@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
+import configparser
+import os
 import yaml
+
+from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.parameters import Parameters
@@ -71,7 +75,16 @@ def main():
 
     exit_val = 0
 
-    arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
+    if os.path.isfile(".qgis-plugin-ci"):
+        arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
+    else:
+        config = configparser.ConfigParser()
+        config.read("setup.cfg")
+        if "qgis-plugin-ci" not in config.sections():
+            raise ConfigurationNotFound(
+                ".qgis-plugin-ci or setup.cfg with a 'qgis-plugin-ci' section have not been found.")
+        arg_dict = dict(config.items("qgis-plugin-ci"))
+
     parameters = Parameters(arg_dict)
 
     # PACKAGE

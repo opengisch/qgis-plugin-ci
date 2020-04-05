@@ -23,3 +23,6 @@ class GithubReleaseCouldNotUploadAsset(Exception):
 class UncommitedChanges(Exception):
     pass
 
+
+class ConfigurationNotFound(Exception):
+    pass
