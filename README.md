@@ -93,18 +93,41 @@ optional arguments:
 
 * The code is under a __git__ repository (`git archive` is used to bundle the plugin)
 * There is no uncommitted changes when doing a package/release (there is an option to allow this)
-* A `.qgis-plugin-ci` file contains the configuration at the top directory
+* A configuration at the top directory either in `.qgis-plugin-ci` or in `setup.cfg` with a `[qgis-plugin-ci]` section.
 * The source files of the plugin are within a sub-directory (possibly could work at top level, but not tested)
 
 ## The configuration file
 
-In `.qgis-plugin-ci`, you should at least provide the following configuration:
+The plugin must have a configuration, located at the top directory:
+* either you use a `.qgis-plugin-ci` file
+* or you use a `[qgis-plugin-ci]` section in a `setup.cfg` file (which is used by many other tool).
 
-* plugin_path
+In the configuration, you should at least provide the following configuration:
+
+* `plugin_path`
 
 You can find a template `.qgis-plugin-ci` in this repository.
 You can read the docstring of the file `qgispluginci/parameters.py`
 to know parameters which are available in the file.
+
+### Examples
+
+* `.qgis-plugin-ci`
+
+```yaml
+plugin_path: qgis_plugin_ci_testing
+github_organization_slug: opengisch
+project_slug: qgis-plugin-ci
+```
+
+* `setup.cfg`
+
+```ini
+[qgis-plugin-ci]
+plugin_path = QuickOSM
+github_organization_slug = 3liz
+project_slug = QuickOSM
+```
 
 ## QRC and UI files
 
@@ -136,7 +159,7 @@ One can easily set up a deployment using Travis.
 2. Specify the environment variables required to connect to the different platforms (Osgeo, Github, Transifex). You can add them either using the Travis CLI with `travis encrypt` or use the web interface to add the variables.
 3. Add a deploy step to release the plugin:
 
-```
+```yaml
 deploy:
 
   - provider: script
@@ -148,7 +171,7 @@ deploy:
 This assumes that you have an existing GitHub release. 
 Alternatively, Travis can create the release by adding a `releases` provider before the `script` provider:
 
-```
+```yaml
 
   - provider: releases
     name: Title of the release ${TRAVIS_TAG}
@@ -208,6 +231,15 @@ resources.qrc export-ignore
 
 # Sample plugins
 
-* https://github.com/opengisch/qgis_geomapfish_locator (translated, released on official repo)
-* https://github.com/VeriVD/qgis_VeriVD (released on custom repo as Github release)
-* https://github.com/3liz/lizmap-plugin (release on official repository, release created from Travis)
+These plugins are using this tool, with different configurations as examples:
+
+* https://github.com/opengisch/qgis_geomapfish_locator:
+  * translated on Transifex
+  * released on official repo
+* https://github.com/VeriVD/qgis_VeriVD
+  * released on custom repo as GitHub release
+* https://github.com/3liz/lizmap-plugin
+  * using a `setup.cfg` file
+  * GitHub release created automatically from Travis
+  * released on official repository
+  * translations are committed from Travis to the repository after the release process
