@@ -57,7 +57,7 @@ def release(parameters: Parameters,
     osgeo_password
         osgeo password to upload the plugin to official QGIS repository
     allow_uncommitted_changes
-        If False, uncommitted changes are not allowed before packaging.
+        If False, uncommitted changes are not allowed before packaging/releasing.
         If True and some changes are detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.
     """
 
