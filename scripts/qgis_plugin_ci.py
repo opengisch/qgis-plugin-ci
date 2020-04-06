@@ -26,8 +26,8 @@ def main():
     )
     package_parser.add_argument(
         '--allow-uncommitted-changes', action='store_true',
-        help='If False, uncommitted changes are not allowed before packaging. If True and some changes are detected,'
-             ' a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
+        help='If omitted, uncommitted changes are not allowed before packaging. If specified and some changes are '
+             'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
     )
 
     # release
@@ -47,8 +47,8 @@ def main():
     )
     release_parser.add_argument(
         '--allow-uncommitted-changes', action='store_true',
-        help='If False, uncommitted changes are not allowed before releasing. If True and some changes are detected,'
-             ' a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
+        help='If omitted, uncommitted changes are not allowed before releasing. If specified and some changes are '
+             'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
     )
     release_parser.add_argument('--osgeo-username', help='The Osgeo user name to publish the plugin.')
     release_parser.add_argument('--osgeo-password', help='The Osgeo password to publish the plugin.')

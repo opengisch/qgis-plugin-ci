@@ -29,9 +29,9 @@ optional arguments:
                         The Transifex API token. If specified translations
                         will be pulled and compiled.
   --allow-uncommitted-changes
-                        If False, uncommitted changes are not allowed before
-                        packaging. If True and some changes are detected, a
-                        hard reset on a stash create will be used to revert
+                        If omitted, uncommitted changes are not allowed before
+                        packaging. If specified and some changes are detected,
+                        a hard reset on a stash create will be used to revert
                         changes made by qgis-plugin-ci.
 ```
 
@@ -60,9 +60,9 @@ optional arguments:
   --create-plugin-repo  Will create a XML repo as a Github release asset.
                         Github token is required.
   --allow-uncommitted-changes
-                        If False, uncommitted changes are not allowed before
-                        releasing. If True and some changes are detected, a
-                        hard reset on a stash create will be used to revert
+                        If omitted, uncommitted changes are not allowed before
+                        releasing. If specified and some changes are detected,
+                        a hard reset on a stash create will be used to revert
                         changes made by qgis-plugin-ci.
   --osgeo-username OSGEO_USERNAME
                         The Osgeo user name to publish the plugin.
