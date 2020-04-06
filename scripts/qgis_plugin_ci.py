@@ -26,8 +26,8 @@ def main():
     )
     package_parser.add_argument(
         '--allow-uncommitted-changes', action='store_true',
-        help='If False, uncommitted changes are not allowed before packaging. If True and some changes are detected,'
-             ' a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
+        help='If omitted, uncommitted changes are not allowed before packaging. If specified and some changes are '
+             'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
     )
 
     # release
@@ -44,6 +44,11 @@ def main():
     release_parser.add_argument(
         '--create-plugin-repo', action='store_true',
         help='Will create a XML repo as a Github release asset. Github token is required.'
+    )
+    release_parser.add_argument(
+        '--allow-uncommitted-changes', action='store_true',
+        help='If omitted, uncommitted changes are not allowed before releasing. If specified and some changes are '
+             'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
     )
     release_parser.add_argument('--osgeo-username', help='The Osgeo user name to publish the plugin.')
     release_parser.add_argument('--osgeo-password', help='The Osgeo password to publish the plugin.')
@@ -105,7 +110,8 @@ def main():
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
             osgeo_username=args.osgeo_username,
-            osgeo_password=args.osgeo_password
+            osgeo_password=args.osgeo_password,
+            allow_uncommitted_changes=args.allow_uncommitted_changes,
         )
 
     # TRANSLATION PULL
