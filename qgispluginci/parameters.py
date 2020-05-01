@@ -93,7 +93,7 @@ class Parameters:
                           'It is a requirement to publish the plugin on the repository')
         self.repository_url = self.__get_from_metadata('repository')
 
-    def archive_name(self, release_version: str, experimental: False) -> str:
+    def archive_name(self, release_version: str, experimental: bool = False) -> str:
         """
         Returns the archive file name
         """
