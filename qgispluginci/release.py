@@ -77,7 +77,7 @@ def release(parameters: Parameters,
         parameters, release_version, archive_name,
         add_translations=transifex_token is not None,
         allow_uncommitted_changes=allow_uncommitted_changes,
-        remove_debug=not is_prerelease
+        remove_is_prereleasedebug=is_prerelease
     )
 
     if github_token is not None:
@@ -114,7 +114,7 @@ def create_archive(
         archive_name: str,
         add_translations: bool = False,
         allow_uncommitted_changes: bool = False,
-        remove_debug: bool = False):
+        is_prerelease: bool = False):
 
     repo = git.Repo()
     
@@ -139,8 +139,16 @@ def create_archive(
         'version={}'.format(release_version)
     )
 
+    # set the plugin as experimental on a pre-release
+    if is_prerelease:
+        replace_in_file(
+            '{}/metadata.txt'.format(parameters.plugin_path),
+            r'^experimental=.*$',
+            'experimental={}'.format(True if is_prerelease else False)
+        )
+
     # replace any DEBUG=False in all Python files
-    if remove_debug:
+    if not is_prerelease:
         for file in glob('{}/**/*.py'.format(parameters.plugin_path), recursive=True):
             replace_in_file(file, r'^DEBUG\s*=\s*True', 'DEBUG = False')
 
