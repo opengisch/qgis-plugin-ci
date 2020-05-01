@@ -93,14 +93,17 @@ class Parameters:
                           'It is a requirement to publish the plugin on the repository')
         self.repository_url = self.__get_from_metadata('repository')
 
-    def archive_name(self, release_version: str) -> str:
+    def archive_name(self, release_version: str, experimental: False) -> str:
         """
         Returns the archive file name
         """
         # zipname: use dot before version number
         # and not dash since it's causing issues
-        return '{zipname}.{release_version}.zip'.format(zipname=self.plugin_slug,
-                                                        release_version=release_version)
+        return '{zipname}{experimental}.{release_version}.zip'.format(
+            zipname=self.plugin_slug,
+            experimental='-experimental' if experimental else '',
+            release_version=release_version
+        )
 
     def __get_from_metadata(self, key: str, default_value: any = None) -> str:
         metadata_file = '{}/metadata.txt'.format(self.plugin_path)

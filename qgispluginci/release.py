@@ -80,6 +80,19 @@ def release(parameters: Parameters,
         is_prerelease=is_prerelease
     )
 
+    # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
+    # since only QGIS 3.14+ supports the beta/experimental plugins trial
+    experimental_archive_name = None
+    if osgeo_username is not None and is_prerelease:
+        experimental_archive_name = parameters.archive_name(release_version, True)
+        create_archive(
+            parameters, release_version, experimental_archive_name,
+            add_translations=transifex_token is not None,
+            allow_uncommitted_changes=allow_uncommitted_changes,
+            is_prerelease=True,
+            raise_min_version='3.14'
+        )
+
     if github_token is not None:
         upload_asset_to_github_release(
             parameters, asset_path=archive_name, release_tag=release_version, github_token=github_token
@@ -103,7 +116,8 @@ def release(parameters: Parameters,
     if osgeo_username is not None:
         assert osgeo_password is not None
         if is_prerelease:
-            warnings.warn('Skipping deploy to OSGEO since this is a pre-release')
+            assert experimental_archive_name is not None
+            upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=experimental_archive_name)
         else:
             upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=archive_name)
 
@@ -114,10 +128,11 @@ def create_archive(
         archive_name: str,
         add_translations: bool = False,
         allow_uncommitted_changes: bool = False,
-        is_prerelease: bool = False):
+        is_prerelease: bool = False,
+        raise_min_version: str = None):
 
     repo = git.Repo()
-    
+
     top_tar_handle, top_tar_file = mkstemp(suffix='.tar')
 
     # keep track of current state
@@ -145,6 +160,13 @@ def create_archive(
             '{}/metadata.txt'.format(parameters.plugin_path),
             r'^experimental=.*$',
             'experimental={}'.format(True if is_prerelease else False)
+        )
+
+    if raise_min_version:
+        replace_in_file(
+            '{}/metadata.txt'.format(parameters.plugin_path),
+            r'^qgisMinimumVersion=.*$',
+            'qgisMinimumVersion={}'.format(raise_min_version)
         )
 
     # replace any DEBUG=False in all Python files
