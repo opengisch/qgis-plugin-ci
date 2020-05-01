@@ -77,7 +77,7 @@ def release(parameters: Parameters,
         parameters, release_version, archive_name,
         add_translations=transifex_token is not None,
         allow_uncommitted_changes=allow_uncommitted_changes,
-        remove_is_prereleasedebug=is_prerelease
+        is_prerelease=is_prerelease
     )
 
     if github_token is not None:
