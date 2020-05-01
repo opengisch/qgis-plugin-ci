@@ -148,8 +148,11 @@ When releasing, you can publish the plugin :
 2. As a custom repository in Github releases and which can be added later in QGIS. The address will be: https://github.com/__ORG__/__REPO__/releases/latest/download/plugins.xml
 
 Both can be achieved in the same process.
-In the case of a pre-release, the plugin will not be pushed to the OSGEO repo. In such way, you can use the custom repo as beta testing and the OSGEO for the final rollout. 
 
+## Pre-release and experimental
+
+In the case of a pre-release (from GitHub), the plugin will be flagged as experimental.
+If pushed to the QGIS plugin repository, the QGIS minimum version will be raised to QGIS 3.14 (only 3.14 and above support testing of experimental versions).
 
 ## Automatic deployment on Travis
 
