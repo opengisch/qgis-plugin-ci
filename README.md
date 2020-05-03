@@ -206,8 +206,8 @@ before_install:
 ````
 
 ### Using Transifex to translate your plugin
-
-```yaml
+https://github.com/opengisch/qgis_server_render_geojson
+```yamlhttps://github.com/opengisch/qgis_server_render_geojson
 jobs:
   include:
     - stage: push-translation
@@ -228,7 +228,7 @@ jobs:
 
 ## Automatic deployment on github workflows
 
-qgis-plugin-ci integrates nicely on github workflows. The following example automatically uploads plugins to releases and to the plugin repository when a new release is created on github.
+qgis-plugin-ci integrates nicely with github workflows. The following example automatically uploads plugins to releases and to the plugin repository when a new release is created on github.
 
 All you need to do is adding `OSGEO_PASSWORD` to the secrets in the repository settings. Note that the `GITHUB_TOKEN` is available automatically without any configuration.
 
@@ -248,8 +248,10 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
+        
     - name: Install qgis-plugin-ci
       run: pip3 install qgis-plugin-ci
+      
     - name: Deploy plugin
       run: qgis-plugin-ci release ${GITHUB_REF/refs\/tags\//} --github-token ${{ secrets.GITHUB_TOKEN }} --osgeo-username mkuhn --osgeo-password ${{ secrets.OSGEO_PASSWORD }}
 ```
