@@ -227,6 +227,12 @@ jobs:
 ```
 
 
+## Automatic deployment through github workflows
+
+Qgis plugin ci also works with github workflows.
+
+A simple example can be found in the [qgis_server_render_geojson plugin](https://github.com/opengisch/qgis_server_render_geojson/blob/master/.github/workflows/release.yml).
+
 ## Debug
 
 In any Python module, you can have a global variable as `DEBUG = True`, which will be changed to `False` when packaging the plugin.
