@@ -1,11 +1,11 @@
 # QGIS Plugin CI
 
 Contains scripts to perform automated testing and deployment for QGIS plugins.
-These scripts are written for and tested on GitHub, Travis-CI and Transifex.
+These scripts are written for and tested on GitHub, Travis-CI, github workflows and Transifex.
 
  - Deploy plugin releases on QGIS official plugin repository
  - Publish plugin in Github releases, option to deploy a custom repository
- - Easily integrated in Travis-CI
+ - Easily integrated in Travis-CI or github workflows
  - Completely handle translations with Transifex:
     - create the project and the languages
     - pull and push translations
@@ -226,6 +226,34 @@ jobs:
 
 ```
 
+## Automatic deployment on github workflows
+
+qgis-plugin-ci integrates nicely on github workflows. The following example automatically uploads plugins to releases and to the plugin repository when a new release is created on github.
+
+All you need to do is adding `OSGEO_PASSWORD` to the secrets in the repository settings. Note that the `GITHUB_TOKEN` is available automatically without any configuration.
+
+```yaml
+on:
+  release:
+    types: published
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install qgis-plugin-ci
+      run: pip3 install qgis-plugin-ci
+    - name: Deploy plugin
+      run: qgis-plugin-ci release ${GITHUB_REF/refs\/tags\//} --github-token ${{ secrets.GITHUB_TOKEN }} --osgeo-username mkuhn --osgeo-password ${{ secrets.OSGEO_PASSWORD }}
+```
+
 
 ## Debug
 
@@ -242,6 +270,10 @@ resources.qrc export-ignore
 
 These plugins are using this tool, with different configurations as examples:
 
+* https://github.com/opengisch/qgis_server_render_geojson
+  * deployment on github releases and plugin repository
+  * works on gihtub workflows
+  * barebone implementation, no bells and whistles
 * https://github.com/opengisch/qgis_geomapfish_locator:
   * translated on Transifex
   * released on official repo
