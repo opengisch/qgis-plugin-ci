@@ -232,6 +232,7 @@ qgis-plugin-ci integrates nicely with github workflows. The following example au
 
 All you need to do is adding `OSGEO_PASSWORD` to the secrets in the repository settings. Note that the `GITHUB_TOKEN` is available automatically without any configuration.
 
+Save this file as `.github/workflows/release.yaml`:
 ```yaml
 on:
   release:
