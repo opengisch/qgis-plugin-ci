@@ -206,7 +206,6 @@ before_install:
 ````
 
 ### Using Transifex to translate your plugin
-https://github.com/opengisch/qgis_server_render_geojson
 ```yamlhttps://github.com/opengisch/qgis_server_render_geojson
 jobs:
   include:
