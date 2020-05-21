@@ -20,6 +20,7 @@ except ImportError:
 import datetime
 import pyqt5ac
 
+from qgispluginci.changelog import ChangelogParser
 from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file, configure_file
@@ -50,6 +51,32 @@ def create_archive(
             raise UncommitedChanges('You have uncommitted changes. Stash or commit them or use --allow-uncommitted-changes.')
         else:
             initial_stash = repo.git.stash('create')
+
+    # changelog
+    if parameters.changelog_include:
+        parser = ChangelogParser(parameters.changelog_regexp)
+        if parser.has_changelog():
+            try:
+                content = parser.last_items(parameters.changelog_number_of_entries)
+                if content:
+                    replace_in_file(
+                        '{}/metadata.txt'.format(parameters.plugin_path),
+                        r'^changelog=.*$',
+                        'changelog={}'.format(content)
+                    )
+            except Exception as e:
+                # Do not fail the release process if something is wrong when parsing the changelog
+                replace_in_file(
+                    '{}/metadata.txt'.format(parameters.plugin_path),
+                    r'^changelog=.*$', ''
+                )
+                print('An exception occurred while parsing the changelog file : {}'.format(e))
+    else:
+        # Remove the changelog line
+        replace_in_file(
+            '{}/metadata.txt'.format(parameters.plugin_path),
+            r'^changelog=.*$', ''
+        )
 
     # set version in metadata
     replace_in_file(

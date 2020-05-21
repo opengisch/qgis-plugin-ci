@@ -7,6 +7,7 @@ about=Downloading would be useless
 version=dev
 author=Denis Rouzaud
 email=denis@opengis.ch
+changelog=changelog
 
 # Tags are comma separated with spaces allowed
 tags=

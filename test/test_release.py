@@ -7,6 +7,7 @@ import filecmp
 import urllib.request
 from tempfile import mkstemp
 from github import Github, GithubException
+from zipfile import ZipFile
 
 from pytransifex.exceptions import PyTransifexException
 
@@ -16,7 +17,7 @@ from qgispluginci.translation import Translation
 from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.utils import replace_in_file
 
-# if change, also update on .travis.yml
+# if change, also update on .travis.yml and CHANGELOG.md
 RELEASE_VERSION_TEST = '0.1.2'
 
 
@@ -96,6 +97,16 @@ class TestRelease(unittest.TestCase):
                 break
         self.assertTrue(found, 'asset not found')
 
+    def test_release_changelog(self):
+        """ Test about the changelog in the metadata.txt. """
+        expected = b'changelog=\n Version 0.1.2:\n * Add a CHANGELOG.md file for testing\n'
+
+        # Include a changelog
+        release(self.parameters, RELEASE_VERSION_TEST)
+        archive_name = self.parameters.archive_name(RELEASE_VERSION_TEST)
+        with ZipFile(archive_name, 'r') as zip_file:
+            data = zip_file.read('qgis_plugin_ci_testing/metadata.txt')
+            self.assertGreater(data.find(expected), 0)
 
 
 if __name__ == '__main__':

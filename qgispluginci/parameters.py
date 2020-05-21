@@ -46,6 +46,18 @@ class Parameters:
     translation_languages:
         List of languages.
 
+    changelog_include:
+        If the changelog must be added when releasing a version AND if there is a CHANGELOG.md file
+        Defaults to True
+
+    changelog_number_of_entries:
+        Number of changelog entries to add in the metdata.txt
+        Defaults to 3
+
+    changelog_regexp:
+        Regular expression used to parse the CHANGELOG.md
+        Defaults to https://regex101.com/r/PXoYSs/3 following nearly the https://keepachangelog.com/en/1.0.0/
+
     create_date: datetime.date
         The date of creation of the plugin.
         The would be used in the custom repository XML.
@@ -77,6 +89,13 @@ class Parameters:
         self.create_date = datetime.datetime.strptime(str(definition.get('create_date', datetime.date.today())), '%Y-%m-%d')
         self.lrelease_path = definition.get('lrelease_path', 'lrelease')
         self.pylupdate5_path = definition.get('pylupdate5_path', 'pylupdate5')
+        changelog_include = definition.get('changelog_include', True)
+        if isinstance(changelog_include, str):
+            self.changelog_include = changelog_include.lower() in ['true', '1', 't', 'y']
+        else:
+            self.changelog_include = changelog_include
+        self.changelog_number_of_entries = definition.get('changelog_number_of_entries', 3)
+        self.changelog_regexp = definition.get('changelog_regexp', r"(?<=##)\s*\[*(\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)")
 
         # read from metadata
         self.author = self.__get_from_metadata('author', '')
