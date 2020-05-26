@@ -39,6 +39,9 @@ optional arguments:
                         packaging. If specified and some changes are detected,
                         a hard reset on a stash create will be used to revert
                         changes made by qgis-plugin-ci.
+  --disable-submodule-update
+                        If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
+
 ```
 
 ## Release
@@ -72,6 +75,8 @@ optional arguments:
                         releasing. If specified and some changes are detected,
                         a hard reset on a stash create will be used to revert
                         changes made by qgis-plugin-ci.
+  --disable-submodule-update
+                        If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
   --osgeo-username OSGEO_USERNAME
                         The Osgeo user name to publish the plugin.
   --osgeo-password OSGEO_PASSWORD
@@ -212,6 +217,8 @@ before_install:
   - sed -i 's#git@github.com:#https://github.com/#' .gitmodules
   - git submodule update --init --recursive
 ````
+
+When packaging the plugin, it's possible to not update the submodule using CLI options.
 
 ### Using Transifex to translate your plugin
 ```yaml

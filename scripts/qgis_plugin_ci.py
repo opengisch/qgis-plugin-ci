@@ -32,6 +32,10 @@ def main():
         help='If omitted, uncommitted changes are not allowed before packaging. If specified and some changes are '
              'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
     )
+    package_parser.add_argument(
+        '--disable-submodule-update', action='store_true',
+        help='If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.'
+    )
 
     # release
     release_parser = subparsers.add_parser('release', help='release the plugin')
@@ -52,6 +56,10 @@ def main():
         '--allow-uncommitted-changes', action='store_true',
         help='If omitted, uncommitted changes are not allowed before releasing. If specified and some changes are '
              'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
+    )
+    release_parser.add_argument(
+        '--disable-submodule-update', action='store_true',
+        help='If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.'
     )
     release_parser.add_argument('--osgeo-username', help='The Osgeo user name to publish the plugin.')
     release_parser.add_argument('--osgeo-password', help='The Osgeo password to publish the plugin.')
@@ -103,6 +111,7 @@ def main():
             transifex_token=args.transifex_token,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
             plugin_repo_url=args.plugin_repo_url,
+            disable_submodule_update=args.disable_submodule_update,
         )
 
     # RELEASE
@@ -116,6 +125,7 @@ def main():
             osgeo_username=args.osgeo_username,
             osgeo_password=args.osgeo_password,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
+            disable_submodule_update=args.disable_submodule_update,
         )
 
     # TRANSLATION PULL

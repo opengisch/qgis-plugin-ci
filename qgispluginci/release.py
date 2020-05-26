@@ -33,7 +33,9 @@ def create_archive(
         add_translations: bool = False,
         allow_uncommitted_changes: bool = False,
         is_prerelease: bool = False,
-        raise_min_version: str = None):
+        raise_min_version: str = None,
+        disable_submodule_update: bool = False,
+    ):
 
     repo = git.Repo()
 
@@ -94,7 +96,8 @@ def create_archive(
         if submodule.path.split('/')[0] != parameters.plugin_path:
             print('skipping submodule not in plugin source directory ({})'.format(submodule.name))
             continue
-        submodule.update(init=True)
+        if not disable_submodule_update:
+            submodule.update(init=True)
         sub_repo = submodule.module()
         print('archive submodule:', sub_repo)
         sub_repo.git.archive('HEAD', '--prefix', '{}/'.format(submodule.path), '-o', sub_tar_file)
@@ -303,6 +306,7 @@ def release(parameters: Parameters,
             osgeo_password: str = None,
             allow_uncommitted_changes: bool = False,
             plugin_repo_url: str = None,
+            disable_submodule_update: bool = False,
             ):
     """
 
@@ -330,6 +334,8 @@ def release(parameters: Parameters,
     allow_uncommitted_changes
         If False, uncommitted changes are not allowed before packaging/releasing.
         If True and some changes are detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.
+    disable_submodule_update
+        If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
     """
 
     if transifex_token is not None:
@@ -348,7 +354,8 @@ def release(parameters: Parameters,
         parameters, release_version, archive_name,
         add_translations=transifex_token is not None,
         allow_uncommitted_changes=allow_uncommitted_changes,
-        is_prerelease=is_prerelease
+        is_prerelease=is_prerelease,
+        disable_submodule_update=disable_submodule_update,
     )
 
     # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
@@ -361,7 +368,8 @@ def release(parameters: Parameters,
             add_translations=transifex_token is not None,
             allow_uncommitted_changes=allow_uncommitted_changes,
             is_prerelease=True,
-            raise_min_version='3.14'
+            raise_min_version='3.14',
+            disable_submodule_update=disable_submodule_update,
         )
 
     if github_token is not None:
@@ -402,4 +410,3 @@ def release(parameters: Parameters,
             upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=experimental_archive_name)
         else:
             upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=archive_name)
-
