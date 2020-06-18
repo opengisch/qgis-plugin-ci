@@ -15,8 +15,12 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
 
 ## Package
 
+This command is not specific to the hosting platform (GitLab, GitHub…)
+
 ```commandline
-usage: qgis-plugin-ci package [-h] [--transifex-token TRANSIFEX_TOKEN]
+usage: qgis-plugin-ci package [-h]
+                              [--transifex-token TRANSIFEX_TOKEN]
+                              [--plugin-repo-url PLUGIN_REPO_URL]
                               [--allow-uncommitted-changes]
                               release_version
 
@@ -28,6 +32,8 @@ optional arguments:
   --transifex-token TRANSIFEX_TOKEN
                         The Transifex API token. If specified translations
                         will be pulled and compiled.
+  --plugin-repo-url PLUGIN_REPO_URL
+                        If specified, a XML repository file will be created in the current directory, the zip URL will use this parameter.
   --allow-uncommitted-changes
                         If omitted, uncommitted changes are not allowed before
                         packaging. If specified and some changes are detected,
@@ -36,6 +42,8 @@ optional arguments:
 ```
 
 ## Release
+
+This command is specific for plugins hosted on GitHub.
 
 ```commandline
 usage: qgis-plugin-ci release [-h] [--transifex-token TRANSIFEX_TOKEN]
