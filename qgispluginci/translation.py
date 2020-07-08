@@ -64,19 +64,19 @@ class Translation:
         
         touch_file(self.ts_file)
 
-        project_file = Path(self.parameters.plugin_path).joinpath(self.parameters.plugin_name)
+        project_file = Path(self.parameters.plugin_path).joinpath(self.parameters.plugin_name + '.pro')
 
-        with open(project_file, 'rw') as f:
-            f.write('CODECFORTR = UTF-8')
-            f.write('SOURCES = {}'.format(' '.join(source_files)))
-            f.write('TRANSLATIONS = {}'.format(self.ts_file))
+        with open(project_file, 'w') as f:
+            assert f.write('CODECFORTR = UTF-8\n')
+            assert f.write('SOURCES = {}\n'.format(' '.join(source_files)))
+            assert f.write('TRANSLATIONS = {}\n'.format(self.ts_file))
+            f.flush()
 
         cmd = [self.parameters.pylupdate5_path, '-noobsolete', str(project_file)]
 
         output = subprocess.run(cmd, capture_output=True, text=True)
 
-        if not project_file.unlink():
-            print('Unable to remove project file')
+        project_file.unlink()
 
         if output.returncode != 0:
             raise TranslationFailed(output.stderr)
