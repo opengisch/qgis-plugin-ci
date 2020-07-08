@@ -1,6 +1,7 @@
 
 import glob
 import subprocess
+from pathlib import Path
 from pytransifex import Transifex
 from qgispluginci.parameters import Parameters
 from qgispluginci.exceptions import TranslationFailed, TransifexNoResource, TransifexManyResources
@@ -56,14 +57,28 @@ class Translation:
         """
         Update TS files from plugin source strings
         """
-        cmd = [self.parameters.pylupdate5_path, '-noobsolete']
+        source_files = []
         for ext in ('py', 'ui'):
             for file in glob.glob('{dir}/**/*.{ext}'.format(dir=self.parameters.plugin_path, ext=ext), recursive=True):
-                cmd.append(file)
+                source_files.append(str(Path(file).relative_to('./qgis_plugin_ci_testing')))
+        
         touch_file(self.ts_file)
-        cmd.append('-ts')
-        cmd.append(self.ts_file)
+
+        project_file = Path(self.parameters.plugin_path).joinpath(self.parameters.plugin_name + '.pro')
+
+        with open(project_file, 'w') as f:
+            assert f.write('CODECFORTR = UTF-8\n')
+            assert f.write('SOURCES = {}\n'.format(' '.join(source_files)))
+            assert f.write('TRANSLATIONS = {}\n'.format(Path(self.ts_file).relative_to('./qgis_plugin_ci_testing')))
+            f.flush()
+            f.close()
+
+        cmd = [self.parameters.pylupdate5_path, '-noobsolete', str(project_file)]
+
         output = subprocess.run(cmd, capture_output=True, text=True)
+
+        project_file.unlink()
+
         if output.returncode != 0:
             raise TranslationFailed(output.stderr)
         else:
