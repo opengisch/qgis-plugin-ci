@@ -25,6 +25,9 @@ def main():
         '--transifex-token', help='The Transifex API token. If specified translations will be pulled and compiled.'
     )
     package_parser.add_argument(
+        '--plugin-repo-url', help='If specified, a XML repository file will be created in the current directory, the zip URL will use this parameter.'
+    )
+    package_parser.add_argument(
         '--allow-uncommitted-changes', action='store_true',
         help='If omitted, uncommitted changes are not allowed before packaging. If specified and some changes are '
              'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
@@ -98,7 +101,8 @@ def main():
             parameters,
             release_version=args.release_version,
             transifex_token=args.transifex_token,
-            allow_uncommitted_changes=args.allow_uncommitted_changes
+            allow_uncommitted_changes=args.allow_uncommitted_changes,
+            plugin_repo_url=args.plugin_repo_url,
         )
 
     # RELEASE
