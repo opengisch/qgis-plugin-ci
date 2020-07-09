@@ -8,7 +8,7 @@
         <file_name>__PLUGINZIP__</file_name>
         <icon>__ICON__</icon>
         <author_name>__AUTHOR__</author_name>
-        <download_url>__DOWNLOAD_URL__</download_url>
+        <download_url>https://github.com/__ORG__/__REPO__/releases/download/__RELEASE_TAG__/__PLUGINZIP__</download_url>
         <uploaded_by>__OSGEO_USERNAME__</uploaded_by>
         <create_date>__CREATE_DATE__</create_date>
         <update_date>__RELEASE_DATE__</update_date>

@@ -34,9 +34,7 @@ def release(parameters: Parameters,
             transifex_token: str = None,
             osgeo_username: str = None,
             osgeo_password: str = None,
-            allow_uncommitted_changes: bool = False,
-            plugin_repo_url: str = None,
-            ):
+            allow_uncommitted_changes: bool = False):
     """
     
     Parameters
@@ -52,8 +50,6 @@ def release(parameters: Parameters,
         The Github token
     upload_plugin_repo_github
         If true, a custom repo will be created as a release asset on Github and could later be used in QGIS as a custom plugin repository.
-    plugin_repo_url
-        If set, this URL will be used to create the ZIP URL in the XML file
     transifex_token
         The Transifex token
     osgeo_username
@@ -116,17 +112,6 @@ def release(parameters: Parameters,
                 github_token=github_token,
                 asset_name='plugins.xml'
             )
-
-    if plugin_repo_url:
-        xml_repo = create_plugin_repo(
-            parameters=parameters,
-            release_version=release_version,
-            release_tag=release_tag,
-            archive=archive_name,
-            osgeo_username=osgeo_username,
-            plugin_repo_url=plugin_repo_url,
-        )
-        print('Local XML repo file created : {}'.format(xml_repo))
 
     if osgeo_username is not None:
         assert osgeo_password is not None
@@ -318,12 +303,12 @@ def create_plugin_repo(
         release_version: str,
         release_tag: str,
         archive: str,
-        osgeo_username,
-        plugin_repo_url=None,
+        osgeo_username
 ) -> str:
     """
     Creates the plugin repo as an XML file
     """
+    _, xml_repo = mkstemp(suffix='.xml')
     replace_dict = {
         '__RELEASE_VERSION__': release_version,
         '__RELEASE_TAG__': release_tag or release_version,
@@ -345,21 +330,6 @@ def create_plugin_repo(
         '__HOMEPAGE__': parameters.homepage,
         '__REPO_URL__': parameters.repository_url
     }
-    if not plugin_repo_url:
-        download_url = 'https://github.com/{org}/{repo}/releases/download/{tag}/{pluginzip}'.format(
-            org=replace_dict['__ORG__'],
-            repo=replace_dict['__REPO__'],
-            tag=replace_dict['__RELEASE_TAG__'],
-            pluginzip=replace_dict['__PLUGINZIP__'],
-        )
-        _, xml_repo = mkstemp(suffix='.xml')
-    else:
-        download_url = '{url}{pluginzip}'.format(
-            url=plugin_repo_url,
-            pluginzip=replace_dict['__PLUGINZIP__'],
-        )
-        xml_repo = './plugins.xml'
-    replace_dict['__DOWNLOAD_URL__'] = download_url
     with importlib_resources.path('qgispluginci', 'plugins.xml.template') as xml_template:
         configure_file(xml_template, xml_repo, replace_dict)
     return xml_repo
