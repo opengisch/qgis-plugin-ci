@@ -61,6 +61,7 @@ class TestRelease(unittest.TestCase):
         # check the custom plugin repo
         _, xml_repo = mkstemp(suffix='.xml')
         url = 'https://github.com/opengisch/qgis-plugin-ci/releases/download/{}/plugins.xml'.format(RELEASE_VERSION_TEST)
+        print('retrieve repo from {}'.format(url))
         urllib.request.urlretrieve(url, xml_repo)
         replace_in_file(xml_repo, r'<update_date>[\w-]+<\/update_date>', '<update_date>__TODAY__</update_date>')
         if not filecmp.cmp('test/plugins.xml.expected', xml_repo, shallow=False):
