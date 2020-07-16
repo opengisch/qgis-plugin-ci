@@ -23,6 +23,10 @@ class TestTranslation(unittest.TestCase):
             self.t._t.delete_project(self.parameters.project_slug)
         except PyTransifexException:
             pass
+        try:
+            self.t._t.delete_team('{}-team'.format(self.parameters.project_slug))
+        except PyTransifexException:
+            pass
 
     def test_creation(self):
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)

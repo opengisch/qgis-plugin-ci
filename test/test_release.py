@@ -8,6 +8,8 @@ import urllib.request
 from tempfile import mkstemp
 from github import Github, GithubException
 
+from pytransifex.exceptions import PyTransifexException
+
 from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
@@ -26,6 +28,7 @@ class TestRelease(unittest.TestCase):
         self.transifex_token = os.getenv('transifex_token')
         self.github_token = os.getenv('github_token')
         self.repo = None
+        self.t = None
         if self.github_token:
             print('init Github')
             self.repo = Github(self.github_token).get_repo('opengisch/qgis-plugin-ci')
@@ -46,6 +49,15 @@ class TestRelease(unittest.TestCase):
                 for asset in rel.get_assets():
                     print('  delete {}'.format(asset.name))
                     asset.delete_asset()
+        if self.t:
+            try:
+                self.t._t.delete_project(self.parameters.project_slug)
+            except PyTransifexException:
+                pass
+            try:
+                self.t._t.delete_team('{}-team'.format(self.parameters.project_slug))
+            except PyTransifexException:
+                pass
 
     def test_release(self):
         release(self.parameters, RELEASE_VERSION_TEST)
