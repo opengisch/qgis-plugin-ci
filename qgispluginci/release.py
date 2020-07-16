@@ -26,117 +26,6 @@ from qgispluginci.utils import replace_in_file, configure_file
 from qgispluginci.exceptions import GithubReleaseNotFound, GithubReleaseCouldNotUploadAsset, UncommitedChanges
 
 
-def release(parameters: Parameters,
-            release_version: str,
-            release_tag: str = None,
-            github_token: str = None,
-            upload_plugin_repo_github: str = False,
-            transifex_token: str = None,
-            osgeo_username: str = None,
-            osgeo_password: str = None,
-            allow_uncommitted_changes: bool = False,
-            plugin_repo_url: str = None,
-            ):
-    """
-    
-    Parameters
-    ----------
-    parameters
-        The configuration parameters 
-    release_version: 
-        The release version (x.y.z)
-    release_tag:
-        The release tag (vx.y.z).
-        If not given, the release version will be used
-    github_token
-        The Github token
-    upload_plugin_repo_github
-        If true, a custom repo will be created as a release asset on Github and could later be used in QGIS as a custom plugin repository.
-    plugin_repo_url
-        If set, this URL will be used to create the ZIP URL in the XML file
-    transifex_token
-        The Transifex token
-    osgeo_username
-        osgeo username to upload the plugin to official QGIS repository
-    osgeo_password
-        osgeo password to upload the plugin to official QGIS repository
-    allow_uncommitted_changes
-        If False, uncommitted changes are not allowed before packaging/releasing.
-        If True and some changes are detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.
-    """
-
-    if transifex_token is not None:
-        tr = Translation(parameters, create_project=False, transifex_token=transifex_token)
-        tr.pull()
-        tr.compile_strings()
-
-    archive_name = parameters.archive_name(release_version)
-
-    is_prerelease = False
-    if github_token is not None:
-        is_prerelease = release_is_prerelease(parameters, release_tag=release_version, github_token=github_token)
-    print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
-
-    create_archive(
-        parameters, release_version, archive_name,
-        add_translations=transifex_token is not None,
-        allow_uncommitted_changes=allow_uncommitted_changes,
-        is_prerelease=is_prerelease
-    )
-
-    # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
-    # since only QGIS 3.14+ supports the beta/experimental plugins trial
-    experimental_archive_name = None
-    if osgeo_username is not None and is_prerelease:
-        experimental_archive_name = parameters.archive_name(release_version, True)
-        create_archive(
-            parameters, release_version, experimental_archive_name,
-            add_translations=transifex_token is not None,
-            allow_uncommitted_changes=allow_uncommitted_changes,
-            is_prerelease=True,
-            raise_min_version='3.14'
-        )
-
-    if github_token is not None:
-        upload_asset_to_github_release(
-            parameters, asset_path=archive_name, release_tag=release_version, github_token=github_token
-        )
-        if upload_plugin_repo_github:
-            xml_repo = create_plugin_repo(
-                parameters=parameters,
-                release_version=release_version,
-                release_tag=release_tag,
-                archive=archive_name,
-                osgeo_username=osgeo_username
-            )
-            upload_asset_to_github_release(
-                parameters,
-                asset_path=xml_repo,
-                release_tag=release_version,
-                github_token=github_token,
-                asset_name='plugins.xml'
-            )
-
-    if plugin_repo_url:
-        xml_repo = create_plugin_repo(
-            parameters=parameters,
-            release_version=release_version,
-            release_tag=release_tag,
-            archive=archive_name,
-            osgeo_username=osgeo_username,
-            plugin_repo_url=plugin_repo_url,
-        )
-        print('Local XML repo file created : {}'.format(xml_repo))
-
-    if osgeo_username is not None:
-        assert osgeo_password is not None
-        if is_prerelease:
-            assert experimental_archive_name is not None
-            upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=experimental_archive_name)
-        else:
-            upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=archive_name)
-
-
 def create_archive(
         parameters: Parameters,
         release_version: str,
@@ -404,4 +293,113 @@ def upload_plugin_to_osgeo(username: str, password: str, archive: str):
         sys.exit(1)
 
 
+def release(parameters: Parameters,
+            release_version: str,
+            release_tag: str = None,
+            github_token: str = None,
+            upload_plugin_repo_github: str = False,
+            transifex_token: str = None,
+            osgeo_username: str = None,
+            osgeo_password: str = None,
+            allow_uncommitted_changes: bool = False,
+            plugin_repo_url: str = None,
+            ):
+    """
+
+    Parameters
+    ----------
+    parameters
+        The configuration parameters
+    release_version:
+        The release version (x.y.z)
+    release_tag:
+        The release tag (vx.y.z).
+        If not given, the release version will be used
+    github_token
+        The Github token
+    upload_plugin_repo_github
+        If true, a custom repo will be created as a release asset on Github and could later be used in QGIS as a custom plugin repository.
+    plugin_repo_url
+        If set, this URL will be used to create the ZIP URL in the XML file
+    transifex_token
+        The Transifex token
+    osgeo_username
+        osgeo username to upload the plugin to official QGIS repository
+    osgeo_password
+        osgeo password to upload the plugin to official QGIS repository
+    allow_uncommitted_changes
+        If False, uncommitted changes are not allowed before packaging/releasing.
+        If True and some changes are detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.
+    """
+
+    if transifex_token is not None:
+        tr = Translation(parameters, create_project=False, transifex_token=transifex_token)
+        tr.pull()
+        tr.compile_strings()
+
+    archive_name = parameters.archive_name(release_version)
+
+    is_prerelease = False
+    if github_token is not None:
+        is_prerelease = release_is_prerelease(parameters, release_tag=release_version, github_token=github_token)
+    print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
+
+    create_archive(
+        parameters, release_version, archive_name,
+        add_translations=transifex_token is not None,
+        allow_uncommitted_changes=allow_uncommitted_changes,
+        is_prerelease=is_prerelease
+    )
+
+    # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
+    # since only QGIS 3.14+ supports the beta/experimental plugins trial
+    experimental_archive_name = None
+    if osgeo_username is not None and is_prerelease:
+        experimental_archive_name = parameters.archive_name(release_version, True)
+        create_archive(
+            parameters, release_version, experimental_archive_name,
+            add_translations=transifex_token is not None,
+            allow_uncommitted_changes=allow_uncommitted_changes,
+            is_prerelease=True,
+            raise_min_version='3.14'
+        )
+
+    if github_token is not None:
+        upload_asset_to_github_release(
+            parameters, asset_path=archive_name, release_tag=release_version, github_token=github_token
+        )
+        if upload_plugin_repo_github:
+            xml_repo = create_plugin_repo(
+                parameters=parameters,
+                release_version=release_version,
+                release_tag=release_tag,
+                archive=archive_name,
+                osgeo_username=osgeo_username
+            )
+            upload_asset_to_github_release(
+                parameters,
+                asset_path=xml_repo,
+                release_tag=release_version,
+                github_token=github_token,
+                asset_name='plugins.xml'
+            )
+
+    if plugin_repo_url:
+        xml_repo = create_plugin_repo(
+            parameters=parameters,
+            release_version=release_version,
+            release_tag=release_tag,
+            archive=archive_name,
+            osgeo_username=osgeo_username,
+            plugin_repo_url=plugin_repo_url,
+        )
+        print('Local XML repo file created : {}'.format(xml_repo))
+
+    if osgeo_username is not None:
+        assert osgeo_password is not None
+        if is_prerelease:
+            assert experimental_archive_name is not None
+            upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=experimental_archive_name)
+        else:
+            upload_plugin_to_osgeo(username=osgeo_username, password=osgeo_password, archive=archive_name)
 

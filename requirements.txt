@@ -1,6 +1,6 @@
 python-slugify
 pyyaml
-pytransifex
+pytransifex>=0.1.10
 gitpython
 PyQt5
 PyGithub
