@@ -10,8 +10,29 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
     - create the project and the languages
     - pull and push translations
     - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
+ - `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
    
 # Command line
+
+```commandline
+usage: qgis-plugin-ci [-h] [-v]
+                      {package,changelog,release,pull-translation,push-translation}
+                      ...
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         print the version and exit
+
+commands:
+  qgis-plugin-ci command
+
+  {package,changelog,release,pull-translation,push-translation}
+    package             creates an archive of the plugin
+    changelog           gets the changelog content
+    release             release the plugin
+    pull-translation    pull translations from Transifex
+    push-translation    update strings and push translations
+```
 
 ## Package
 
@@ -98,6 +119,21 @@ usage: qgis-plugin-ci push-translation [-h] transifex_token
 
 positional arguments:
   transifex_token  The Transifex API token
+
+optional arguments:
+  -h, --help       show this help message and exit
+```
+
+## Changelog
+
+By default, the changelog command will work with a file formatted like [this changelog.md file](./CHANGELOG.md).
+If your format is different, you must use a different `changelog_regexp` expression to parse it in your settings.
+
+```commandline
+usage: qgis-plugin-ci changelog [-h] release_version
+
+positional arguments:
+  release_version  The version to be released
 
 optional arguments:
   -h, --help       show this help message and exit
@@ -291,6 +327,7 @@ These plugins are using this tool, with different configurations as examples:
   * released on custom repo as GitHub release
 * https://github.com/3liz/lizmap-plugin
   * using a `setup.cfg` file
+  * metadata populated automatically from CHANGELOG.md file
   * GitHub release created automatically from Travis
   * released on official repository
   * translations are committed from Travis to the repository after the release process

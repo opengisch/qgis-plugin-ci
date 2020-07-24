@@ -5,6 +5,7 @@ import configparser
 import os
 import yaml
 
+from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
@@ -32,6 +33,10 @@ def main():
         help='If omitted, uncommitted changes are not allowed before packaging. If specified and some changes are '
              'detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.'
     )
+
+    # changelog
+    changelog_parser = subparsers.add_parser('changelog', help='gets the changelog content')
+    changelog_parser.add_argument('release_version', help='The version to be released')
 
     # release
     release_parser = subparsers.add_parser('release', help='release the plugin')
@@ -117,6 +122,17 @@ def main():
             osgeo_password=args.osgeo_password,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
         )
+
+    # CHANGELOG
+    elif args.command == 'changelog':
+        try:
+            c = ChangelogParser(parameters.changelog_regexp)
+            content = c.content(args.release_version)
+            if content:
+                print(content)
+        except Exception:
+            # Better to be safe
+            pass
 
     # TRANSLATION PULL
     elif args.command == 'pull-translation':
