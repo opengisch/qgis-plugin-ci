@@ -13,7 +13,7 @@ class Parameters:
     ----------
     plugin_path: str
         The directory of the source code in the repository.
-        Defaults to: `slugify(plugin_name, separator='_')`
+        Defaults to: `slugify(plugin_name)`
 
     github_organization_slug: str
         The organization slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).
@@ -117,9 +117,9 @@ class Parameters:
         Returns the archive file name
         """
         # zipname: use dot before version number
-        # and not dash since it's causing issues
+        # and not dash since it's causing issues #22
         return '{zipname}{experimental}.{release_version}.zip'.format(
-            zipname=self.plugin_slug,
+            zipname=self.plugin_slug.replace('-', '_'),
             experimental='-experimental' if experimental else '',
             release_version=release_version
         )
