@@ -1,7 +1,11 @@
 
 language: python
 dist: bionic
-if: branch = master
+branches:
+  only:
+    - master
+    # tags with 1.1.1
+    - /^v?\d+(\.\d+)*$/
 
 python:
   - 3.7
