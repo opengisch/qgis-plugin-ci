@@ -5,7 +5,7 @@ branches:
   only:
     - master
     # tags with 1.1.1
-    - /^\d+\.\d+\.\d+$/
+    - /^v?\d+(\.\d+)*$/
 
 python:
   - 3.7
