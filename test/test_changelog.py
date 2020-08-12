@@ -3,6 +3,7 @@
 import unittest
 
 from qgispluginci.changelog import ChangelogParser
+from qgispluginci.parameters import CHANGELOG_REGEXP
 
 
 class TestChangelog(unittest.TestCase):
@@ -10,18 +11,20 @@ class TestChangelog(unittest.TestCase):
     def test_changelog_parser(self):
         """ Test we can parse a changelog with a regex. """
         self.assertTrue(ChangelogParser.has_changelog())
-        parser = ChangelogParser(r"(?<=##)\s*\[*(\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)")
+        parser = ChangelogParser(CHANGELOG_REGEXP)
         self.assertIsNone(parser.content('0.0.0'), '')
-        self.assertEqual(parser.content('0.1.2'), '* Add a CHANGELOG.md file for testing')
+        self.assertEqual(parser.content('0.1.2'), '* Tag without "v" prefix\n* Add a CHANGELOG.md file for testing')
 
-        expected = '\n Version 0.1.2:\n * Add a CHANGELOG.md file for testing\n\n'
+        expected = '\n Version 0.1.2:\n * Tag without "v" prefix\n * Add a CHANGELOG.md file for testing\n\n'
         self.assertEqual(parser.last_items(1), expected)
 
         expected = ("""
  Version 0.1.2:
+ * Tag without "v" prefix
  * Add a CHANGELOG.md file for testing
 
- Version 0.1.1:
+ Version v0.1.1:
+ * Tag with a "v" prefix to check the regular expression
  * Previous version
 
  Version 0.1.0:
