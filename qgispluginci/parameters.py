@@ -6,6 +6,8 @@ from slugify import slugify
 import datetime
 import warnings
 
+CHANGELOG_REGEXP = r"(?<=##)\s*\[*(v?\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)"
+
 
 class Parameters:
     """
@@ -56,7 +58,7 @@ class Parameters:
 
     changelog_regexp:
         Regular expression used to parse the CHANGELOG.md
-        Defaults to https://regex101.com/r/PXoYSs/3 following nearly the https://keepachangelog.com/en/1.0.0/
+        Defaults to https://regex101.com/r/PXoYSs/4 following nearly the https://keepachangelog.com/en/1.0.0/
 
     create_date: datetime.date
         The date of creation of the plugin.
@@ -95,7 +97,7 @@ class Parameters:
         else:
             self.changelog_include = changelog_include
         self.changelog_number_of_entries = definition.get('changelog_number_of_entries', 3)
-        self.changelog_regexp = definition.get('changelog_regexp', r"(?<=##)\s*\[*(\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)")
+        self.changelog_regexp = definition.get('changelog_regexp', CHANGELOG_REGEXP)
 
         # read from metadata
         self.author = self.__get_from_metadata('author', '')
