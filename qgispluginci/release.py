@@ -370,7 +370,7 @@ def release(parameters: Parameters,
         tr.pull()
         tr.compile_strings()
 
-    archive_name = parameters.archive_name(release_version)
+    archive_name = parameters.archive_name(parameters.plugin_path, release_version)
 
     is_prerelease = False
     if github_token is not None:
@@ -389,7 +389,7 @@ def release(parameters: Parameters,
     # since only QGIS 3.14+ supports the beta/experimental plugins trial
     experimental_archive_name = None
     if osgeo_username is not None and is_prerelease:
-        experimental_archive_name = parameters.archive_name(release_version, True)
+        experimental_archive_name = parameters.archive_name(parameters.plugin_path, release_version, True)
         create_archive(
             parameters, release_version, experimental_archive_name,
             add_translations=transifex_token is not None,

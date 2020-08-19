@@ -11,7 +11,7 @@ from zipfile import ZipFile
 
 from pytransifex.exceptions import PyTransifexException
 
-from qgispluginci.parameters import Parameters
+from qgispluginci.parameters import Parameters, DASH_WARNING
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.exceptions import GithubReleaseNotFound
@@ -68,6 +68,23 @@ class TestRelease(unittest.TestCase):
         t = Translation(self.parameters, transifex_token=self.transifex_token)
         release(self.parameters, RELEASE_VERSION_TEST, transifex_token=self.transifex_token)
 
+    def test_zipname(self):
+        """ Tests about the zipname for the QGIS plugin manager.
+
+        See #22 about dash
+        and also capital letters
+        """
+        self.assertEqual(
+            'my_plugin-experimental.0.0.0.zip',
+            Parameters.archive_name('my_plugin', '0.0.0', True))
+
+        self.assertEqual(
+            'My_Plugin.0.0.0.zip',
+            Parameters.archive_name('My_Plugin', '0.0.0', False))
+
+        with self.assertWarnsRegex(Warning, DASH_WARNING):
+            Parameters.archive_name('my-plugin', '0.0.0')
+
     def test_release_upload_github(self):
         release(self.parameters, RELEASE_VERSION_TEST, github_token=self.github_token, upload_plugin_repo_github=True)
 
@@ -85,7 +102,7 @@ class TestRelease(unittest.TestCase):
 
         # compare archive file size
         gh_release = self.repo.get_release(id=RELEASE_VERSION_TEST)
-        archive_name = self.parameters.archive_name(RELEASE_VERSION_TEST)
+        archive_name = self.parameters.archive_name(self.parameters.plugin_name, RELEASE_VERSION_TEST)
         fs = os.path.getsize(archive_name)
         print('size: ', fs)
         self.assertGreater(fs, 0, 'archive file size must be > 0')
@@ -103,7 +120,7 @@ class TestRelease(unittest.TestCase):
 
         # Include a changelog
         release(self.parameters, RELEASE_VERSION_TEST)
-        archive_name = self.parameters.archive_name(RELEASE_VERSION_TEST)
+        archive_name = self.parameters.archive_name(self.parameters.plugin_path, RELEASE_VERSION_TEST)
         with ZipFile(archive_name, 'r') as zip_file:
             data = zip_file.read('qgis_plugin_ci_testing/metadata.txt')
             self.assertGreater(data.find(expected), 0)
