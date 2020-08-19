@@ -102,7 +102,7 @@ class TestRelease(unittest.TestCase):
 
         # compare archive file size
         gh_release = self.repo.get_release(id=RELEASE_VERSION_TEST)
-        archive_name = self.parameters.archive_name(self.parameters.plugin_name, RELEASE_VERSION_TEST)
+        archive_name = self.parameters.archive_name(self.parameters.plugin_path, RELEASE_VERSION_TEST)
         fs = os.path.getsize(archive_name)
         print('size: ', fs)
         self.assertGreater(fs, 0, 'archive file size must be > 0')
