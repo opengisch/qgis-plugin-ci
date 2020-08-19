@@ -122,7 +122,7 @@ class TestRelease(unittest.TestCase):
         release(self.parameters, RELEASE_VERSION_TEST)
         archive_name = self.parameters.archive_name(self.parameters.plugin_path, RELEASE_VERSION_TEST)
         with ZipFile(archive_name, 'r') as zip_file:
-            data = zip_file.read('qgis_plugin_ci_testing/metadata.txt')
+            data = zip_file.read('qgis_plugin_CI_testing/metadata.txt')
             self.assertGreater(data.find(expected), 0)
 
 

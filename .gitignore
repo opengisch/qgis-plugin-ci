@@ -10,8 +10,8 @@ __pycache__/
 *.tar
 *.zip
 
-qgis_plugin_ci_testing/i18n
-qgis_plugin_ci_testing/resources_rc.py
+qgis_plugin_CI_testing/i18n
+qgis_plugin_CI_testing/resources_rc.py
 
 setup.py
 
