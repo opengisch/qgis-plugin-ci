@@ -7,6 +7,7 @@ import datetime
 import warnings
 
 CHANGELOG_REGEXP = r"(?<=##)\s*\[*(v?\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)"
+DASH_WARNING = 'Dash in the plugin name is causing issues with QGIS plugin manager'
 
 
 class Parameters:
@@ -114,14 +115,18 @@ class Parameters:
                           'It is a requirement to publish the plugin on the repository')
         self.repository_url = self.__get_from_metadata('repository')
 
-    def archive_name(self, release_version: str, experimental: bool = False) -> str:
+    @staticmethod
+    def archive_name(plugin_name, release_version: str, experimental: bool = False) -> str:
         """
         Returns the archive file name
         """
         # zipname: use dot before version number
         # and not dash since it's causing issues #22
+        if '-' in plugin_name:
+            warnings.warn(DASH_WARNING)
+
         return '{zipname}{experimental}.{release_version}.zip'.format(
-            zipname=self.plugin_slug.replace('-', '_'),
+            zipname=plugin_name,
             experimental='-experimental' if experimental else '',
             release_version=release_version
         )

@@ -159,7 +159,9 @@ The plugin must have a configuration, located at the top directory:
 
 In the configuration, you should at least provide the following configuration:
 
-* `plugin_path`
+* `plugin_path`, the folder where the source code is located
+
+Side note, the plugin path shouldn't have any dash character.
 
 You can find a template `.qgis-plugin-ci` in this repository.
 You can read the docstring of the file `qgispluginci/parameters.py`
