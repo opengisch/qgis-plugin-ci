@@ -149,7 +149,7 @@ optional arguments:
 * The code is under a __git__ repository (`git archive` is used to bundle the plugin)
 * There is no uncommitted changes when doing a package/release (there is an option to allow this)
 * A configuration at the top directory either in `.qgis-plugin-ci` or in `setup.cfg` with a `[qgis-plugin-ci]` section.
-* The source files of the plugin are within a sub-directory (possibly could work at top level, but not tested)
+* The source files of the plugin are within a sub-directory. The name of this directory will be used for the zip file.
 
 ## The configuration file
 
@@ -321,6 +321,25 @@ If you want to avoid some files to be shipped with your plugin, create a ``.gita
 resources.qrc export-ignore
 ```
 
+## Docker
+
+3Liz is maintaining a small docker image of this package : https://github.com/3liz/docker-qgis-plugin-ci
+
+This is an example with GitLab-CI running with the Docker image from Docker Hub :
+
+```yaml
+  script:
+    - >
+      docker run
+      --rm -w /plugin
+      -v ${CI_PROJECT_DIR}:/plugin
+      -u $(id -u):$(id -g)
+      3liz/qgis-plugin-ci:1.8.3
+      package ${CI_COMMIT_REF_NAME}
+      --allow-uncommitted-changes
+      --plugin-repo-url https://custom.server.url/
+```
+
 # Sample plugins
 
 These plugins are using this tool, with different configurations as examples:
@@ -340,3 +359,4 @@ These plugins are using this tool, with different configurations as examples:
   * GitHub release created automatically from Travis
   * released on official repository
   * translations are committed from Travis to the repository after the release process
+  * GitLab-CI with Docker is used as well
