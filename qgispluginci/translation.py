@@ -57,11 +57,16 @@ class Translation:
         """
         Update TS files from plugin source strings
         """
-        source_files = []
+        source_py_files = []
+        source_ui_files = []
         relative_path = './{plugin_path}'.format(plugin_path=self.parameters.plugin_path)
         for ext in ('py', 'ui'):
             for file in glob.glob('{dir}/**/*.{ext}'.format(dir=self.parameters.plugin_path, ext=ext), recursive=True):
-                source_files.append(str(Path(file).relative_to(relative_path)))
+                file_path = str(Path(file).relative_to(relative_path))
+                if ext == 'py':
+                    source_py_files.append(file_path)
+                else:
+                    source_ui_files.append(file_path)
         
         touch_file(self.ts_file)
 
@@ -69,7 +74,8 @@ class Translation:
 
         with open(project_file, 'w') as f:
             assert f.write('CODECFORTR = UTF-8\n')
-            assert f.write('SOURCES = {}\n'.format(' '.join(source_files)))
+            assert f.write('SOURCES = {}\n'.format(' '.join(source_py_files)))
+            assert f.write('FORMS = {}\n'.format(' '.join(source_ui_files)))
             assert f.write('TRANSLATIONS = {}\n'.format(Path(self.ts_file).relative_to(relative_path)))
             f.flush()
             f.close()
