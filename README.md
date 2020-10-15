@@ -301,14 +301,22 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
+
+#    Needed if the plugin is using Transifex, to have the lrelease command
+#    - name: Install Qt lrelease
+#      run: sudo apt-get install qt5-default qttools5-dev-tools
         
     - name: Install qgis-plugin-ci
       run: pip3 install qgis-plugin-ci
       
     - name: Deploy plugin
-      run: qgis-plugin-ci release ${GITHUB_REF/refs\/tags\//} --github-token ${{ secrets.GITHUB_TOKEN }} --osgeo-username mkuhn --osgeo-password ${{ secrets.OSGEO_PASSWORD }}
+      run: >-
+        qgis-plugin-ci 
+        release ${GITHUB_REF/refs\/tags\//}
+        --github-token ${{ secrets.GITHUB_TOKEN }}
+        --osgeo-username ${{ secrets.OSGEO_USER }}
+        --osgeo-password ${{ secrets.OSGEO_PASSWORD }}
 ```
-
 
 ## Debug
 
@@ -360,3 +368,5 @@ These plugins are using this tool, with different configurations as examples:
   * released on official repository
   * translations are committed from Travis to the repository after the release process
   * GitLab-CI with Docker is used as well
+* https://github.com/3liz/qgis-pgmetadata-plugin
+  * Released using GitHub Actions and Transifex
