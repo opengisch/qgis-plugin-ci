@@ -12,7 +12,7 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
     - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
  - `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
    
-# Command line
+## Command line
 
 ```commandline
 usage: qgis-plugin-ci [-h] [-v]
@@ -34,7 +34,7 @@ commands:
     push-translation    update strings and push translations
 ```
 
-## Package
+### Package
 
 This command is not specific to the hosting platform (GitLab, GitHub…)
 
@@ -65,7 +65,7 @@ optional arguments:
 
 ```
 
-## Release
+### Release
 
 This command is specific for plugins hosted on GitHub.
 
@@ -104,7 +104,7 @@ optional arguments:
                         The Osgeo password to publish the plugin.
 ```
 
-## Pull translations
+### Pull translations
 
 ```commandline
 usage: qgis-plugin-ci pull-translation [-h] [--compile] transifex_token
@@ -117,7 +117,7 @@ optional arguments:
   --compile        Will compile TS files into QM files
 ```
 
-## Push translations
+### Push translations
 
 ```commandline
 usage: qgis-plugin-ci push-translation [-h] transifex_token
@@ -129,7 +129,7 @@ optional arguments:
   -h, --help       show this help message and exit
 ```
 
-## Changelog
+### Changelog
 
 By default, the changelog command will work with a file formatted like [this changelog.md file](./CHANGELOG.md).
 If your format is different, you must use a different `changelog_regexp` expression to parse it in your settings.
@@ -167,7 +167,7 @@ You can find a template `.qgis-plugin-ci` in this repository.
 You can read the docstring of the file `qgispluginci/parameters.py`
 to know parameters which are available in the file.
 
-### Examples
+## Examples
 
 * `.qgis-plugin-ci`
 
@@ -348,7 +348,7 @@ This is an example with GitLab-CI running with the Docker image from Docker Hub 
       --plugin-repo-url https://custom.server.url/
 ```
 
-# Sample plugins
+## Sample plugins
 
 These plugins are using this tool, with different configurations as examples:
 
