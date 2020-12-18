@@ -21,9 +21,9 @@ class ChangelogParser:
         if not self.has_changelog():
             return ''
 
-        f = open('CHANGELOG.md', "r")
-        content = f.read()
-        f.close()
+        with open('CHANGELOG.md', "r") as f: 
+            content = f.read()
+
         return re.findall(self.regexp, content, flags=re.MULTILINE | re.DOTALL)
 
     def last_items(self, count):
