@@ -40,7 +40,11 @@ def main():
 
     # changelog
     changelog_parser = subparsers.add_parser('changelog', help='gets the changelog content')
-    changelog_parser.add_argument('release_version', help='The version to be released')
+    changelog_parser.add_argument('release_version',
+                                  help='The version to be released. If nothing is speficied, \
+                                      the latest version specified into the changelog is used.',
+                                  default="latest"
+                                  )
 
     # release
     release_parser = subparsers.add_parser('release', help='release the plugin')
