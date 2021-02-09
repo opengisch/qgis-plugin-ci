@@ -14,7 +14,7 @@ from qgispluginci.parameters import Parameters
 
 def main():
     # create the top-level parser
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-v", "--version", help="print the version and exit", action='store_true')
 
     subparsers = parser.add_subparsers(title='commands', description='qgis-plugin-ci command', dest='command')
