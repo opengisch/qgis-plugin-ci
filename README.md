@@ -12,7 +12,7 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
     - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
  - `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
    
-# Command line
+## Command line
 
 ```commandline
 usage: qgis-plugin-ci [-h] [-v]
@@ -34,7 +34,7 @@ commands:
     push-translation    update strings and push translations
 ```
 
-## Package
+### Package
 
 This command is not specific to the hosting platform (GitLab, GitHub…)
 
@@ -65,7 +65,7 @@ optional arguments:
 
 ```
 
-## Release
+### Release
 
 This command is specific for plugins hosted on GitHub.
 
@@ -104,7 +104,7 @@ optional arguments:
                         The Osgeo password to publish the plugin.
 ```
 
-## Pull translations
+### Pull translations
 
 ```commandline
 usage: qgis-plugin-ci pull-translation [-h] [--compile] transifex_token
@@ -117,7 +117,7 @@ optional arguments:
   --compile        Will compile TS files into QM files
 ```
 
-## Push translations
+### Push translations
 
 ```commandline
 usage: qgis-plugin-ci push-translation [-h] transifex_token
@@ -129,16 +129,18 @@ optional arguments:
   -h, --help       show this help message and exit
 ```
 
-## Changelog
+### Changelog
 
 By default, the changelog command will work with a file formatted like [this changelog.md file](./CHANGELOG.md).
+
 If your format is different, you must use a different `changelog_regexp` expression to parse it in your settings.
 
 ```commandline
 usage: qgis-plugin-ci changelog [-h] release_version
 
 positional arguments:
-  release_version  The version to be released
+  release_version  The version to be released. If nothing is speficied, the latest 
+                   version specified into the changelog is used.
 
 optional arguments:
   -h, --help       show this help message and exit
@@ -167,7 +169,7 @@ You can find a template `.qgis-plugin-ci` in this repository.
 You can read the docstring of the file `qgispluginci/parameters.py`
 to know parameters which are available in the file.
 
-### Examples
+## Examples
 
 * `.qgis-plugin-ci`
 
@@ -209,7 +211,33 @@ If pushed to the QGIS plugin repository, the QGIS minimum version will be raised
 
 In any Python module, you can have a global variable as `DEBUG = True`, which will be changed to `False` when packaging the plugin.
 
-# Sample plugins
+## Excluding files in the plugin archive
+
+If you want to avoid some files to be shipped with your plugin, create a ``.gitattributes`` file in which you can specify the files to ignore. For instance:
+```
+resources.qrc export-ignore
+```
+
+## Docker
+
+3Liz is maintaining a small docker image of this package : https://github.com/3liz/docker-qgis-plugin-ci
+
+This is an example with GitLab-CI running with the Docker image from Docker Hub :
+
+```yaml
+  script:
+    - >
+      docker run
+      --rm -w /plugin
+      -v ${CI_PROJECT_DIR}:/plugin
+      -u $(id -u):$(id -g)
+      3liz/qgis-plugin-ci:1.8.3
+      package ${CI_COMMIT_REF_NAME}
+      --allow-uncommitted-changes
+      --plugin-repo-url https://custom.server.url/
+```
+
+## Sample plugins
 
 These plugins are using this tool, with different configurations as examples:
 
