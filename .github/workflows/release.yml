@@ -22,7 +22,9 @@ jobs:
         python-version: 3.7
 
     - name: Install requirements
-      run: pip install -r requirements.txt
+      run: |
+        sudo apt-get install qt5-default qttools5-dev-tools
+        pip install -r requirements.txt
 
     - name: Setup
       run: |
