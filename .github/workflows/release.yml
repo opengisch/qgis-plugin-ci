@@ -26,7 +26,9 @@ jobs:
 
     - name: Setup
       run: |
-        sed "s/__VERSION__/${${GITHUB_REF:-0.0.0}##*/}/" setup.py.in > setup.py
+        VERSION=${GITHUB_REF:-0.0.0}
+        VERSION=${VERSION##*/}
+        sed "s/__VERSION__/${VERSION}/" setup.py.in > setup.py
         python setup.py install
         qgis-plugin-ci --version
 
