@@ -41,7 +41,7 @@ __title__ = "QGIS Plugin CI"
 __title_clean__ = "".join(e for e in __title__ if e.isalnum())
 __uri__ = "https://github.com/opengisch/qgis-plugin-ci/"
 
-__version__ = "0.11.0"
+__version__ = "1.8.4"
 __version_info__ = tuple(
     [
         int(num) if num.isdigit() else num
