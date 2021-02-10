@@ -49,9 +49,9 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.viewcode",
     # 3rd party
+    "myst_parser",
     # "sphinx_autodoc_typehints",
     "sphinx_copybutton",
-    "myst_parser",
     "sphinx_rtd_theme",
 ]
 
@@ -89,8 +89,20 @@ pygments_style = "sphinx"
 # html_static_path = ["_static"]
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
-    "github_url": __about__.__uri__,
-    "repository_url": __about__.__uri__,
+    # "canonical_url": __about__.__uri_homepage__,
+    "display_version": True,
+    # "github_url": __about__.__uri__,
+    "logo_only": False,
+    "prev_next_buttons_location": "both",
+    # "repository_url": __about__.__uri__,
+    "style_external_links": True,
+    "style_nav_header_background": "SteelBlue",
+    # Toc options
+    "collapse_navigation": False,
+    "includehidden": False,
+    "navigation_depth": 4,
+    "sticky_navigation": False,
+    "titles_only": False,
 }
 
 

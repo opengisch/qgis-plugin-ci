@@ -1,4 +1,57 @@
+# {{ title }} - Documentation
 
+> **Author and contributors:** {{ author }}
+> **Version:** {{ version }}
+> **Source code:** {{ repo_url }}
+
+## Installation
+
+Package is available on [PyPi](https://pypi.org/project/qgis-plugin-ci/):
+
+```bash
+pip install qgis-plugin-ci
+```
+
+```{toctree}
+---
+caption: Configuration
+maxdepth: 1
+---
+configuration/options
+configuration/exclude
+configuration/submodules
+```
+
+```{toctree}
+---
+caption: Use in CI/CD platforms
+maxdepth: 1
+---
+usage/ci_github
+usage/ci_gitlab
+usage/ci_docker
+usage/ci_travis
+```
+
+```{toctree}
+---
+caption: Miscellaneous
+maxdepth: 1
+---
+misc/faq
+```
+
+```{toctree}
+---
+caption: Contribution guide
+maxdepth: 1
+---
+development/contribute
+development/environment
+development/documentation
+development/packaging
+development/history
+```
 
 ## Gallery
 

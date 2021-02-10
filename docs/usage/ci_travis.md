@@ -1,4 +1,4 @@
-# Automatic deployment on Travis
+# TravisCI
 
 ## Basic configuration
 

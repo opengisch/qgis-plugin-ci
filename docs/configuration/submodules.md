@@ -1,4 +1,4 @@
-# Submodules
+# Handle submodules
 
 If you have any submodule configured using ssh and not https, you need to change the connection url by doing:
 

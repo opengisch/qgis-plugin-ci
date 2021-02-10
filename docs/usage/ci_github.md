@@ -1,4 +1,4 @@
-# Automatic deployment on github workflows
+# GitHub workflows
 
 qgis-plugin-ci integrates nicely with github workflows. The following example automatically uploads plugins to releases and to the plugin repository when a new release is created on github.
 
