@@ -3,15 +3,15 @@
 Contains scripts to perform automated testing and deployment for QGIS plugins.
 These scripts are written for and tested on GitHub, Travis-CI, github workflows and Transifex.
 
- - Deploy plugin releases on QGIS official plugin repository
- - Publish plugin in Github releases, option to deploy a custom repository
- - Easily integrated in Travis-CI or github workflows
- - Completely handle translations with Transifex:
-    - create the project and the languages
-    - pull and push translations
-    - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
- - `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
-   
+- Deploy plugin releases on QGIS official plugin repository
+- Publish plugin in Github releases, option to deploy a custom repository
+- Easily integrated in Travis-CI or github workflows
+- Completely handle translations with Transifex:
+  - create the project and the languages
+  - pull and push translations
+  - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
+- `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
+
 ## Command line
 
 ```commandline
@@ -139,7 +139,7 @@ If your format is different, you must use a different `changelog_regexp` express
 usage: qgis-plugin-ci changelog [-h] release_version
 
 positional arguments:
-  release_version  The version to be released. If nothing is speficied, the latest 
+  release_version  The version to be released. If nothing is speficied, the latest
                    version specified into the changelog is used.
 
 optional arguments:
@@ -148,20 +148,21 @@ optional arguments:
 
 ## Requirements
 
-* The code is under a __git__ repository (`git archive` is used to bundle the plugin)
-* There is no uncommitted changes when doing a package/release (there is an option to allow this)
-* A configuration at the top directory either in `.qgis-plugin-ci` or in `setup.cfg` with a `[qgis-plugin-ci]` section.
-* The source files of the plugin are within a sub-directory. The name of this directory will be used for the zip file.
+- The code is under a **git** repository (`git archive` is used to bundle the plugin)
+- There is no uncommitted changes when doing a package/release (there is an option to allow this)
+- A configuration at the top directory either in `.qgis-plugin-ci` or in `setup.cfg` with a `[qgis-plugin-ci]` section.
+- The source files of the plugin are within a sub-directory. The name of this directory will be used for the zip file.
 
 ## The configuration file
 
 The plugin must have a configuration, located at the top directory:
-* either you use a `.qgis-plugin-ci` file
-* or you use a `[qgis-plugin-ci]` section in a `setup.cfg` file (which is used by many other tool).
+
+- either you use a `.qgis-plugin-ci` file
+- or you use a `[qgis-plugin-ci]` section in a `setup.cfg` file (which is used by many other tool).
 
 In the configuration, you should at least provide the following configuration:
 
-* `plugin_path`, the folder where the source code is located
+- `plugin_path`, the folder where the source code is located
 
 Side note, the plugin path shouldn't have any dash character.
 
@@ -171,7 +172,7 @@ to know parameters which are available in the file.
 
 ## Examples
 
-* `.qgis-plugin-ci`
+- `.qgis-plugin-ci`
 
 ```yaml
 plugin_path: qgis_plugin_ci_testing
@@ -179,7 +180,7 @@ github_organization_slug: opengisch
 project_slug: qgis-plugin-ci
 ```
 
-* `setup.cfg`
+- `setup.cfg`
 
 ```ini
 [qgis-plugin-ci]
@@ -190,7 +191,7 @@ project_slug = QuickOSM
 
 ## QRC and UI files
 
-- Any .qrc file in the source top directory (plugin_path) will be compiled and output as filename_rc.py. You can then import it using ``import plugin_path.resources_rc``
+- Any .qrc file in the source top directory (plugin_path) will be compiled and output as filename_rc.py. You can then import it using `import plugin_path.resources_rc`
 - Currently, qgis-plugin-ci does not compile any .ui file.
 
 ## Publishing plugins
@@ -213,7 +214,8 @@ In any Python module, you can have a global variable as `DEBUG = True`, which wi
 
 ## Excluding files in the plugin archive
 
-If you want to avoid some files to be shipped with your plugin, create a ``.gitattributes`` file in which you can specify the files to ignore. For instance:
+If you want to avoid some files to be shipped with your plugin, create a `.gitattributes` file in which you can specify the files to ignore. For instance:
+
 ```
 resources.qrc export-ignore
 ```
@@ -225,37 +227,37 @@ resources.qrc export-ignore
 This is an example with GitLab-CI running with the Docker image from Docker Hub :
 
 ```yaml
-  script:
-    - >
-      docker run
-      --rm -w /plugin
-      -v ${CI_PROJECT_DIR}:/plugin
-      -u $(id -u):$(id -g)
-      3liz/qgis-plugin-ci:1.8.3
-      package ${CI_COMMIT_REF_NAME}
-      --allow-uncommitted-changes
-      --plugin-repo-url https://custom.server.url/
+script:
+  - >
+    docker run
+    --rm -w /plugin
+    -v ${CI_PROJECT_DIR}:/plugin
+    -u $(id -u):$(id -g)
+    3liz/qgis-plugin-ci:1.8.3
+    package ${CI_COMMIT_REF_NAME}
+    --allow-uncommitted-changes
+    --plugin-repo-url https://custom.server.url/
 ```
 
 ## Sample plugins
 
 These plugins are using this tool, with different configurations as examples:
 
-* https://github.com/opengisch/qgis_server_render_geojson
-  * deployment on github releases and plugin repository
-  * works on gihtub workflows
-  * barebone implementation, no bells and whistles
-* https://github.com/opengisch/qgis_geomapfish_locator:
-  * translated on Transifex
-  * released on official repo
-* https://github.com/VeriVD/qgis_VeriVD
-  * released on custom repo as GitHub release
-* https://github.com/3liz/lizmap-plugin
-  * using a `setup.cfg` file
-  * metadata populated automatically from CHANGELOG.md file
-  * GitHub release created automatically from Travis
-  * released on official repository
-  * translations are committed from Travis to the repository after the release process
-  * GitLab-CI with Docker is used as well
-* https://github.com/3liz/qgis-pgmetadata-plugin
-  * Released using GitHub Actions and Transifex
+- https://github.com/opengisch/qgis_server_render_geojson
+  - deployment on github releases and plugin repository
+  - works on gihtub workflows
+  - barebone implementation, no bells and whistles
+- https://github.com/opengisch/qgis_geomapfish_locator:
+  - translated on Transifex
+  - released on official repo
+- https://github.com/VeriVD/qgis_VeriVD
+  - released on custom repo as GitHub release
+- https://github.com/3liz/lizmap-plugin
+  - using a `setup.cfg` file
+  - metadata populated automatically from CHANGELOG.md file
+  - GitHub release created automatically from Travis
+  - released on official repository
+  - translations are committed from Travis to the repository after the release process
+  - GitLab-CI with Docker is used as well
+- https://github.com/3liz/qgis-pgmetadata-plugin
+  - Released using GitHub Actions and Transifex
