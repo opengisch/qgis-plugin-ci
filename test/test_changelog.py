@@ -20,24 +20,36 @@ class TestChangelog(unittest.TestCase):
         self.assertTrue(ChangelogParser.has_changelog())
         parser = ChangelogParser(CHANGELOG_REGEXP)
         self.assertIsNone(parser.content("0.0.0"), "")
-        self.assertEqual(
-            parser.content("0.1.2"),
-            '* Tag without "v" prefix\n* Add a CHANGELOG.md file for testing',
-        )
 
-        expected = '\n Version 0.1.2:\n * Tag without "v" prefix\n * Add a CHANGELOG.md file for testing\n\n'
+        expected = (
+            '* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n'
+            '* Tag without "v" prefix\n'
+            '* Add a CHANGELOG.md file for testing'
+        )
+        self.assertEqual(parser.content("0.1.2"), expected)
+
+        expected = (
+            '\n '
+            'Version 0.1.2 :\n '
+            '* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n '
+            '* Tag without "v" prefix\n '
+            '* Add a CHANGELOG.md file for testing\n'
+            '\n'
+        )
         self.assertEqual(parser.last_items(1), expected)
 
         expected = """
- Version 0.1.2:
+ Version 0.1.2 :
+ * Tag using a wrong format DD/MM/YYYY according to Keep A Changelog
  * Tag without "v" prefix
  * Add a CHANGELOG.md file for testing
 
- Version v0.1.1:
+ Version v0.1.1 :
+ * Tag using a correct format YYYY-MM-DD according to Keep A Changelog
  * Tag with a "v" prefix to check the regular expression
  * Previous version
 
- Version 0.1.0:
+ Version 0.1.0 :
  * Very old version
 
 """
@@ -49,7 +61,11 @@ class TestChangelog(unittest.TestCase):
         """
         self.assertTrue(ChangelogParser.has_changelog())
         parser = ChangelogParser(CHANGELOG_REGEXP)
-        expected_latest = '* Tag without "v" prefix\n* Add a CHANGELOG.md file for testing'
+        expected_latest = (
+            '* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n'
+            '* Tag without "v" prefix\n'
+            '* Add a CHANGELOG.md file for testing'
+        )
         print(parser.content("latest"))
         self.assertEqual(expected_latest, parser.content("latest"))
 
