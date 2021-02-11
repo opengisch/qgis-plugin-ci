@@ -37,15 +37,11 @@ jobs:
     - name: Install system requirements
       run: |
         sudo apt-get install qt5-default qttools5-dev-tools
-        pip install -r requirements.txt
 
-    - name: Setup
+    - name: Install Python requirements
       run: |
-        VERSION=${GITHUB_REF:-0.0.0}
-        VERSION=${VERSION##*/}
-        sed "s/__VERSION__/${VERSION}/" setup.py.in > setup.py
-        python setup.py install
-        qgis-plugin-ci --version
+        python -m pip install -U pip
+        python -m pip install -r -U requirements.txt
 
     - name: Run tests
       env:
