@@ -2,24 +2,30 @@ name: Run tests and release
 
 on:
   push:
-    tags:
+    tags: "*"
     branches:
       - master
   pull_request:
     branches:
       - master
 
+env:
+  PROJECT_FOLDER: "qgispluginci"
+  PYTHON_VERSION: 3.8
+
 jobs:
-  build:
+  tests:
+    name: "Tests"
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Get source code
+      uses: actions/checkout@v2
 
-    - name: Set up Python 3.7
+    - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install requirements
       run: |
