@@ -1,6 +1,6 @@
-# Handle submodules
+# Handle submodules SSH
 
-If you have any submodule configured using ssh and not https, you need to change the connection url by doing:
+If you have any submodule configured using ssh and not https, you need to change the connection url. For example, on Travis:
 
 ````yaml
 git:
