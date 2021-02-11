@@ -20,3 +20,5 @@ setup.py
 
 .idea
 .DS_Store
+.venv
+.vscode/settings.json
