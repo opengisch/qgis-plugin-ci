@@ -1,0 +1,49 @@
+name: Run tests and release
+
+on:
+  push:
+    tags:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install requirements
+      run: |
+        sudo apt-get install qt5-default qttools5-dev-tools
+        pip install -r requirements.txt
+
+    - name: Setup
+      run: |
+        VERSION=${GITHUB_REF:-0.0.0}
+        VERSION=${VERSION##*/}
+        sed "s/__VERSION__/${VERSION}/" setup.py.in > setup.py
+        python setup.py install
+        qgis-plugin-ci --version
+
+    - name: Run tests
+      env:
+        transifex_token: ${{ secrets.TRANSIFEX_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+      run: nose2 -v
+
+    - name: Deploy to PyPI
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+
