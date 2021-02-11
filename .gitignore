@@ -13,9 +13,6 @@ __pycache__/
 qgis_plugin_CI_testing/i18n
 qgis_plugin_CI_testing/resources_rc.py
 
-setup.py
-
-
 .tokens
 
 .idea
