@@ -65,7 +65,7 @@ development/packaging
 development/history
 ```
 
-## Gallery
+## Examples
 
 * https://github.com/opengisch/qgis_server_render_geojson
   * deployment on github releases and plugin repository
