@@ -38,7 +38,7 @@ class ChangelogParser:
         count = int(count)
         output = '\n'
         for version, date, items in changelog_content[0:count]:
-            output += ' Version {}:\n'.format(version)
+            output += ' Version {} :\n'.format(version)
             for item in items.split('\n'):
                 if item:
                     output += ' {}\n'.format(item)
