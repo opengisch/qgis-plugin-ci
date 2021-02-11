@@ -20,6 +20,7 @@ maxdepth: 1
 configuration/options
 configuration/exclude
 configuration/submodules
+configuration/translation
 ```
 
 ```{toctree}
