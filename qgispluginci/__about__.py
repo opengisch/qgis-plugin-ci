@@ -29,7 +29,7 @@ __all__ = [
     "__version_info__",
 ]
 
-__author__ = "OPENGIS.ch and contributors Etienne Trimaille, Julien Moura"
+__author__ = "Denis Rouzaud, Étienne Trimaille, Julien Moura"
 __copyright__ = "2019 - {0}, {1}".format(date.today().year, __author__)
 __email__ = ""
 __license__ = "GNU General Public License v3.0"
