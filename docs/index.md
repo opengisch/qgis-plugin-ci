@@ -25,6 +25,17 @@ configuration/translation
 
 ```{toctree}
 ---
+caption: Use the CLI
+maxdepth: 1
+---
+usage/cli_changelog
+usage/cli_package
+usage/cli_release
+usage/cli_translation
+```
+
+```{toctree}
+---
 caption: Use in CI/CD platforms
 maxdepth: 1
 ---
