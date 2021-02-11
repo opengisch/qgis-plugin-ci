@@ -1,6 +1,6 @@
 # Documentation
 
-Project uses Sphinx to generate documentation from docstrings (documentation in-code) and custom pages written in Markdown (througth the [MyST parser](https://myst-parser.readthedocs.io/en/latest/)).
+Project uses Sphinx to generate documentation from docstrings (documentation in-code) and custom pages written in Markdown (through the [MyST parser](https://myst-parser.readthedocs.io/en/latest/)).
 
 ## Build documentation website
 
