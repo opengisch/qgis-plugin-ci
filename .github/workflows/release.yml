@@ -64,7 +64,7 @@ jobs:
       run: |
         VERSION=${GITHUB_REF:-0.0.0}
         VERSION=${VERSION##*/}
-        sed "s/__VERSION__/${VERSION}/" setup.py.in > setup.py
+        sed "s/__VERSION__/${VERSION}/" setup.py > setup.py
 
     - name: Deploy as GitHub Release
       id: create_release
