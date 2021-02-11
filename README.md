@@ -12,6 +12,8 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
   - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
 - `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
 
+:book: For further information, see [the documentation](https://opengisch.github.io/qgis-plugin-ci/).
+
 ## Command line
 
 ```commandline
