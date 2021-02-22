@@ -12,8 +12,7 @@ In the configuration, you should at least provide the following configuration:
 Side note, the plugin path shouldn't have any dash character.
 
 You can find a template `.qgis-plugin-ci` in this repository.
-You can read the docstring of the file `qgispluginci/parameters.py`
-to know parameters which are available in the file.
+You can read the docstring of the [Parameters module](/_apidoc/qgispluginci.parameters) to know parameters which are available in the file.
 
 ## Options
 
