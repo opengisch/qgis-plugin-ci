@@ -36,6 +36,7 @@ jobs:
 
     - name: Install system requirements
       run: |
+        sudo apt-get update
         sudo apt-get install qt5-default qttools5-dev-tools
 
     - name: Install Python requirements
