@@ -23,9 +23,11 @@ jobs:
         with:
           python-version: 3.8
 
-      #    Needed if the plugin is using Transifex, to have the lrelease command
-      #    - name: Install Qt lrelease
-      #      run: sudo apt-get install qt5-default qttools5-dev-tools
+       # Needed if the plugin is using Transifex, to have the lrelease command
+       # - name: Install Qt lrelease
+       #   run: |
+       #    sudo apt-get update
+       #    sudo apt-get install qt5-default qttools5-dev-tools
 
       - name: Install qgis-plugin-ci
         run: pip3 install qgis-plugin-ci
