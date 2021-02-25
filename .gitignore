@@ -19,3 +19,4 @@ qgis_plugin_CI_testing/resources_rc.py
 .DS_Store
 .venv
 .vscode/settings.json
+dev_precommit_black.log

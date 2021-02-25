@@ -32,7 +32,7 @@ jobs:
 
       - name: Deploy plugin
         run: >-
-          qgis-plugin-ci 
+          qgis-plugin-ci
           release ${GITHUB_REF/refs\/tags\//}
           --github-token ${{ secrets.GITHUB_TOKEN }}
           --osgeo-username ${{ secrets.OSGEO_USER }}
