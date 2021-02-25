@@ -3,13 +3,14 @@
 import argparse
 import configparser
 import os
+
 import yaml
 
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
+from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
-from qgispluginci.parameters import Parameters
 
 
 def main():

@@ -1,5 +1,5 @@
-import re
 import os
+import re
 
 
 def replace_in_file(file_path: str, pattern, new: str, encoding: str = "utf8"):

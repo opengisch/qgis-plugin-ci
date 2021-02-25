@@ -1,13 +1,15 @@
 import glob
 import subprocess
 from pathlib import Path
+
 from pytransifex import Transifex
-from qgispluginci.parameters import Parameters
+
 from qgispluginci.exceptions import (
-    TranslationFailed,
-    TransifexNoResource,
     TransifexManyResources,
+    TransifexNoResource,
+    TranslationFailed,
 )
+from qgispluginci.parameters import Parameters
 from qgispluginci.utils import touch_file
 
 

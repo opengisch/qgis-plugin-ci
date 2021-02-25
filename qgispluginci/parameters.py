@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
+import datetime
 import os
 import re
-from slugify import slugify
-import datetime
 import warnings
+
+from slugify import slugify
 
 CHANGELOG_REGEXP = (
     r"(?<=##)\s*\[*(v?\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)"

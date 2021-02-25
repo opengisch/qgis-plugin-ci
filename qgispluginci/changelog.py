@@ -4,7 +4,6 @@ Following nearly https://keepachangelog.com/en/1.0.0/
 """
 
 import re
-
 from os.path import isfile
 
 
