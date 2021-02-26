@@ -1,10 +1,1 @@
-python-slugify
-pyyaml
-pytransifex>=0.1.10
-gitpython
-PyQt5
-PyGithub
-pyqt5ac
-
-# for testing
-nose2
+-r requirements/base.txt

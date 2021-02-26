@@ -22,19 +22,19 @@ class TestChangelog(unittest.TestCase):
         self.assertIsNone(parser.content("0.0.0"), "")
 
         expected = (
-            '* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n'
+            "* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n"
             '* Tag without "v" prefix\n'
-            '* Add a CHANGELOG.md file for testing'
+            "* Add a CHANGELOG.md file for testing"
         )
         self.assertEqual(parser.content("0.1.2"), expected)
 
         expected = (
-            '\n '
-            'Version 0.1.2 :\n '
-            '* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n '
+            "\n "
+            "Version 0.1.2 :\n "
+            "* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n "
             '* Tag without "v" prefix\n '
-            '* Add a CHANGELOG.md file for testing\n'
-            '\n'
+            "* Add a CHANGELOG.md file for testing\n"
+            "\n"
         )
         self.assertEqual(parser.last_items(1), expected)
 
@@ -62,9 +62,9 @@ class TestChangelog(unittest.TestCase):
         self.assertTrue(ChangelogParser.has_changelog())
         parser = ChangelogParser(CHANGELOG_REGEXP)
         expected_latest = (
-            '* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n'
+            "* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n"
             '* Tag without "v" prefix\n'
-            '* Add a CHANGELOG.md file for testing'
+            "* Add a CHANGELOG.md file for testing"
         )
         print(parser.content("latest"))
         self.assertEqual(expected_latest, parser.content("latest"))

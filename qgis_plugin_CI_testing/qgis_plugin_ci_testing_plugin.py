@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 /***************************************************************************
 
@@ -26,18 +25,17 @@ from qgis.gui import QgisInterface
 
 
 class QgisPluginCiTesting:
-
     def __init__(self, iface: QgisInterface):
         self.iface = iface
 
         # initialize translation
-        qgis_locale = QLocale(QSettings().value('locale/userLocale'))
-        locale_path = os.path.join(os.path.dirname(__file__), 'i18n')
+        qgis_locale = QLocale(QSettings().value("locale/userLocale"))
+        locale_path = os.path.join(os.path.dirname(__file__), "i18n")
         self.translator = QTranslator()
-        self.translator.load(qgis_locale, 'swiss_locator', '_', locale_path)
+        self.translator.load(qgis_locale, "swiss_locator", "_", locale_path)
         QCoreApplication.installTranslator(self.translator)
 
-        self.trUtf8('some UTF-8 translation: un épilogue où l\'on marche sur des œufs')
+        self.trUtf8("some UTF-8 translation: un épilogue où l'on marche sur des œufs")
 
     def initGui(self):
         pass
