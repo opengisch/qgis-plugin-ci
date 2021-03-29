@@ -1,8 +1,9 @@
 # {{ title }} - Documentation
 
-> **Author and contributors:** {{ author }}
-> **Version:** {{ version }}
-> **Source code:** {{ repo_url }}
+> **Author and contributors:** {{ author }}  
+> **Version:** {{ version }}  
+> **Source code:** {{ repo_url }}  
+> **Last documentation build:** {{ date_update }}
 
 ## Installation
 
