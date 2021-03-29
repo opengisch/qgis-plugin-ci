@@ -4,15 +4,14 @@
     Configuration for project documentation using Sphinx.
 """
 
+import sys
 # standard
 from os import environ, path
-import sys
 
 sys.path.insert(0, path.abspath(".."))  # move into project package
 
 # 3rd party
 import sphinx_rtd_theme  # noqa: F401 theme of Read the Docs
-
 # Package
 from qgispluginci import __about__
 
@@ -50,6 +49,7 @@ extensions = [
     "sphinx.ext.viewcode",
     # 3rd party
     "myst_parser",
+    "sphinx_panels",
     # "sphinx_autodoc_typehints",
     "sphinx_copybutton",
     "sphinx_rtd_theme",
