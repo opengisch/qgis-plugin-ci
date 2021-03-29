@@ -18,7 +18,7 @@ Open `docs/_build/index.html` in a web browser.
 ## Write documentation using live render
 
 ```bash
-sphinx-autobuild -b html docs/ docs/_build
+sphinx-autobuild -b html docs/ docs/_build/html
 ```
 
 Open <http://localhost:8000> in a web browser to see the HTML render updated when a file is saved.

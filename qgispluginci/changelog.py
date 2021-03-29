@@ -4,24 +4,22 @@ Following nearly https://keepachangelog.com/en/1.0.0/
 """
 
 import re
-
 from os.path import isfile
 
 
 class ChangelogParser:
-
     @staticmethod
     def has_changelog():
-        return isfile('CHANGELOG.md')
+        return isfile("CHANGELOG.md")
 
     def __init__(self, regexp: str):
         self.regexp = regexp
 
     def _parse(self):
         if not self.has_changelog():
-            return ''
+            return ""
 
-        with open('CHANGELOG.md', "r") as f: 
+        with open("CHANGELOG.md", "r") as f:
             content = f.read()
 
         return re.findall(self.regexp, content, flags=re.MULTILINE | re.DOTALL)
@@ -33,16 +31,16 @@ class ChangelogParser:
         """
         changelog_content = self._parse()
         if not changelog_content:
-            return ''
+            return ""
 
         count = int(count)
-        output = '\n'
+        output = "\n"
         for version, date, items in changelog_content[0:count]:
-            output += ' Version {} :\n'.format(version)
-            for item in items.split('\n'):
+            output += " Version {} :\n".format(version)
+            for item in items.split("\n"):
                 if item:
-                    output += ' {}\n'.format(item)
-            output += '\n'
+                    output += " {}\n".format(item)
+            output += "\n"
         return output
 
     def content(self, tag: str) -> str:

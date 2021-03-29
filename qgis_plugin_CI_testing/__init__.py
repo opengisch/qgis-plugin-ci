@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 /***************************************************************************
 
@@ -30,4 +29,5 @@ def classFactory(iface):
     """
     #
     from .qgis_plugin_ci_testing_plugin import QgisPluginCiTesting
+
     return QgisPluginCiTesting(iface)

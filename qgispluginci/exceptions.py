@@ -1,5 +1,3 @@
-
-
 class TranslationFailed(Exception):
     pass
 

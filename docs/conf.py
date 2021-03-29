@@ -41,6 +41,7 @@ myst_url_schemes = ("http", "https", "mailto")
 # ones.
 extensions = [
     # Sphinx included
+    "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.githubpages",
     "sphinx.ext.imgmath",
@@ -59,7 +60,7 @@ extensions = [
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-source_suffix = {".md": "markdown"}
+source_suffix = {".md": "markdown", ".rst": "restructuredtext"}
 autosectionlabel_prefix_document = True
 # The master toctree document.
 master_doc = "index"
@@ -107,17 +108,35 @@ html_theme_options = {
 
 
 myst_enable_extensions = [
-    "dollarmath",
     "amsmath",
-    "deflist",
-    "html_image",
     "colon_fence",
-    "smartquotes",
-    "replacements",
+    "deflist",
+    "dollarmath",
+    "html_image",
     "linkify",
+    "replacements",
+    "smartquotes",
     "substitution",
 ]
 # -- EXTENSIONS --------------------------------------------------------
 
 # Configuration for intersphinx (refer to others docs).
 intersphinx_mapping = {"python": ("https://docs.python.org/3/", None)}
+
+
+# -- Options for Sphinx API doc ----------------------------------------------
+
+# run api doc
+def run_apidoc(_):
+    from sphinx.ext.apidoc import main
+
+    cur_dir = path.normpath(path.dirname(__file__))
+    output_path = path.join(cur_dir, "_apidoc")
+    modules = path.normpath(path.join(cur_dir, "../qgispluginci"))
+    exclusions = ["../.venv", "../scripts", "../server", "../tests"]
+    main(["-e", "-f", "-M", "-o", output_path, modules] + exclusions)
+
+
+# launch setup
+def setup(app):
+    app.connect("builder-inited", run_apidoc)

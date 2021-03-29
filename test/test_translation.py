@@ -10,11 +10,10 @@ from pytransifex.exceptions import PyTransifexException
 
 
 class TestTranslation(unittest.TestCase):
-
     def setUp(self):
         arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
         self.parameters = Parameters(arg_dict)
-        self.transifex_token = os.getenv('transifex_token')
+        self.transifex_token = os.getenv("transifex_token")
         assert self.transifex_token is not None
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
@@ -24,7 +23,7 @@ class TestTranslation(unittest.TestCase):
         except PyTransifexException:
             pass
         try:
-            self.t._t.delete_team('{}-team'.format(self.parameters.project_slug))
+            self.t._t.delete_team("{}-team".format(self.parameters.project_slug))
         except PyTransifexException:
             pass
 
@@ -42,5 +41,5 @@ class TestTranslation(unittest.TestCase):
         self.t.push()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
