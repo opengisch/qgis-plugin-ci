@@ -172,7 +172,7 @@ def main():
     # CHANGELOG
     elif args.command == "changelog":
         try:
-            c = ChangelogParser(parameters.changelog_regexp)
+            c = ChangelogParser(regexp=parameters.changelog_regexp)
             content = c.content(args.release_version)
             if content:
                 print(content)

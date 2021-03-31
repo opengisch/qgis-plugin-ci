@@ -1,24 +1,24 @@
 #! /usr/bin/env python
 
+import filecmp
 import os
 import unittest
-import yaml
-import filecmp
 import urllib.request
 from tempfile import mkstemp
-from github import Github, GithubException
 from zipfile import ZipFile
 
+import yaml
+from github import Github, GithubException
 from pytransifex.exceptions import PyTransifexException
 
-from qgispluginci.parameters import Parameters, DASH_WARNING
+from qgispluginci.exceptions import GithubReleaseNotFound
+from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
-from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.utils import replace_in_file
 
 # if change, also update on .travis.yml and CHANGELOG.md
-RELEASE_VERSION_TEST = "0.1.2"
+RELEASE_VERSION_TEST = "1.8.3"
 
 
 class TestRelease(unittest.TestCase):
@@ -42,7 +42,7 @@ class TestRelease(unittest.TestCase):
             rel = None
             try:
                 rel = self.repo.get_release(id=RELEASE_VERSION_TEST)
-            except GithubException as e:
+            except GithubException:
                 raise GithubReleaseNotFound(
                     "Release {} not found".format(RELEASE_VERSION_TEST)
                 )
@@ -66,7 +66,7 @@ class TestRelease(unittest.TestCase):
 
     def test_release_with_transifex(self):
         assert self.transifex_token is not None
-        t = Translation(self.parameters, transifex_token=self.transifex_token)
+        Translation(self.parameters, transifex_token=self.transifex_token)
         release(
             self.parameters, RELEASE_VERSION_TEST, transifex_token=self.transifex_token
         )
@@ -136,10 +136,10 @@ class TestRelease(unittest.TestCase):
         """ Test about the changelog in the metadata.txt. """
         expected = (
             b"changelog=\n "
-            b"Version 0.1.2 :\n "
-            b"* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n "
-            b'* Tag without "v" prefix\n '
-            b"* Add a CHANGELOG.md file for testing"
+            b"Version 1.8.3:\n"
+            b"- Keep the plugin path when creating the ZIP\n"
+            b"- Rename qgis_plugin_ci_testing to qgis_plugin_CI_testing to have a capital letter\n"
+            b"- Update readme about plugin_path"
         )
 
         # Include a changelog
