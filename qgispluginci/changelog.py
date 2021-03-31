@@ -12,7 +12,7 @@
 import logging
 import re
 from pathlib import Path
-from typing import Union
+from typing import NamedTuple, Union
 
 # ############################################################################
 # ########## Globals #############
@@ -109,9 +109,35 @@ class ChangelogParser:
     def content(self, tag: str) -> str:
         """Content to add in a release according to a tag."""
         changelog_content = self._parse()
+
         if tag == "latest":
-            for version, date, items in changelog_content[:1]:
-                return items.strip()
-        for version, date, items in changelog_content:
-            if version == tag:
-                return items.strip()
+            latest_version = VersionNote(*changelog_content[:1])
+            return latest_version.text.strip()
+
+        for version in changelog_content:
+            version_note = VersionNote(*version)
+            if version_note.version == tag:
+                return version_note.text.strip()
+
+
+class VersionNote(NamedTuple):
+    major: str = None
+    minor: str = None
+    patch: str = None
+    url: str = None
+    prerelease: str = None
+    separator: str = None
+    date: str = None
+    text: str = None
+
+    @property
+    def is_prerelease(self):
+        if self.prerelease and len(self.prerelease):
+            return True
+        else:
+            return False
+
+    @property
+    def version(self):
+        if self.prerelease:
+            return f"{self.major}.{self.minor}.{self.patch}-{self.prerelease}"
