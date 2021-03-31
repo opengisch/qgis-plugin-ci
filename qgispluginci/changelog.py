@@ -70,9 +70,13 @@ class ChangelogParser:
 
         return cls.CHANGELOG_FILEPATH.is_file()
 
-    def __init__(self, regexp: str):
+    def __init__(
+        self,
+        regexp: str = CHANGELOG_REGEXP,
+        parent_folder: Union[Path, str] = Path("."),
+    ):
         self.regexp = regexp
-        self.has_changelog()
+        self.has_changelog(parent_folder=parent_folder)
 
     def _parse(self):
         if not self.CHANGELOG_FILEPATH:
