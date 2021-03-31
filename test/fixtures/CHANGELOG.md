@@ -13,8 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 10.1.0-alpha1 - 2021/01/10
 
-- Documentation refactoring
-- Use modern workflow to package and release the plugin
+- This is a version with a prerelease in this changelog
+- The changelog module is tested against these lines
+- Be careful modifying this file
+
+### Fixed
+
+- trying with a subsection in a version note
 
 ## 10.0.1 - 2020/12/31
 

@@ -48,63 +48,24 @@ class TestChangelog(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             ChangelogParser.has_changelog(parent_folder=Path("imaginary_path"))
 
-    def test_changelog_parser(self):
-        """ Test we can parse a changelog with a regex. """
-        parser = ChangelogParser(parent_folder="test/fixtures")
-        self.assertIsNone(parser.content("0.0.0"), "")
-
-        expected = (
-            "* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n"
-            '* Tag without "v" prefix\n'
-            "* Add a CHANGELOG.md file for testing"
-        )
-        self.assertEqual(parser.content("0.1.2"), expected)
-
-        expected = (
-            "\n "
-            "Version 0.1.2 :\n "
-            "* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n "
-            '* Tag without "v" prefix\n '
-            "* Add a CHANGELOG.md file for testing\n"
-            "\n"
-        )
-        self.assertEqual(parser.last_items(1), expected)
-
-        expected = """
- Version 0.1.2 :
- * Tag using a wrong format DD/MM/YYYY according to Keep A Changelog
- * Tag without "v" prefix
- * Add a CHANGELOG.md file for testing
-
- Version v0.1.1 :
- * Tag using a correct format YYYY-MM-DD according to Keep A Changelog
- * Tag with a "v" prefix to check the regular expression
- * Previous version
-
- Version 0.1.0 :
- * Very old version
-
-"""
-        self.assertEqual(parser.last_items(3), expected)
-
     def test_changelog_content(self):
         """Test version content from changelog."""
         # parser
         parser = ChangelogParser(parent_folder="test/fixtures")
         self.assertIsInstance(parser.CHANGELOG_FILEPATH, Path)
 
+        expected_version_note = (
+            "- This is a version with a prerelease in this changelog\n"
+            "- The changelog module is tested against these lines\n"
+            "- Be careful modifying this file"
+        )
+
         # checks
         self.assertIsNone(parser.content("0.0.0"))
         self.assertIsInstance(parser.content("10.1.0-alpha1"), str)
+        self.assertEqual(parser.content("10.1.0-alpha1"), expected_version_note)
 
-    def test_changelog_last_items(self):
-        """Test last items from changelog."""
-        parser = ChangelogParser(parent_folder="test/fixtures")
-
-        last_items = parser.last_items(3)
-        self.assertIsInstance(last_items, str)
-
-    def test_changelog_latest(self):
+    def test_changelog_content_latest(self):
         """Test against the latest special option value. \
         See: https://github.com/opengisch/qgis-plugin-ci/pull/33
         """
@@ -118,6 +79,13 @@ class TestChangelog(unittest.TestCase):
         # get latest
         parser = ChangelogParser(parent_folder="test/fixtures")
         self.assertEqual(expected_latest, parser.content("latest"))
+
+    def test_changelog_last_items(self):
+        """Test last items from changelog."""
+        parser = ChangelogParser(parent_folder="test/fixtures")
+
+        last_items = parser.last_items(3)
+        self.assertIsInstance(last_items, str)
 
     def test_changelog_version_note(self):
         """Test version note named tuple structure and mechanisms."""
