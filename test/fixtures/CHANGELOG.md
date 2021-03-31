@@ -1,9 +1,35 @@
-# CHANGELOG
+# Changelog
 
-## 0.1.2 - 2017-07-23
+All notable changes to this project will be documented in this file.
 
-* Tag without "v" prefix
-* Add a CHANGELOG.md file for testing
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## 10.1.0-beta1 - 2021/02/08
+
+- Use modern workflow to package and release the plugin
+- Minor code changes
+
+## [10.1.0-alpha1](https://github.com/BRGM/gml_application_schema_toolbox/releases/tag/1.2.1-beta1) - 2021/01/10
+
+- Documentation refactoring
+- Use modern workflow to package and release the plugin
+
+## 10.0.1 - 2020/12/31
+
+- End of year version
+
+## [10.0.0](https://github.com/opengisch/qgis-plugin-ci/releases/tag/1.8.4) - 11/04/2020
+
+- A
+- B
+- C
+
+## [9.10.1] - 2019-09-11
+
+- D
+- E
+- F
 
 ## v0.1.1 - 2017-07-22
 
@@ -13,5 +39,3 @@
 ## 0.1.0 - 2017-07-21
 
 * Very old version
-
-##
