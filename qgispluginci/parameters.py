@@ -7,7 +7,14 @@ import warnings
 
 from slugify import slugify
 
-CHANGELOG_REGEXP = r"(?<=##)\s*\[*v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\]?(\(.*\))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?\]*\s-\s*([\d\-/]{10})(.*?)(?=##|\Z)"
+# project
+from qgispluginci.changelog import CHANGELOG_REGEXP
+
+# ############################################################################
+# ########## Globals #############
+# ################################
+
+
 DASH_WARNING = "Dash in the plugin name is causing issues with QGIS plugin manager"
 
 
