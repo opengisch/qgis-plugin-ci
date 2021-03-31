@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use modern workflow to package and release the plugin
 - Minor code changes
 
-## [10.1.0-alpha1](https://github.com/BRGM/gml_application_schema_toolbox/releases/tag/1.2.1-beta1) - 2021/01/10
+## 10.1.0-alpha1 - 2021/01/10
 
 - Documentation refactoring
 - Use modern workflow to package and release the plugin

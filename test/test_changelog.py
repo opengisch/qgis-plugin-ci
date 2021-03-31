@@ -15,11 +15,10 @@ import unittest
 from pathlib import Path
 
 # project
-from qgispluginci.changelog import ChangelogParser
-from qgispluginci.parameters import CHANGELOG_REGEXP
+from qgispluginci.changelog import CHANGELOG_REGEXP, ChangelogParser, VersionNote
 
 # ############################################################################
-# ########## Globals #############
+# ########## Classes #############
 # ################################
 
 
@@ -103,6 +102,26 @@ class TestChangelog(unittest.TestCase):
         print(parser.content("latest"))
         self.assertEqual(expected_latest, parser.content("latest"))
 
+    def test_changelog_version_note(self):
+        """Test version note named tuple structure and mechanisms."""
+        parser = ChangelogParser(CHANGELOG_REGEXP, "test/fixtures")
+        self.assertIsInstance(parser.CHANGELOG_FILEPATH, Path)
+        self.assertIsNone(parser.content("0.0.0"), "")
+        changelog_content = parser._parse()
+        self.assertEqual(len(changelog_content), 7)
 
+        # loop on versions
+        for version in changelog_content:
+            version_note = VersionNote(*version)
+            self.assertIsInstance(version_note.date, str)
+            self.assertTrue(hasattr(version_note, "is_prerelease"))
+            self.assertTrue(hasattr(version_note, "version"))
+            if len(version_note.prerelease):
+                self.assertEqual(version_note.is_prerelease, True)
+
+
+# ############################################################################
+# ####### Stand-alone run ########
+# ################################
 if __name__ == "__main__":
     unittest.main()
