@@ -4,17 +4,51 @@
     Usage from the repo root folder:
 
     .. code-block:: bash
-        # for whole test
+        # for whole tests
         python -m unittest test.test_changelog
+        # for specific test
+        python -m unittest test.test_changelog.TestChangelog.test_has_changelog
 """
 
+# standard library
 import unittest
+from pathlib import Path
 
+# project
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.parameters import CHANGELOG_REGEXP
 
+# ############################################################################
+# ########## Globals #############
+# ################################
+
 
 class TestChangelog(unittest.TestCase):
+    def test_has_changelog(self):
+        """Test changelog path logic."""
+        # using this repository as parent folder
+        self.assertTrue(ChangelogParser.has_changelog())
+        self.assertIsInstance(ChangelogParser.CHANGELOG_FILEPATH, Path)
+
+        # using the fixture subfolder as string
+        self.assertTrue(ChangelogParser.has_changelog(parent_folder="test/fixtures"))
+        self.assertIsInstance(ChangelogParser.CHANGELOG_FILEPATH, Path)
+
+        # using the fixture subfolder as pathlib.Path
+        self.assertTrue(
+            ChangelogParser.has_changelog(parent_folder=Path("test/fixtures"))
+        )
+        self.assertIsInstance(ChangelogParser.CHANGELOG_FILEPATH, Path)
+
+        # with a path to a file, must raise a type error
+        with self.assertRaises(TypeError):
+            ChangelogParser.has_changelog(parent_folder=Path(__file__))
+        self.assertIsNone(ChangelogParser.CHANGELOG_FILEPATH, None)
+
+        # with a path to a folder which doesn't exist, must raise a file exists error
+        with self.assertRaises(FileExistsError):
+            ChangelogParser.has_changelog(parent_folder=Path("imaginary_path"))
+
     def test_changelog_parser(self):
         """ Test we can parse a changelog with a regex. """
         self.assertTrue(ChangelogParser.has_changelog())
