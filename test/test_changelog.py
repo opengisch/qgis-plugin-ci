@@ -92,14 +92,15 @@ class TestChangelog(unittest.TestCase):
         """Test against the latest special option value. \
         See: https://github.com/opengisch/qgis-plugin-ci/pull/33
         """
-        self.assertTrue(ChangelogParser.has_changelog())
-        parser = ChangelogParser(CHANGELOG_REGEXP)
+        # expected result
         expected_latest = (
-            "* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n"
-            '* Tag without "v" prefix\n'
-            "* Add a CHANGELOG.md file for testing"
+            "- This is the latest documented version in this changelog\n"
+            "- The changelog module is tested against these lines\n"
+            "- Be careful modifying this file"
         )
-        print(parser.content("latest"))
+
+        # get latest
+        parser = ChangelogParser(parent_folder="test/fixtures")
         self.assertEqual(expected_latest, parser.content("latest"))
 
     def test_changelog_version_note(self):

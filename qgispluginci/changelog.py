@@ -18,6 +18,7 @@ from typing import NamedTuple, Union
 # ########## Globals #############
 # ################################
 
+# see: https://regex101.com/r/ZpMhgM/1
 CHANGELOG_REGEXP = r"(?<=##)\s*\[*v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\]?(\(.*\))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?\]*\s-\s*([\d\-/]{10})(.*?)(?=##|\Z)"
 logger = logging.getLogger(__name__)
 
@@ -113,9 +114,15 @@ class ChangelogParser:
     def content(self, tag: str) -> str:
         """Content to add in a release according to a tag."""
         changelog_content = self._parse()
+        if not len(changelog_content):
+            logger.error(
+                f"Parsing the changelog ({self.CHANGELOG_FILEPATH.resolve()}) "
+                "returned an empty content."
+            )
+            return None
 
         if tag == "latest":
-            latest_version = VersionNote(*changelog_content[:1])
+            latest_version = VersionNote(*changelog_content[0])
             return latest_version.text.strip()
 
         for version in changelog_content:
