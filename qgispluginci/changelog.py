@@ -90,7 +90,11 @@ class ChangelogParser:
     def last_items(self, count: int) -> str:
         """Content to add in the metadata.txt.
 
-        :param count: Maximum number of tags to include in the file.
+        Args:
+            count (int): Maximum number of tags to include in the file.
+
+        Returns:
+            str: changelog extraction ready to be added to metadata.txt
         """
         changelog_content = self._parse()
         if not changelog_content:
@@ -141,3 +145,12 @@ class VersionNote(NamedTuple):
     def version(self):
         if self.prerelease:
             return f"{self.major}.{self.minor}.{self.patch}-{self.prerelease}"
+        else:
+            return f"{self.major}.{self.minor}.{self.patch}"
+
+
+# ############################################################################
+# ####### Stand-alone run ########
+# ################################
+if __name__ == "__main__":
+    pass
