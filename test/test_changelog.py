@@ -3,7 +3,7 @@
 """
     Usage from the repo root folder:
 
-    .. code-block:: python
+    .. code-block:: bash
         # for whole test
         python -m unittest test.test_changelog
 """
