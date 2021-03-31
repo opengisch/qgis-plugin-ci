@@ -81,7 +81,7 @@ class ChangelogParser:
 
     def _parse(self):
         if not self.CHANGELOG_FILEPATH:
-            return ""
+            return None
 
         with self.CHANGELOG_FILEPATH.open(mode="r", encoding="UTF8") as f:
             content = f.read()
@@ -103,16 +103,18 @@ class ChangelogParser:
 
         count = int(count)
         output = "\n"
-        for version, date, items in changelog_content[0:count]:
-            output += " Version {} :\n".format(version)
-            for item in items.split("\n"):
+
+        for version in changelog_content[0:count]:
+            version_note = VersionNote(*version)
+            output += f" Version {version_note.version}:\n"
+            for item in version_note.text.split("\n"):
                 if item:
-                    output += " {}\n".format(item)
+                    output += f" {item}\n"
             output += "\n"
         return output
 
     def content(self, tag: str) -> str:
-        """Content to add in a release according to a tag."""
+        """Get a version content to add in a release according to the version name."""
         changelog_content = self._parse()
         if not len(changelog_content):
             logger.error(
