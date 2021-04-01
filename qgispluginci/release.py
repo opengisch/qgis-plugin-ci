@@ -364,7 +364,7 @@ def release(
     release_version: str,
     release_tag: str = None,
     github_token: str = None,
-    upload_plugin_repo_github: str = False,
+    upload_plugin_repo_github: bool = False,
     transifex_token: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,
