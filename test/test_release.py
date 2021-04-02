@@ -18,7 +18,7 @@ from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
 
 # if change, also update on .travis.yml and CHANGELOG.md
-RELEASE_VERSION_TEST = "1.8.3"
+RELEASE_VERSION_TEST = "0.1.2"
 
 
 class TestRelease(unittest.TestCase):
@@ -136,10 +136,10 @@ class TestRelease(unittest.TestCase):
         """ Test about the changelog in the metadata.txt. """
         expected = (
             b"changelog=\n "
-            b"Version 1.8.3:\n"
-            b"- Keep the plugin path when creating the ZIP\n"
-            b"- Rename qgis_plugin_ci_testing to qgis_plugin_CI_testing to have a capital letter\n"
-            b"- Update readme about plugin_path"
+            b"Version 0.1.2 :\n "
+            b"* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n "
+            b'* Tag without "v" prefix\n '
+            b"* Add a CHANGELOG.md file for testing"
         )
 
         # Include a changelog
