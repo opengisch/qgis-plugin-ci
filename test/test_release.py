@@ -134,13 +134,7 @@ class TestRelease(unittest.TestCase):
 
     def test_release_changelog(self):
         """ Test about the changelog in the metadata.txt. """
-        expected = (
-            b"changelog=\n "
-            b"Version 0.1.2 :\n "
-            b"* Tag using a wrong format DD/MM/YYYY according to Keep A Changelog\n "
-            b'* Tag without "v" prefix\n '
-            b"* Add a CHANGELOG.md file for testing"
-        )
+        expected = b'changelog=\n Version 0.1.2:\n (This version note is used in unit-tests)\n\n - Tag without "v" prefix\n - Add a CHANGELOG.md file for testing'
 
         # Include a changelog
         release(self.parameters, RELEASE_VERSION_TEST)
