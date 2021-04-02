@@ -80,6 +80,21 @@ class TestChangelog(unittest.TestCase):
         parser = ChangelogParser(parent_folder="test/fixtures")
         self.assertEqual(expected_latest, parser.content("latest"))
 
+    def test_changelog_content_ci_fake(self):
+        """Test specific fake version used in tests."""
+        parser = ChangelogParser()
+        fake_version_content = parser.content(tag="0.1.2")
+
+        # expected result
+        expected = (
+            "(This version note is used in unit-tests)\n\n"
+            '- Tag without "v" prefix\n'
+            "- Add a CHANGELOG.md file for testing"
+        )
+
+        self.assertIsInstance(fake_version_content, str)
+        self.assertEqual(expected, fake_version_content)
+
     def test_changelog_last_items(self):
         """Test last items from changelog."""
         parser = ChangelogParser(parent_folder="test/fixtures")

@@ -32,6 +32,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 (This version note is used in unit-tests)
 
 - Tag without "v" prefix
-- Tag without "v" prefix
-- Add a CHANGELOG.md file for testing
 - Add a CHANGELOG.md file for testing
