@@ -26,3 +26,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ## [1.8.0](https://github.com/opengisch/qgis-plugin-ci/releases/tag/1.8.0) - 2020-07-16
 
 - Create temporary .pro file to make pylupdate5 work with unicode char (#19)
+
+## 0.1.2 - 2017-07-23
+
+(This version note is used in unit-tests)
+
+- Tag without "v" prefix
+- Tag without "v" prefix
+- Add a CHANGELOG.md file for testing
+- Add a CHANGELOG.md file for testing
