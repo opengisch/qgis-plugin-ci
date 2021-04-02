@@ -143,7 +143,7 @@ class TestRelease(unittest.TestCase):
         )
         with ZipFile(archive_name, "r") as zip_file:
             data = zip_file.read("qgis_plugin_CI_testing/metadata.txt")
-            self.assertGreater(data.find(expected), 0)
+            self.assertGreater(data.find(expected), 0, f'changelog detection failed in release: {data}')
 
 
 if __name__ == "__main__":
