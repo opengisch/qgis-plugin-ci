@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - End of year version
 
-## [10.0.0](https://github.com/opengisch/qgis-plugin-ci/releases/tag/1.8.4) - 11/04/2020
+## 10.0.0 - 11/04/2020
 
 - A
 - B

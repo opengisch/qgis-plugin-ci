@@ -97,8 +97,13 @@ class TestChangelog(unittest.TestCase):
 
     def test_changelog_last_items(self):
         """Test last items from changelog."""
+        # on fixture changelog
         parser = ChangelogParser(parent_folder="test/fixtures")
+        last_items = parser.last_items(3)
+        self.assertIsInstance(last_items, str)
 
+        # on repository changelog
+        parser = ChangelogParser()
         last_items = parser.last_items(3)
         self.assertIsInstance(last_items, str)
 

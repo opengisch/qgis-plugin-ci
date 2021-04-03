@@ -1,23 +1,28 @@
 #! /usr/bin/env python
 
+# standard
 import filecmp
 import os
 import unittest
 import urllib.request
+from pathlib import Path
 from tempfile import mkstemp
 from zipfile import ZipFile
 
+# 3rd party
 import yaml
 from github import Github, GithubException
 from pytransifex.exceptions import PyTransifexException
 
+# Project
+from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
 
-# if change, also update on .travis.yml and CHANGELOG.md
+# if change, also update CHANGELOG.md
 RELEASE_VERSION_TEST = "0.1.2"
 
 
@@ -133,17 +138,44 @@ class TestRelease(unittest.TestCase):
         self.assertTrue(found, "asset not found")
 
     def test_release_changelog(self):
-        """ Test about the changelog in the metadata.txt. """
-        expected = b'changelog=\n Version 0.1.2:\n (This version note is used in unit-tests)\n\n - Tag without "v" prefix\n - Add a CHANGELOG.md file for testing'
+        """Test if changelog in metadata.txt inside zipped plugin after release command."""
+        # variables
+        cli_config_changelog = Path("test/fixtures/.qgis-plugin-ci-test-changelog.yaml")
+        version_to_release = "0.1.2"
+
+        # load specific parameters
+        with cli_config_changelog.open() as in_cfg:
+            arg_dict = yaml.safe_load(in_cfg)
+        parameters = Parameters(arg_dict)
+        self.assertIsInstance(parameters, Parameters)
+
+        # get output zip path
+        archive_name = parameters.archive_name(
+            plugin_name=parameters.plugin_path, release_version=version_to_release
+        )
+
+        # extract last items from changelog
+        parser = ChangelogParser(regexp=parameters.changelog_regexp)
+        self.assertTrue(parser.has_changelog())
+        changelog_lastitems = parser.last_items(
+            count=parameters.changelog_number_of_entries
+        )
 
         # Include a changelog
-        release(self.parameters, RELEASE_VERSION_TEST)
-        archive_name = self.parameters.archive_name(
-            self.parameters.plugin_path, RELEASE_VERSION_TEST
+        release(
+            parameters=parameters,
+            release_version=version_to_release,
+            allow_uncommitted_changes=True,
         )
+
+        # open archive and compare
         with ZipFile(archive_name, "r") as zip_file:
-            data = zip_file.read("qgis_plugin_CI_testing/metadata.txt")
-            self.assertGreater(data.find(expected), 0, f'changelog detection failed in release: {data}')
+            data = zip_file.read(f"{parameters.plugin_path}/metadata.txt")
+        self.assertGreater(
+            data.find(bytes(changelog_lastitems, "utf8")),
+            0,
+            f"changelog detection failed in release: {data}",
+        )
 
 
 if __name__ == "__main__":

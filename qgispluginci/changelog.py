@@ -86,7 +86,9 @@ class ChangelogParser:
         with self.CHANGELOG_FILEPATH.open(mode="r", encoding="UTF8") as f:
             content = f.read()
 
-        return re.findall(self.regexp, content, flags=re.MULTILINE | re.DOTALL)
+        return re.findall(
+            pattern=self.regexp, string=content, flags=re.MULTILINE | re.DOTALL
+        )
 
     def last_items(self, count: int) -> str:
         """Content to add in the metadata.txt.
