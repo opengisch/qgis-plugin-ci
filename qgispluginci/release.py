@@ -62,10 +62,12 @@ def create_archive(
 
     # changelog
     if parameters.changelog_include:
-        parser = ChangelogParser(parameters.changelog_regexp)
+        parser = ChangelogParser(regexp=parameters.changelog_regexp)
         if parser.has_changelog():
             try:
-                content = parser.last_items(parameters.changelog_number_of_entries)
+                content = parser.last_items(
+                    count=parameters.changelog_number_of_entries
+                )
                 if content:
                     replace_in_file(
                         "{}/metadata.txt".format(parameters.plugin_path),
@@ -364,7 +366,7 @@ def release(
     release_version: str,
     release_tag: str = None,
     github_token: str = None,
-    upload_plugin_repo_github: str = False,
+    upload_plugin_repo_github: bool = False,
     transifex_token: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,

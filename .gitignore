@@ -21,3 +21,8 @@ qgis_plugin_CI_testing/resources_rc.py
 .venv
 .vscode/settings.json
 dev_precommit_black.log
+
+htmlcov
+junit
+.coverage
+coverage.xml
