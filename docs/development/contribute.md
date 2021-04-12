@@ -1,3 +1,2 @@
-# Contribution Guidelines
-
-> TO DOC
+```{include} ../../CONTRIBUTING.md
+```
