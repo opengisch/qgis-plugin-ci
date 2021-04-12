@@ -25,3 +25,9 @@ repos:
     log_file: ./dev_precommit_black.log
     require_serial: true
     types: [file, python]
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.8.0
+  hooks:
+    - id: isort
+      args: ["--profile", "black", "--filter-files"]
