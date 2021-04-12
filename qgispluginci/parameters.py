@@ -1,16 +1,39 @@
-#!/usr/bin/python3
+#! python3  # noqa E265
 
+"""
+    Parameters management.
+"""
+
+# ############################################################################
+# ########## Libraries #############
+# ##################################
+
+# standard library
 import datetime
+import logging
 import os
 import re
 import warnings
 
+# 3rd party
 from slugify import slugify
 
-CHANGELOG_REGEXP = (
-    r"(?<=##)\s*\[*(v?\d*\d\.\d*\d\.\d*\d)\]*\s-\s([\d\-/]{10})(.*?)(?=##)"
-)
+# project
+from qgispluginci.changelog import CHANGELOG_REGEXP
+
+# ############################################################################
+# ########## Globals #############
+# ################################
+
+
 DASH_WARNING = "Dash in the plugin name is causing issues with QGIS plugin manager"
+
+logger = logging.getLogger(__name__)
+
+
+# ############################################################################
+# ########## Classes #############
+# ################################
 
 
 class Parameters:
@@ -169,3 +192,10 @@ class Parameters:
         if default_value is None:
             raise Exception("missing key in metadata: {}".format(key))
         return default_value
+
+
+# ############################################################################
+# ####### Stand-alone run ########
+# ################################
+if __name__ == "__main__":
+    pass

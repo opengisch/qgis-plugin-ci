@@ -1,12 +1,16 @@
 #! /usr/bin/env python
 
-import unittest
-import yaml
+# standard library
 import os
+import unittest
 
+# 3rd party
+import yaml
+from pytransifex.exceptions import PyTransifexException
+
+# project
 from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
-from pytransifex.exceptions import PyTransifexException
 
 
 class TestTranslation(unittest.TestCase):
@@ -14,7 +18,7 @@ class TestTranslation(unittest.TestCase):
         arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
         self.parameters = Parameters(arg_dict)
         self.transifex_token = os.getenv("transifex_token")
-        assert self.transifex_token is not None
+        self.assertIsNotNone(self.transifex_token)
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
     def tearDown(self):

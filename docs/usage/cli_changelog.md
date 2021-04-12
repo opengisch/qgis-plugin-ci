@@ -1,8 +1,9 @@
 # Changelog (CLI)
 
-By default, the changelog command will work with a file formatted like [this changelog.md file](./CHANGELOG.md).
+Manipulate `CHANGELOG.md` file, extracting relevant information.  
+Used within the [package](cli_package) and [release](cli_release) commands to populate the `metadata.txt` and the GitHub Release description.
 
-If your format is different, you must use a different `changelog_regexp` expression to parse it in your settings.
+## Command help
 
 ```bash
 usage: qgis-plugin-ci changelog [-h] release_version
@@ -13,4 +14,24 @@ positional arguments:
 
 optional arguments:
   -h, --help       show this help message and exit
+```
+
+## Requirements
+
+The `CHANGELOG.md` file must follow the convention [Keep A Changelog](https://keepachangelog.com/). For example, see this [repository changelog](https://github.com/opengisch/qgis-plugin-ci/blob/master/CHANGELOG.md).  
+If your format is different, you must use a different `changelog_regexp` expression to parse it in your settings.
+
+## Use cases
+
+- Extract the `CHANGELOG.md` content and copy it into the `changelog` section within plugin `metadata.txt`
+- Extract the `n` latest versions from `CHANGELOG.md` into `metadata.txt`
+- Get the latest version release note
+
+## Examples
+
+### Extract changelog for latest version
+
+```bash
+$ qgis-plugin-ci changelog latest
+- Separate python files and UI files in the temporary PRO file (#29)
 ```
