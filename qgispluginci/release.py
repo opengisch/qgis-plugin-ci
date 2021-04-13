@@ -1,34 +1,37 @@
 #!/usr/bin/python3
 
 import os
-import sys
-import git
-import tarfile
-import zipfile
-from tempfile import mkstemp
-from glob import glob
-from github import Github, GithubException
-import xmlrpc.client
 import re
+import sys
+import tarfile
 import warnings
+import xmlrpc.client
+import zipfile
+from glob import glob
+from tempfile import mkstemp
+
+import git
+from github import Github, GithubException
 
 try:
     import importlib.resources as importlib_resources
 except ImportError:
     # In Py<3.7 fall-back to backported `importlib_resources`.
     import importlib_resources
+
 import datetime
+
 import pyqt5ac
 
 from qgispluginci.changelog import ChangelogParser
-from qgispluginci.parameters import Parameters
-from qgispluginci.translation import Translation
-from qgispluginci.utils import replace_in_file, configure_file
 from qgispluginci.exceptions import (
-    GithubReleaseNotFound,
     GithubReleaseCouldNotUploadAsset,
+    GithubReleaseNotFound,
     UncommitedChanges,
 )
+from qgispluginci.parameters import Parameters
+from qgispluginci.translation import Translation
+from qgispluginci.utils import configure_file, replace_in_file
 
 
 def create_archive(
