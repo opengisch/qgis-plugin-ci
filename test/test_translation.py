@@ -7,6 +7,7 @@ import unittest
 # 3rd party
 import yaml
 from pytransifex.exceptions import PyTransifexException
+from utils import can_skip_test
 
 # project
 from qgispluginci.parameters import Parameters
@@ -31,15 +32,18 @@ class TestTranslation(unittest.TestCase):
         except PyTransifexException:
             pass
 
+    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_creation(self):
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
         self.tearDown()
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
+    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_pull(self):
         self.t.pull()
         self.t.compile_strings()
 
+    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_push(self):
         self.t.update_strings()
         self.t.push()
