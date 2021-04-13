@@ -13,6 +13,7 @@ from zipfile import ZipFile
 import yaml
 from github import Github, GithubException
 from pytransifex.exceptions import PyTransifexException
+from utils import can_skip_test
 
 # Project
 from qgispluginci.changelog import ChangelogParser
@@ -69,8 +70,8 @@ class TestRelease(unittest.TestCase):
     def test_release(self):
         release(self.parameters, RELEASE_VERSION_TEST)
 
+    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_release_with_transifex(self):
-        assert self.transifex_token is not None
         Translation(self.parameters, transifex_token=self.transifex_token)
         release(
             self.parameters, RELEASE_VERSION_TEST, transifex_token=self.transifex_token
@@ -94,6 +95,7 @@ class TestRelease(unittest.TestCase):
         with self.assertWarnsRegex(Warning, DASH_WARNING):
             Parameters.archive_name("my-plugin", "0.0.0")
 
+    @unittest.skipIf(can_skip_test(), "Missing github_token")
     def test_release_upload_github(self):
         release(
             self.parameters,
