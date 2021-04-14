@@ -54,16 +54,37 @@ class TestChangelog(unittest.TestCase):
         parser = ChangelogParser(parent_folder="test/fixtures")
         self.assertIsInstance(parser.CHANGELOG_FILEPATH, Path)
 
-        expected_version_note = (
-            "- This is a version with a prerelease in this changelog\n"
-            "- The changelog module is tested against these lines\n"
-            "- Be careful modifying this file"
-        )
+        # Unreleased doesn't count
+        self.assertEqual(7, len(parser._parse()))
 
-        # checks
+        # This version doesn't exist
         self.assertIsNone(parser.content("0.0.0"))
-        self.assertIsInstance(parser.content("10.1.0-alpha1"), str)
-        self.assertEqual(parser.content("10.1.0-alpha1"), expected_version_note)
+
+        expected_checks = {
+            "10.1.0-beta1": (
+                "- This is the latest documented version in this changelog\n"
+                "- The changelog module is tested against these lines\n"
+                "- Be careful modifying this file"
+            ),
+            "10.1.0-alpha1": (
+                "- This is a version with a prerelease in this changelog\n"
+                "- The changelog module is tested against these lines\n"
+                "- Be careful modifying this file"
+                # "\n" TODO Fixed section is missing
+                # "- trying with a subsection in a version note"
+            ),
+            "10.0.1": "- End of year version",
+            "10.0.0": "- A\n- B\n- C",
+            "9.10.1": "- D\n- E\n- F",
+            "v0.1.1": (
+                '* Tag with a "v" prefix to check the regular expression\n'
+                "* Previous version"
+            ),
+            "0.1.0": "* Very old version",
+        }
+        for version, expected in expected_checks.items():
+            with self.subTest(i=version):
+                self.assertEqual(parser.content(version), expected)
 
     def test_changelog_content_latest(self):
         """Test against the latest special option value. \
