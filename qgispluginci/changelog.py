@@ -73,10 +73,8 @@ class ChangelogParser:
 
     def __init__(
         self,
-        regexp: str = CHANGELOG_REGEXP,
         parent_folder: Union[Path, str] = Path("."),
     ):
-        self.regexp = regexp
         self.has_changelog(parent_folder=parent_folder)
 
     def _parse(self):
@@ -87,7 +85,7 @@ class ChangelogParser:
             content = f.read()
 
         return re.findall(
-            pattern=self.regexp, string=content, flags=re.MULTILINE | re.DOTALL
+            pattern=CHANGELOG_REGEXP, string=content, flags=re.MULTILINE | re.DOTALL
         )
 
     def last_items(self, count: int) -> str:

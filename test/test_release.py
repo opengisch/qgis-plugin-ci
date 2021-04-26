@@ -157,7 +157,7 @@ class TestRelease(unittest.TestCase):
         )
 
         # extract last items from changelog
-        parser = ChangelogParser(regexp=parameters.changelog_regexp)
+        parser = ChangelogParser()
         self.assertTrue(parser.has_changelog())
         changelog_lastitems = parser.last_items(
             count=parameters.changelog_number_of_entries
