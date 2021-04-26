@@ -1,10 +1,16 @@
+import os
 import sys
 
 from setuptools import setup
 
 python_min_version = (3, 7)
 
-VERSION = "__VERSION__"
+if os.getenv("CI") == "true":
+    # Version is set by the CI with a tag
+    VERSION = "__VERSION__"
+else:
+    # When using pip install -e /local/path/to/this/repo
+    VERSION = "0.0.0"
 
 if sys.version_info < python_min_version:
     sys.exit(
