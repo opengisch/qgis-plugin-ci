@@ -65,7 +65,7 @@ def create_archive(
 
     # changelog
     if parameters.changelog_include:
-        parser = ChangelogParser(regexp=parameters.changelog_regexp)
+        parser = ChangelogParser()
         if parser.has_changelog():
             try:
                 content = parser.last_items(

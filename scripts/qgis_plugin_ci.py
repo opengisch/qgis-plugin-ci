@@ -131,6 +131,21 @@ def main():
 
     exit_val = 0
 
+    # CHANGELOG
+    if args.command == "changelog":
+        # The changelog command can be used outside of a QGIS plugin
+        # We don't need the configuration file
+        try:
+            c = ChangelogParser()
+            content = c.content(args.release_version)
+            if content:
+                print(content)
+        except Exception:
+            # Better to be safe
+            pass
+
+        return exit_val
+
     if os.path.isfile(".qgis-plugin-ci"):
         arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
     else:
@@ -168,17 +183,6 @@ def main():
             allow_uncommitted_changes=args.allow_uncommitted_changes,
             disable_submodule_update=args.disable_submodule_update,
         )
-
-    # CHANGELOG
-    elif args.command == "changelog":
-        try:
-            c = ChangelogParser(regexp=parameters.changelog_regexp)
-            content = c.content(args.release_version)
-            if content:
-                print(content)
-        except Exception:
-            # Better to be safe
-            pass
 
     # TRANSLATION PULL
     elif args.command == "pull-translation":
