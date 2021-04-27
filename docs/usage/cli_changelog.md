@@ -18,8 +18,7 @@ optional arguments:
 
 ## Requirements
 
-The `CHANGELOG.md` file must follow the convention [Keep A Changelog](https://keepachangelog.com/). For example, see this [repository changelog](https://github.com/opengisch/qgis-plugin-ci/blob/master/CHANGELOG.md).  
-If your format is different, you must use a different `changelog_regexp` expression to parse it in your settings.
+The `CHANGELOG.md` file must follow the convention [Keep A Changelog](https://keepachangelog.com/). For example, see this [repository changelog](https://github.com/opengisch/qgis-plugin-ci/blob/master/CHANGELOG.md).
 
 ## Use cases
 

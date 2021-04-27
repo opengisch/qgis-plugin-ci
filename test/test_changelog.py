@@ -15,7 +15,9 @@ import unittest
 from pathlib import Path
 
 # project
-from qgispluginci.changelog import ChangelogParser, VersionNote
+from qgispluginci.changelog import ChangelogParser
+from qgispluginci.utils import parse_tag
+from qgispluginci.version_note import VersionNote
 
 # ############################################################################
 # ########## Classes #############
@@ -101,6 +103,8 @@ class TestChangelog(unittest.TestCase):
         parser = ChangelogParser(parent_folder="test/fixtures")
         self.assertEqual(expected_latest, parser.content("latest"))
 
+        self.assertEqual("10.1.0-beta1", parser.latest_version())
+
     def test_changelog_content_ci_fake(self):
         """Test specific fake version used in tests."""
         parser = ChangelogParser()
@@ -146,6 +150,35 @@ class TestChangelog(unittest.TestCase):
             self.assertTrue(hasattr(version_note, "version"))
             if len(version_note.prerelease):
                 self.assertEqual(version_note.is_prerelease, True)
+
+    def test_version_note_tuple(self):
+        """ Test the version note tuple. """
+        parser = ChangelogParser(parent_folder="test/fixtures")
+
+        version = parser._version_note("0.0.0")
+        self.assertIsNone(version)
+
+        version = parser._version_note("10.1.0-beta1")
+        self.assertEqual("10", version.major)
+        self.assertEqual("1", version.minor)
+        self.assertEqual("0", version.patch)
+        self.assertEqual("", version.url)
+        self.assertEqual("beta1", version.prerelease)
+        self.assertTrue(version.is_prerelease)
+        self.assertEqual("", version.separator)  # Not sure what is the separator
+        self.assertEqual("2021/02/08", version.date)
+        self.assertEqual(
+            (
+                "- This is the latest documented version in this changelog\n"
+                "- The changelog module is tested against these lines\n"
+                "- Be careful modifying this file"
+            ),
+            version.text,
+        )
+
+        version = parser._version_note("10.0.1")
+        self.assertEqual("", version.prerelease)
+        self.assertFalse(version.is_prerelease)
 
 
 # ############################################################################

@@ -12,7 +12,9 @@
 import logging
 import re
 from pathlib import Path
-from typing import NamedTuple, Union
+from typing import Union
+
+from qgispluginci.version_note import VersionNote
 
 # ############################################################################
 # ########## Globals #############
@@ -113,8 +115,8 @@ class ChangelogParser:
             output += "\n"
         return output
 
-    def content(self, tag: str) -> str:
-        """Get a version content to add in a release according to the version name."""
+    def _version_note(self, tag: str) -> Union[VersionNote, None]:
+        """ Get the tuple for a given version. """
         changelog_content = self._parse()
         if not len(changelog_content):
             logger.error(
@@ -124,38 +126,25 @@ class ChangelogParser:
             return None
 
         if tag == "latest":
-            latest_version = VersionNote(*changelog_content[0])
-            return latest_version.text.strip()
+            return VersionNote(*changelog_content[0])
 
         for version in changelog_content:
             version_note = VersionNote(*version)
             if version_note.version == tag:
-                return version_note.text.strip()
+                return version_note
 
+    def latest_version(self) -> str:
+        """ Return the latest tag described in the changelog file. """
+        latest = self._version_note("latest")
+        return latest.version
 
-class VersionNote(NamedTuple):
-    major: str = None
-    minor: str = None
-    patch: str = None
-    url: str = None
-    prerelease: str = None
-    separator: str = None
-    date: str = None
-    text: str = None
+    def content(self, tag: str) -> Union[str, None]:
+        """Get a version content to add in a release according to the version name."""
+        version_note = self._version_note(tag)
+        if not version_note:
+            return None
 
-    @property
-    def is_prerelease(self):
-        if self.prerelease and len(self.prerelease):
-            return True
-        else:
-            return False
-
-    @property
-    def version(self):
-        if self.prerelease:
-            return f"{self.major}.{self.minor}.{self.patch}-{self.prerelease}"
-        else:
-            return f"{self.major}.{self.minor}.{self.patch}"
+        return version_note.text
 
 
 # ############################################################################
