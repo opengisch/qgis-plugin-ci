@@ -14,6 +14,13 @@ Side note, the plugin path shouldn't have any dash character.
 You can find a template `.qgis-plugin-ci` in this repository.
 You can read the docstring of the [Parameters module](/_apidoc/qgispluginci.parameters) to know parameters which are available in the file.
 
+## Conventions
+
+QGIS-Plugin-CI is best served if you use these two conventions :
+
+* [Semantic versioning](https://semver.org/)
+* [Keep A Changelog](https://keepachangelog.com)
+
 ## Options
 
 | Name | Required | Description | Example |

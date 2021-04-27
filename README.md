@@ -11,8 +11,14 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
   - pull and push translations
   - all TS/QM files can be managed on the CI, the `i18n` folder can be omitted from the Git repository
 - `changelog` section in the metadata.txt can be populated if the CHANGELOG.md is present
+- set the `experimental` flag according to the tag if needed
 
 :book: For further information, see [the documentation](https://opengisch.github.io/qgis-plugin-ci/).
+
+QGIS-Plugin-CI is best served if you use these two conventions :
+
+* [Semantic versioning](https://semver.org/)
+* [Keep A Changelog](https://keepachangelog.com)
 
 ## Command line
 
@@ -59,8 +65,13 @@ Both can be achieved in the same process.
 
 ## Pre-release and experimental
 
-In the case of a pre-release (from GitHub), the plugin will be flagged as experimental.
+In the case of a pre-release (either from the tag name according to [Semantic Versioning](https://semver.org/) or from the GitHub release), the plugin will be flagged as experimental.
 If pushed to the QGIS plugin repository, the QGIS minimum version will be raised to QGIS 3.14 (only 3.14 and above support testing of experimental versions).
+
+The tool will recognise any label use as a suffix to flag it as pre-release :
+
+* `10.1.0-beta1`
+* `3.4.0-rc.2`
 
 ## Debug
 

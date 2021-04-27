@@ -4,7 +4,6 @@ import os
 import re
 import sys
 import tarfile
-import warnings
 import xmlrpc.client
 import zipfile
 from glob import glob
@@ -31,7 +30,7 @@ from qgispluginci.exceptions import (
 )
 from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
-from qgispluginci.utils import configure_file, replace_in_file
+from qgispluginci.utils import configure_file, parse_tag, replace_in_file
 
 
 def create_archive(
@@ -255,6 +254,15 @@ def release_is_prerelease(
     release_tag: str,
     github_token: str,
 ) -> bool:
+    """ Check the tag name or the GitHub release if the version must be experimental or not. """
+
+    if parse_tag(release_tag).is_prerelease:
+        # The tag itself is a pre-release according to https://semver.org/
+        return True
+
+    if not github_token:
+        return False
+
     slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
     repo = Github(github_token).get_repo(slug)
     try:
@@ -407,6 +415,10 @@ def release(
         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
     """
 
+    if release_version == "latest":
+        parser = ChangelogParser()
+        release_version = parser.latest_version()
+
     if transifex_token is not None:
         tr = Translation(
             parameters, create_project=False, transifex_token=transifex_token
@@ -416,11 +428,9 @@ def release(
 
     archive_name = parameters.archive_name(parameters.plugin_path, release_version)
 
-    is_prerelease = False
-    if github_token is not None:
-        is_prerelease = release_is_prerelease(
-            parameters, release_tag=release_version, github_token=github_token
-        )
+    is_prerelease = release_is_prerelease(
+        parameters, release_tag=release_version, github_token=github_token
+    )
     print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
 
     create_archive(
