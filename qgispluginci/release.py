@@ -412,6 +412,25 @@ def upload_plugin_to_osgeo(username: str, password: str, archive: str):
         sys.exit(1)
 
 
+def check_release_keywords(release_version: str) -> str:
+    """Check if we are releasing some special version shortcut."""
+    if release_version not in ("latest", "next"):
+        return release_version
+
+    parser = ChangelogParser()
+    if not parser.has_changelog():
+        raise Exception(
+            "Not possible to determine the latest tag without a changelog file."
+        )
+
+    if release_version == "latest":
+        return parser.latest_version()
+
+    # Next tags
+    latest_version = parse_tag(parser.latest_version())
+    return latest_version.next_version().version
+
+
 def release(
     parameters: Parameters,
     release_version: str,
@@ -455,12 +474,7 @@ def release(
         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
     """
 
-    if release_version == "latest":
-        parser = ChangelogParser(
-            parent_folder=Path(parameters.plugin_path).resolve().parent,
-            changelog_path=parameters.changelog_path,
-        )
-        release_version = parser.latest_version()
+    release_version = check_release_keywords(release_version)
 
     release_tag = release_tag or release_version
 

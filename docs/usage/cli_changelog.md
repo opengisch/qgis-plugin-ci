@@ -17,6 +17,8 @@ or
 changelog_path=subfolder/CHANGELOG.md
 ```
 
+It also provides two keywords `next` and `latest` instead of using a version number when creating a zip.
+
 ## Command help
 
 ```bash
@@ -39,6 +41,14 @@ The `CHANGELOG.md` file must follow the convention [Keep A Changelog](https://ke
 - Extract the `CHANGELOG.md` content and copy it into the `changelog` section within plugin `metadata.txt`
 - Extract the `n` latest versions from `CHANGELOG.md` into `metadata.txt`
 - Get the latest version release note
+- When packaging or releasing, you can use these keywords :
+  - `latest` will make a package of the latest tag described in the changelog file.
+  - `next` will make a package of the possible smallest higher tag :
+    - `3.4.0` -> `3.4.1-alpha`
+    - `3.4.0-alpha` -> `3.4.1-alpha.1`
+    - `3.4.0-alpha1` -> `3.4.1-alpha2`
+
+Be careful when you use the `next` command. It is designed to make a package which is not based on a specific version (on CI mainly). You should be careful with the tag you are creating if you have some packages delivered as well with the `next` command otherwise QGIS Plugin manager might not warn users about possible new release.
 
 ## Examples
 

@@ -29,3 +29,36 @@ class VersionNote(NamedTuple):
             return f"{self.major}.{self.minor}.{self.patch}-{self.prerelease}"
         else:
             return f"{self.major}.{self.minor}.{self.patch}"
+
+    def increment_pre_release(self) -> str:
+        """Increment the pre-release string."""
+        items = self.prerelease.split(".")
+
+        numbers = "".join([i for i in self.prerelease if i.isdigit()])
+
+        if len(items) == 1:
+            if numbers:
+                return f"{self.prerelease[0:-len(numbers)]}{int(numbers) + 1}"
+            else:
+                return f"{self.prerelease}.1"
+
+        return f"{items[0]}.{int(numbers) + 1}"
+
+    def next_version(self) -> NamedTuple:
+        """Increment the pre-release string or the patch."""
+        # "pre" is not supported by QGIS
+        # https://github.com/qgis/QGIS/blob/master/python/pyplugin_installer/version_compare.py
+        if not self.prerelease:
+            return VersionNote(
+                major=self.major,
+                minor=self.minor,
+                patch=str(int(self.patch) + 1),
+                prerelease="alpha",
+            )
+
+        return VersionNote(
+            major=self.major,
+            minor=self.minor,
+            patch=self.patch,
+            prerelease=self.increment_pre_release(),
+        )
