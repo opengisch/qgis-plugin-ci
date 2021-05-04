@@ -1,5 +1,14 @@
 # QGIS Plugin CI
 
+[![PyPi version badge](https://badgen.net/pypi/v/qgis-plugin-ci)](https://pypi.org/project/qgis-plugin-ci/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/qgis-plugin-ci)](https://pypi.org/project/qgis-plugin-ci/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qgis-plugin-ci)](https://pypi.org/project/qgis-plugin-ci/)
+
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/opengisch/qgis-plugin-ci/master.svg)](https://results.pre-commit.ci/latest/github/opengisch/qgis-plugin-ci/master)
+
 Contains scripts to perform automated testing and deployment for QGIS plugins.
 These scripts are written for and tested on GitHub, Travis-CI, github workflows and Transifex.
 
