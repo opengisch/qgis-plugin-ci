@@ -31,9 +31,11 @@ __all__ = [
 
 __author__ = "Denis Rouzaud, Étienne Trimaille, Julien Moura"
 __copyright__ = "2019 - {0}, {1}".format(date.today().year, __author__)
-__email__ = ""
+__email__ = "denis.rouzaud@gmail.com"
 __license__ = "GNU General Public License v3.0"
 __summary__ = (
+    "Let qgis-plugin-ci package and release your QGIS plugins for you. "
+    "Have a tea or go hiking meanwhile."
     "Contains scripts to perform automated testing and deployment for QGIS plugins. "
     "These scripts are written for and tested on GitHub, Travis-CI, GitHub workflows and Transifex."
 )
