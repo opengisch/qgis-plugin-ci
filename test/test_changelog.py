@@ -152,7 +152,7 @@ class TestChangelog(unittest.TestCase):
                 self.assertEqual(version_note.is_prerelease, True)
 
     def test_version_note_tuple(self):
-        """ Test the version note tuple. """
+        """Test the version note tuple."""
         parser = ChangelogParser(parent_folder="test/fixtures")
 
         version = parser._version_note("0.0.0")

@@ -116,7 +116,7 @@ class ChangelogParser:
         return output
 
     def _version_note(self, tag: str) -> Union[VersionNote, None]:
-        """ Get the tuple for a given version. """
+        """Get the tuple for a given version."""
         changelog_content = self._parse()
         if not len(changelog_content):
             logger.error(
@@ -134,7 +134,7 @@ class ChangelogParser:
                 return version_note
 
     def latest_version(self) -> str:
-        """ Return the latest tag described in the changelog file. """
+        """Return the latest tag described in the changelog file."""
         latest = self._version_note("latest")
         return latest.version
 

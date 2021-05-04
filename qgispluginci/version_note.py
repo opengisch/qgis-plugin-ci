@@ -13,7 +13,7 @@ class VersionNote(NamedTuple):
 
     @property
     def text(self) -> str:
-        """ Remove many \n at the start and end of the string. """
+        """Remove many \n at the start and end of the string."""
         return self.text_raw.strip()
 
     @property

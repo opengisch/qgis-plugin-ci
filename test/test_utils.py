@@ -6,7 +6,7 @@ from qgispluginci.version_note import VersionNote
 
 class TestUtils(unittest.TestCase):
     def test_version_note_from_tag(self):
-        """ Test to parse a tag and check the version note. """
+        """Test to parse a tag and check the version note."""
 
         version = parse_tag("10.1.0-beta1")
         self.assertIsInstance(version, VersionNote)

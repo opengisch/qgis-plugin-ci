@@ -56,7 +56,7 @@ setup(
     version=VERSION,
     url=__about__.__uri__,
     project_urls={
-        "Docs": "https://guts.github.io/mkdocs-rss-plugin/",
+        "Docs": "https://opengisch.github.io/qgis-plugin-ci/",
         "Bug Reports": "{}issues/".format(__about__.__uri__),
         "Source": __about__.__uri__,
     },

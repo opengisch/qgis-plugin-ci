@@ -34,7 +34,7 @@ def touch_file(path, update_time: bool = False, create_dir: bool = True):
 
 
 def parse_tag(version_tag: str) -> Union[VersionNote, None]:
-    """ Parse a tag and determine the semantic version. """
+    """Parse a tag and determine the semantic version."""
     components = version_tag.split("-")
     items = components[0].split(".")
 

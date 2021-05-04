@@ -254,7 +254,7 @@ def release_is_prerelease(
     release_tag: str,
     github_token: str,
 ) -> bool:
-    """ Check the tag name or the GitHub release if the version must be experimental or not. """
+    """Check the tag name or the GitHub release if the version must be experimental or not."""
 
     if parse_tag(release_tag).is_prerelease:
         # The tag itself is a pre-release according to https://semver.org/
