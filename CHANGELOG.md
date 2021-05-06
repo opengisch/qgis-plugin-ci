@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 <!-- ## Unreleased [{version_tag}](https://github.com/opengisch/qgis-plugin-ci/releases/tag/{version_tag}) - YYYY-MM-DD -->
 
+## 2.0.0 - 2021-05-06
+
+- Add a dedicated website for the documentation https://opengisch.github.io/qgis-plugin-ci/
+- Improve the changelog parser :
+  - The `changelog_regexp` parameter has been removed
+  - The CHANGELOG.md must follow [semantic versioning](https://semver.org/) and [Keep A Changelog](https://keepachangelog.com/)
+  - The `experimental` flag is determined automatically if the package name is following the semantic versioning
+- Add a special keyword `latest` to package the latest version described in a CHANGELOG.md file
+- Possible to install the repository using pip install with the GIT URL
+
 ## 1.8.4 - 2020-09-07
 
 - Separate python files and UI files in the temporary PRO file (#29)
