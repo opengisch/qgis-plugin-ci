@@ -66,8 +66,8 @@ jobs:
       run: |
         VERSION=${GITHUB_REF:-0.0.0}
         VERSION=${VERSION##*/}
-        sed "s/__VERSION__/${VERSION}/" setup.py > setup.py
-        sed "s/__VERSION__/${VERSION}/" qgispluginci/__about__.py > qgispluginci/__about__.py
+        sed -i "s/__VERSION__/${VERSION}/g" setup.py
+        sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
 
     - name: Deploy to PyPI
       uses: pypa/gh-action-pypi-publish@master
