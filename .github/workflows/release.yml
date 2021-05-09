@@ -62,12 +62,21 @@ jobs:
     - name: Get source code
       uses: actions/checkout@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
     - name: Setup
       run: |
         VERSION=${GITHUB_REF:-0.0.0}
         VERSION=${VERSION##*/}
         sed -i "s/__VERSION__/${VERSION}/g" setup.py
         sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
+
+    - name: Build package
+      run: |
+        python setup.py sdist
 
     - name: Deploy to PyPI
       uses: pypa/gh-action-pypi-publish@master
