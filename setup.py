@@ -5,7 +5,6 @@
 # ##################################
 
 # standard library
-import os
 import pathlib
 import sys
 
@@ -23,11 +22,12 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 python_min_version = (3, 7)
 
-if os.getenv("CI") == "true":
-    # Version is set by the CI with a tag
-    VERSION = "__VERSION__"
-else:
-    # When using pip install -e /local/path/to/this/repo
+# This string might be updated on CI on runtime with a proper semantic version name with X.Y.Z
+VERSION = "__VERSION__"
+
+if "." not in VERSION:
+    # If VERSION is still not a proper semantic versioning with X.Y.Z
+    # let's hardcode 0.0.0
     VERSION = "0.0.0"
 
 # ############################################################################

@@ -11,7 +11,6 @@
 # ##################################
 
 # standard library
-import os
 from datetime import date
 
 # ############################################################################
@@ -44,11 +43,12 @@ __title__ = "QGIS Plugin CI"
 __title_clean__ = "".join(e for e in __title__ if e.isalnum())
 __uri__ = "https://github.com/opengisch/qgis-plugin-ci/"
 
-if os.getenv("CI") == "true":
-    # Version is set by the CI with a tag
-    __version__ = "__VERSION__"
-else:
-    # When using pip install -e /local/path/to/this/repo
+# This string might be updated on CI on runtime with a proper semantic version name with X.Y.Z
+__version__ = "__VERSION__"
+
+if "." not in __version__:
+    # If __version__ is still not a proper semantic versioning with X.Y.Z
+    # let's hardcode 0.0.0
     __version__ = "0.0.0"
 
 __version_info__ = tuple(
