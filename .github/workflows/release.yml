@@ -78,8 +78,16 @@ jobs:
       run: |
         python setup.py sdist
 
-    - name: Deploy to PyPI
-      uses: pypa/gh-action-pypi-publish@master
+#    - name: Deploy to PyPI
+#      uses: pypa/gh-action-pypi-publish@master
+#      with:
+#        user: __token__
+#        password: ${{ secrets.PYPI_API_TOKEN }}
+
+    - name: Create/update release on GitHub
+      uses: ncipollo/release-action@v1.8.4
       with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
+        omitNameDuringUpdate: true
+        artifacts: "dist/*.tar.gz"

@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 <!-- ## Unreleased [{version_tag}](https://github.com/opengisch/qgis-plugin-ci/releases/tag/{version_tag}) - YYYY-MM-DD -->
 
+## 2.0.1 - 2021-05-11
+
+- Fix an issue when packaging this project on https://pypi.org/
+
 ## 2.0.0 - 2021-05-06
 
 - Add a dedicated website for the documentation https://opengisch.github.io/qgis-plugin-ci/
