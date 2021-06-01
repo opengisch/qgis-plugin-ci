@@ -2,7 +2,7 @@
 # -----------------------
 
 # tooling
-black==21.4b2
+black==21.5b2
 flake8>=3.8,<3.10
 flake8-builtins>=1.5,<1.6
 flake8-isort>=4.0,<4.1
