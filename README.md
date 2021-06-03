@@ -26,8 +26,8 @@ These scripts are written for and tested on GitHub, Travis-CI, github workflows 
 
 QGIS-Plugin-CI is best served if you use these two conventions :
 
-* [Semantic versioning](https://semver.org/)
-* [Keep A Changelog](https://keepachangelog.com)
+- [Semantic versioning](https://semver.org/)
+- [Keep A Changelog](https://keepachangelog.com)
 
 ## Command line
 
@@ -79,8 +79,8 @@ If pushed to the QGIS plugin repository, the QGIS minimum version will be raised
 
 The tool will recognise any label use as a suffix to flag it as pre-release :
 
-* `10.1.0-beta1`
-* `3.4.0-rc.2`
+- `10.1.0-beta1`
+- `3.4.0-rc.2`
 
 ## Debug
 
