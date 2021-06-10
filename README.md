@@ -85,3 +85,12 @@ The tool will recognise any label use as a suffix to flag it as pre-release :
 ## Debug
 
 In any Python module, you can have a global variable as `DEBUG = True`, which will be changed to `False` when packaging the plugin.
+
+## Other tools
+
+### QGIS-Plugin-Repo
+
+QGIS-Plugin-CI can generate the `plugins.xml` file, per plugin.
+If you want to merge many XML files into one to have a single QGIS plugin repository providing many plugins,
+you should check [QGIS-Plugin-Repo](https://github.com/3liz/qgis-plugin-repo).
+It's designed to run on CI after QGIS-Plugin-CI.
