@@ -16,8 +16,8 @@ repos:
   - id: trailing-whitespace
     args: [--markdown-linebreak-ext=md]
 
-- repo: https://github.com/python/black
-  rev: 21.5b2
+- repo: https://github.com/psf/black
+  rev: 21.7b0
   hooks:
   - id: black
     exclude_types: [directory,]
@@ -27,7 +27,7 @@ repos:
     types: [file, python]
 
 - repo: https://github.com/pycqa/isort
-  rev: 5.8.0
+  rev: 5.9.2
   hooks:
     - id: isort
       args: ["--profile", "black", "--filter-files"]
