@@ -17,14 +17,14 @@ optional arguments:
   --transifex-token TRANSIFEX_TOKEN
                         The Transifex API token. If specified translations
                         will be pulled and compiled.
-  --plugin-repo-url PLUGIN_REPO_URL
+  -u --plugin-repo-url PLUGIN_REPO_URL
                         If specified, a XML repository file will be created in the current directory, the zip URL will use this parameter.
-  --allow-uncommitted-changes
+  -c --allow-uncommitted-changes
                         If omitted, uncommitted changes are not allowed before
                         packaging. If specified and some changes are detected,
                         a hard reset on a stash create will be used to revert
                         changes made by qgis-plugin-ci.
-  --disable-submodule-update
+  -d --disable-submodule-update
                         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
 
 ```

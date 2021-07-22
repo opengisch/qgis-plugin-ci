@@ -36,16 +36,19 @@ def main():
         help="The Transifex API token. If specified translations will be pulled and compiled.",
     )
     package_parser.add_argument(
+        "-u",
         "--plugin-repo-url",
         help="If specified, a XML repository file will be created in the current directory, the zip URL will use this parameter.",
     )
     package_parser.add_argument(
+        "-c",
         "--allow-uncommitted-changes",
         action="store_true",
         help="If omitted, uncommitted changes are not allowed before packaging. If specified and some changes are "
         "detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.",
     )
     package_parser.add_argument(
+        "-d",
         "--disable-submodule-update",
         action="store_true",
         help="If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.",
