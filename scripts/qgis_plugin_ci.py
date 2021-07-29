@@ -6,6 +6,8 @@ import os
 
 import yaml
 
+from pathlib import Path
+
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.parameters import Parameters
@@ -134,21 +136,6 @@ def main():
 
     exit_val = 0
 
-    # CHANGELOG
-    if args.command == "changelog":
-        # The changelog command can be used outside of a QGIS plugin
-        # We don't need the configuration file
-        try:
-            c = ChangelogParser()
-            content = c.content(args.release_version)
-            if content:
-                print(content)
-        except Exception:
-            # Better to be safe
-            pass
-
-        return exit_val
-
     if os.path.isfile(".qgis-plugin-ci"):
         arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
     else:
@@ -159,8 +146,22 @@ def main():
                 ".qgis-plugin-ci or setup.cfg with a 'qgis-plugin-ci' section have not been found."
             )
         arg_dict = dict(config.items("qgis-plugin-ci"))
-
     parameters = Parameters(arg_dict)
+
+    # CHANGELOG
+    if args.command == "changelog":
+        # The changelog command can be used outside of a QGIS plugin
+        # We don't need the configuration file
+        try:
+            c = ChangelogParser(Path(parameters.plugin_path).resolve().parent)
+            content = c.content(args.release_version)
+            if content:
+                print(content)
+        except Exception:
+            # Better to be safe
+            pass
+
+        return exit_val
 
     # PACKAGE
     if args.command == "package":
