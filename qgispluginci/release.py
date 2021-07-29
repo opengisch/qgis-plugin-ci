@@ -6,6 +6,7 @@ import sys
 import tarfile
 import xmlrpc.client
 import zipfile
+from pathlib import Path
 from glob import glob
 from tempfile import mkstemp
 
@@ -64,7 +65,7 @@ def create_archive(
 
     # changelog
     if parameters.changelog_include:
-        parser = ChangelogParser()
+        parser = ChangelogParser(Path(parameters.plugin_path).resolve().parent)
         if parser.has_changelog():
             try:
                 content = parser.last_items(
