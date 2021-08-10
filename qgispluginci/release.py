@@ -6,8 +6,8 @@ import sys
 import tarfile
 import xmlrpc.client
 import zipfile
-from pathlib import Path
 from glob import glob
+from pathlib import Path
 from tempfile import mkstemp
 
 import git
