@@ -350,26 +350,29 @@ def upload_plugin_to_osgeo(username: str, password: str, archive: str):
         username=username, password=password
     )
 
-    server = xmlrpc.client.ServerProxy(address, verbose=False)
+    server = xmlrpc.client.ServerProxy(address, verbose=True)
 
     try:
         with open(archive, "rb") as handle:
             plugin_id, version_id = server.plugin.upload(
                 xmlrpc.client.Binary(handle.read())
             )
-        print("Plugin ID: %s" % plugin_id)
-        print("Version ID: %s" % version_id)
+        print(f"Plugin ID: {plugin_id}")
+        print(f"Version ID: {version_id}")
     except xmlrpc.client.ProtocolError as err:
         print("A protocol error occurred")
-        print("URL: %s" % re.sub(r":[^/].*@", ":******@", err.url))
-        print("HTTP/HTTPS headers: %s" % err.headers)
-        print("Error code: %d" % err.errcode)
-        print("Error message: %s" % err.errmsg)
+        url = re.sub(r":[^/].*@", ":******@", err.url)
+        print(f"URL: {url}")
+        print(f"HTTP/HTTPS headers: {err.headers}")
+        print(f"Error code: {err.errcode}")
+        print(f"Error message: {err.errmsg}")
+        print(f"Plugin path : {archive}")
         sys.exit(1)
     except xmlrpc.client.Fault as err:
         print("A fault occurred")
-        print("Fault code: %d" % err.faultCode)
-        print("Fault string: %s" % err.faultString)
+        print(f"Fault code: {err.faultCode}")
+        print(f"Fault string: {err.faultString}")
+        print(f"Plugin path : {archive}")
         sys.exit(1)
 
 
