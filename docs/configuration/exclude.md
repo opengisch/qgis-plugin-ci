@@ -4,4 +4,6 @@ If you want to avoid some files to be shipped with your plugin, create a `.gitat
 
 ```gitignore
 resources.qrc export-ignore
+*.ts export-ignore
+*.pro export-ignore
 ```
