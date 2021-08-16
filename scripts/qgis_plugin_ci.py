@@ -37,6 +37,14 @@ def main():
         help="The Transifex API token. If specified translations will be pulled and compiled.",
     )
     package_parser.add_argument(
+        "-t",
+        "--local-translation",
+        action="store_true",
+        dest="local_translation",
+        help="If specified, local *.ts files are compiled into *.qm files which are "
+        "then included into final package.",
+    )
+    package_parser.add_argument(
         "-u",
         "--plugin-repo-url",
         help="If specified, a XML repository file will be created in the current directory, the zip URL will use this parameter.",
@@ -72,6 +80,14 @@ def main():
     release_parser.add_argument(
         "--transifex-token",
         help="The Transifex API token. If specified translations will be pulled and compiled.",
+    )
+    release_parser.add_argument(
+        "-t",
+        "--local-translation",
+        action="store_true",
+        dest="local_translation",
+        help="If specified, local *.ts files are compiled into *.qm files which are "
+        "then included into final package.",
     )
     release_parser.add_argument(
         "--github-token",
@@ -167,6 +183,7 @@ def main():
         release(
             parameters,
             release_version=args.release_version,
+            local_translation=args.local_translation,
             transifex_token=args.transifex_token,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
             plugin_repo_url=args.plugin_repo_url,
@@ -178,6 +195,7 @@ def main():
         release(
             parameters,
             release_version=args.release_version,
+            local_translation=args.local_translation,
             transifex_token=args.transifex_token,
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
