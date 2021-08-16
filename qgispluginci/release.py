@@ -382,6 +382,7 @@ def release(
     release_tag: str = None,
     github_token: str = None,
     upload_plugin_repo_github: bool = False,
+    local_translation: bool = False,
     transifex_token: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,
@@ -423,12 +424,30 @@ def release(
         parser = ChangelogParser()
         release_version = parser.latest_version()
 
+    # check parameters conflicts about translation
+    if local_translation and transifex_token:
+        print(
+            "Translation source can't be both from Transifex and local. "
+            "Transifex will be preferred."
+        )
+        local_translation = False
+
     if transifex_token is not None:
         tr = Translation(
-            parameters, create_project=False, transifex_token=transifex_token
+            parameters=parameters,
+            source_translation="transifex",
+            transifex_create_project=False,
+            transifex_token=transifex_token,
         )
+        tr.process_translation_transifex()
         tr.pull()
         tr.compile_strings()
+    elif local_translation:
+        print("Using local translations")
+        tr = Translation(parameters=parameters, source_translation="local")
+        tr.process_translation_local()
+    else:
+        print("No translation operations")
 
     archive_name = parameters.archive_name(parameters.plugin_path, release_version)
 
