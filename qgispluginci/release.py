@@ -44,7 +44,7 @@ def create_archive(
     raise_min_version: str = None,
     disable_submodule_update: bool = False,
 ):
-
+    plugin_folder_path = Path(parameters.plugin_path)
     repo = git.Repo()
 
     top_tar_handle, top_tar_file = mkstemp(suffix=".tar")
@@ -53,7 +53,7 @@ def create_archive(
     initial_stash = None
     diff = repo.index.diff(None)
     if diff:
-        print("Uncommitted changes:")
+        print("\n*** Uncommitted changes:")
         for diff in diff:
             print(diff)
         if not allow_uncommitted_changes:
@@ -129,9 +129,11 @@ def create_archive(
         stash = "HEAD"
     if stash == "" or stash is None:
         stash = "HEAD"
+
     # create TAR archive
-    print("archive plugin with stash: {}".format(stash))
+    print("\nArchive plugin with stash: {}".format(stash))
     repo.git.archive(stash, "-o", top_tar_file, parameters.plugin_path)
+
     # adding submodules
     for submodule in repo.submodules:
         _, sub_tar_file = mkstemp(suffix=".tar")
@@ -160,11 +162,10 @@ def create_archive(
     # add translation files
     if add_translations:
         with tarfile.open(top_tar_file, mode="a") as tt:
-            print("adding translations")
-            for file in glob("{}/i18n/*.qm".format(parameters.plugin_path)):
-                print("  adding translation: {}".format(os.path.basename(file)))
-                # https://stackoverflow.com/a/48462950/1548052
-                tt.add(file)
+            print("\nAdding translations...")
+            for qm in plugin_folder_path.glob("**/*.qm"):
+                tt.add(qm)
+                print(f"Translation added: {qm}")
 
     # compile qrc files
     pyqt5ac.main(
@@ -189,6 +190,7 @@ def create_archive(
         # adding the content of TAR archive
         with tarfile.open(top_tar_file, mode="r:") as tt:
             for m in tt.getmembers():
+                print(m)
                 if m.isdir():
                     continue
                 f = tt.extractfile(m)
@@ -460,7 +462,7 @@ def release(
         parameters,
         release_version,
         archive_name,
-        add_translations=transifex_token is not None,
+        add_translations=any([transifex_token, local_translation]),
         allow_uncommitted_changes=allow_uncommitted_changes,
         is_prerelease=is_prerelease,
         disable_submodule_update=disable_submodule_update,
