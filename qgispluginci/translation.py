@@ -38,10 +38,9 @@ class Translation:
         """
         # store parameters as attributes
         self.parameters = parameters
-        self.transifex_create_project = transifex_create_project
 
         if source_translation == "transifex":
-
+            self.transifex_create_project = transifex_create_project
             self._t = Transifex(
                 api_token=transifex_token,
                 organization=parameters.transifex_organization,
@@ -50,7 +49,7 @@ class Translation:
             assert self._t.ping()
 
         elif source_translation == "local":
-            self.local_translation()
+            pass
         else:
             raise NotImplementedError("Source of translation not implemented")
 
