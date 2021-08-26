@@ -19,6 +19,8 @@ optional arguments:
   --transifex-token TRANSIFEX_TOKEN
                         The Transifex API token. If specified translations
                         will be pulled and compiled.
+  -t, --local-translation
+                        If specified, local *.ts files are compiled into *.qm files which are then included into final package.
   --github-token GITHUB_TOKEN
                         The Github API token. If specified, the archive will
                         be pushed to an already existing release.

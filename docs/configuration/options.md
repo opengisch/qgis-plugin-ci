@@ -18,8 +18,8 @@ You can read the docstring of the [Parameters module](/_apidoc/qgispluginci.para
 
 QGIS-Plugin-CI is best served if you use these two conventions :
 
-* [Semantic versioning](https://semver.org/)
-* [Keep A Changelog](https://keepachangelog.com)
+- [Semantic versioning](https://semver.org/)
+- [Keep A Changelog](https://keepachangelog.com)
 
 ## Options
 

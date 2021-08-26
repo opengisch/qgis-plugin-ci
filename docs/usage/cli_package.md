@@ -17,6 +17,8 @@ optional arguments:
   --transifex-token TRANSIFEX_TOKEN
                         The Transifex API token. If specified translations
                         will be pulled and compiled.
+  -t, --local-translation
+                        If specified, local *.ts files are compiled into *.qm files which are then included into final package.
   -u --plugin-repo-url PLUGIN_REPO_URL
                         If specified, a XML repository file will be created in the current directory, the zip URL will use this parameter.
   -c --allow-uncommitted-changes
