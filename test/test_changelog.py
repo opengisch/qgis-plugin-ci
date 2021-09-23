@@ -11,12 +11,12 @@
 """
 
 # standard library
+import tempfile
 import unittest
 from pathlib import Path
 
 # project
 from qgispluginci.changelog import ChangelogParser
-from qgispluginci.utils import parse_tag
 from qgispluginci.version_note import VersionNote
 
 # ############################################################################
@@ -119,6 +119,22 @@ class TestChangelog(unittest.TestCase):
 
         self.assertIsInstance(fake_version_content, str)
         self.assertEqual(expected, fake_version_content)
+
+    def test_different_changelog_file(self):
+        """Test against a different changelog filename."""
+        old = Path("test/fixtures/CHANGELOG.md")
+        new_folder = Path(tempfile.mkdtemp())
+        new_path = new_folder / Path("CHANGELOG-branch-X.md")
+        self.assertFalse(new_path.exists())
+
+        new_path.write_text(old.read_text())
+
+        self.assertTrue(
+            ChangelogParser.has_changelog(
+                parent_folder=new_folder,
+                changelog_path=new_path,
+            )
+        )
 
     def test_changelog_last_items(self):
         """Test last items from changelog."""

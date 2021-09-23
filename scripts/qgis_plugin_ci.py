@@ -3,7 +3,6 @@
 import argparse
 import configparser
 import os
-from pathlib import Path
 
 import yaml
 
@@ -149,10 +148,10 @@ def main():
 
     # CHANGELOG
     if args.command == "changelog":
-        # The changelog command can be used outside of a QGIS plugin
-        # We don't need the configuration file
         try:
-            c = ChangelogParser(Path(parameters.plugin_path).resolve().parent)
+            c = ChangelogParser(
+                changelog_path=parameters.changelog_path,
+            )
             content = c.content(args.release_version)
             if content:
                 print(content)

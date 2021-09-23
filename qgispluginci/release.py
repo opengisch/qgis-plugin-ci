@@ -65,7 +65,10 @@ def create_archive(
 
     # changelog
     if parameters.changelog_include:
-        parser = ChangelogParser(Path(parameters.plugin_path).resolve().parent)
+        parser = ChangelogParser(
+            parent_folder=Path(parameters.plugin_path).resolve().parent,
+            changelog_path=parameters.changelog_path,
+        )
         if parser.has_changelog():
             try:
                 content = parser.last_items(
@@ -420,7 +423,10 @@ def release(
     """
 
     if release_version == "latest":
-        parser = ChangelogParser()
+        parser = ChangelogParser(
+            parent_folder=Path(parameters.plugin_path).resolve().parent,
+            changelog_path=parameters.changelog_path,
+        )
         release_version = parser.latest_version()
 
     if transifex_token is not None:
