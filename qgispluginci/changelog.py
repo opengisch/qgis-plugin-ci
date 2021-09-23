@@ -34,7 +34,9 @@ class ChangelogParser:
     CHANGELOG_FILEPATH: Union[Path, None] = None
 
     @classmethod
-    def has_changelog(cls, parent_folder: Union[Path, str] = Path(".")) -> bool:
+    def has_changelog(
+        cls, parent_folder: Union[Path, str] = Path("."), changelog_path="CHANGELOG.md"
+    ) -> bool:
         """Check if a changelog file exists within the parent folder. If it does, \
         it returns True and the file path is stored as class attribute. If not, it \
         returns False and the class attribute is reset to None.
@@ -42,6 +44,8 @@ class ChangelogParser:
         Args:
             parent_folder (Union[Path, str], optional): parent folder where to look \
                 for a `CHANGELOG.md` file. Defaults to Path(".").
+
+            changelog_path str: Path relative to parent_folder. Defaults to CHANGELOG.md.
 
         Raises:
             FileExistsError: if the parent_folder path doesn't exist
@@ -67,7 +71,7 @@ class ChangelogParser:
             raise TypeError(f"Path is not a folder: {parent_folder.resolve()}")
 
         # build, check and store the changelog path
-        cls.CHANGELOG_FILEPATH = parent_folder / "CHANGELOG.md"
+        cls.CHANGELOG_FILEPATH = parent_folder / changelog_path
         if cls.CHANGELOG_FILEPATH.is_file():
             logger.info(f"Changelog file used: {cls.CHANGELOG_FILEPATH.resolve()}")
 
@@ -76,8 +80,9 @@ class ChangelogParser:
     def __init__(
         self,
         parent_folder: Union[Path, str] = Path("."),
+        changelog_path: str = "CHANGELOG.md",
     ):
-        self.has_changelog(parent_folder=parent_folder)
+        self.has_changelog(parent_folder=parent_folder, changelog_path=changelog_path)
 
     def _parse(self):
         if not self.CHANGELOG_FILEPATH:

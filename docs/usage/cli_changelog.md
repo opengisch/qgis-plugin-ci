@@ -3,6 +3,20 @@
 Manipulate `CHANGELOG.md` file, extracting relevant information.  
 Used within the [package](cli_package) and [release](cli_release) commands to populate the `metadata.txt` and the GitHub Release description.
 
+By default, the script will look for a file `CHANGELOG.md` in the root folder.
+But you can specify a specific file path with `changelog_path` in the configuration file.
+For instance:
+
+```ini
+changelog_path=CHANGELOG-3.4.md
+```
+
+or
+
+```ini
+changelog_path=subfolder/CHANGELOG.md
+```
+
 ## Command help
 
 ```bash

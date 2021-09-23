@@ -76,6 +76,9 @@ class Parameters:
         If the changelog must be added when releasing a version AND if there is a CHANGELOG.md file
         Defaults to True
 
+    changelog_path:
+        Path to the CHANGELOG.md relative to the configuration file. Defaults to CHANGELOG.md
+
     changelog_number_of_entries:
         Number of changelog entries to add in the metdata.txt
         Defaults to 3
@@ -95,7 +98,7 @@ class Parameters:
     """
 
     def __init__(self, definition: dict):
-        self.plugin_path = definition["plugin_path"]
+        self.plugin_path = definition.get("plugin_path")
         self.plugin_name = self.__get_from_metadata("name")
         self.plugin_slug = slugify(self.plugin_name)
         self.project_slug = definition.get(
@@ -138,8 +141,13 @@ class Parameters:
         self.changelog_number_of_entries = definition.get(
             "changelog_number_of_entries", 3
         )
+        self.changelog_path = definition.get("changelog_path", "CHANGELOG.md")
 
         # read from metadata
+        if not self.plugin_path:
+            # This tool can be used outside of a QGIS plugin to read a changelog file
+            return
+
         self.author = self.__get_from_metadata("author", "")
         self.description = self.__get_from_metadata("description")
         self.qgis_minimum_version = self.__get_from_metadata("qgisMinimumVersion")
@@ -175,6 +183,9 @@ class Parameters:
         )
 
     def __get_from_metadata(self, key: str, default_value: any = None) -> str:
+        if not self.plugin_path:
+            return ""
+
         metadata_file = "{}/metadata.txt".format(self.plugin_path)
         with open(metadata_file) as f:
             for line in f:

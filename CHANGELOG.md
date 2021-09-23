@@ -8,9 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
+* Add the possibility to choose the changelog filepath in the configuration file with `changelog_path`
 * Add some aliases in the command line for some parameters
 * Update the documentation
-* Fix some changelog file not found when used in a sub folder
 
 ## 2.0.1 - 2021-05-11
 
