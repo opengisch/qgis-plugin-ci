@@ -54,7 +54,7 @@ class Translation:
             raise NotImplementedError("Source of translation not implemented")
 
     def process_translation_transifex(self):
-        """Process translation using Transifxe.
+        """Process translation using Transifex.
 
         Raises:
             TranslationFailed: if something went wrong
