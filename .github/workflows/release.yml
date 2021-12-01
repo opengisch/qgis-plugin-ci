@@ -85,7 +85,7 @@ jobs:
         password: ${{ secrets.PYPI_API_TOKEN }}
 
     - name: Create/update release on GitHub
-      uses: ncipollo/release-action@v1.8.10
+      uses: ncipollo/release-action@v1.9.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
