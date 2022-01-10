@@ -8,8 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
-## 2.1.0 - 2022-01-10
-
 * Add the possibility to choose the changelog filepath in the configuration file with `changelog_path`
 * Add some aliases in the command line for some parameters
 * Update the documentation
