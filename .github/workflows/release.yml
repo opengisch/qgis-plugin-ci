@@ -11,7 +11,7 @@ on:
 
 env:
   PROJECT_FOLDER: "qgispluginci"
-  PYTHON_VERSION: "3.8"
+  PYTHON_VERSION_RELEASE: "3.8"
 
 jobs:
   tests:
@@ -21,9 +21,10 @@ jobs:
     strategy:
       matrix:
         python: [
-            "3.6",
+            # Do not make simultaneous tests, transifex and GitHub release will fail
+            # "3.6",
             "3.9",
-            "3.10",
+            # "3.10",
         ]
 
     steps:
@@ -73,7 +74,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ env.PYTHON_VERSION }}
+        python-version: ${{ env.PYTHON_VERSION_RELEASE }}
 
     - name: Setup
       run: |
