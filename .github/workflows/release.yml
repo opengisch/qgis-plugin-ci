@@ -11,12 +11,20 @@ on:
 
 env:
   PROJECT_FOLDER: "qgispluginci"
-  PYTHON_VERSION: 3.8
+  PYTHON_VERSION: "3.8"
 
 jobs:
   tests:
     name: "Tests"
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python: [
+            "3.6",
+            "3.9",
+            "3.10",
+        ]
 
     steps:
     - name: Get source code
@@ -25,7 +33,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ env.PYTHON_VERSION }}
+        python-version: ${{ matrix.python }}
 
     - uses: actions/cache@v2
       with:
