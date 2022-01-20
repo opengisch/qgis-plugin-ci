@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
+## 2.1.1 - 2022-01-20
+
+* Fix a regression from 2.1.0 when the changelog command is used without a configuration file
+
 ## 2.1.0 - 2022-01-10
 
 * Add the possibility to choose the changelog filepath in the configuration file with `changelog_path`
