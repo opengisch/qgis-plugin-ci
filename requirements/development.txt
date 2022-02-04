@@ -6,7 +6,7 @@ black
 flake8>=3.8,<4.1
 flake8-builtins>=1.5,<1.6
 flake8-isort>=4.0,<4.2
-pre-commit>=2.10,<2.17
+pre-commit>=2.10,<2.18
 
 # for testing
 nose2>=0.10,<0.11
