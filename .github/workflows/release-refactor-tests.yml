@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - refactor-tests
+  pull_request:
+    branches:
+      - master
 
 env:
   PROJECT_FOLDER: "qgispluginci"
