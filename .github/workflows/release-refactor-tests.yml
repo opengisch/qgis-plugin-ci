@@ -1,0 +1,57 @@
+name: Run tests and release
+
+on:
+  push:
+    branches:
+      - refactor-tests
+
+env:
+  PROJECT_FOLDER: "qgispluginci"
+  PYTHON_VERSION_RELEASE: "3.8"
+
+jobs:
+  tests:
+    name: "Tests"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python: [
+            # Do not make simultaneous tests, transifex and GitHub release will fail
+            # "3.6",
+            "3.9",
+            # "3.10",
+        ]
+
+    steps:
+    - name: Get source code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+
+    - uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements/*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install system requirements
+      run: |
+        sudo apt-get update
+        sudo apt-get install qt5-default qttools5-dev-tools
+
+    - name: Install Python requirements
+      run: |
+        python -m pip install -U pip setuptools wheel
+        python -m pip install -U -r requirements.txt
+
+    - name: Run tests
+      env:
+        transifex_token: ${{ secrets.TRANSIFEX_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        PYTHONPATH: ./test/
+      run: python3 -m unittest -v
