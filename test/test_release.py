@@ -29,7 +29,8 @@ RELEASE_VERSION_TEST = "0.1.2"
 
 class TestRelease(unittest.TestCase):
     def setUp(self):
-        arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
+        with open(".qgis-plugin-ci") as arg_file:
+            arg_dict = yaml.safe_load(arg_file)
         self.parameters = Parameters(arg_dict)
         self.transifex_token = os.getenv("transifex_token")
         self.github_token = os.getenv("github_token")

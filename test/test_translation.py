@@ -16,7 +16,8 @@ from qgispluginci.translation import Translation
 
 class TestTranslation(unittest.TestCase):
     def setUp(self):
-        arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
+        with open(".qgis-plugin-ci") as arg_file:
+            arg_dict = yaml.safe_load(arg_file)
         self.parameters = Parameters(arg_dict)
         self.transifex_token = os.getenv("transifex_token")
         self.assertIsNotNone(self.transifex_token)
