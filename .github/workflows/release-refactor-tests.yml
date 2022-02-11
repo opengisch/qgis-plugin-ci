@@ -1,4 +1,4 @@
-name: Run tests and release
+name: Run tests with unittest
 
 on:
   push:
