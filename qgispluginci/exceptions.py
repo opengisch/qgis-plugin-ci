@@ -24,3 +24,7 @@ class UncommitedChanges(Exception):
 
 class ConfigurationNotFound(Exception):
     pass
+
+
+class BuiltResourceInSources(Exception):
+    pass
