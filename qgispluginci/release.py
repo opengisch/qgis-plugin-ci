@@ -106,6 +106,30 @@ def create_archive(
         "version={}".format(release_version),
     )
 
+    # Commit number
+    replace_in_file(
+        f"{parameters.plugin_path}/metadata.txt",
+        r"^commitNumber=.*$",
+        f"commitNumber={len(list(repo.iter_commits()))}",
+    )
+
+    # Git SHA1
+    replace_in_file(
+        f"{parameters.plugin_path}/metadata.txt",
+        r"^commitSha1=.*$",
+        f"commitSha1={repo.head.object.hexsha}",
+    )
+
+    # Date/time in UTC
+    date_time = datetime.datetime.now(datetime.timezone.utc).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
+    replace_in_file(
+        f"{parameters.plugin_path}/metadata.txt",
+        r"^dateTime=.*$",
+        f"dateTime={date_time}",
+    )
+
     # set the plugin as experimental on a pre-release
     if is_prerelease:
         replace_in_file(

@@ -23,3 +23,6 @@ experimental=True
 
 # change icon...
 icon=icons/opengisch.png
+
+[tool:qgis-plugin-ci]
+commitNumber=
