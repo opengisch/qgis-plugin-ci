@@ -8,9 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
+* Add some metadata in the `metadata.txt` when packaging such as commit number, commit SHA1 and date if these keys are presents
+
 ## 2.2.0 - 2022-03-17
 
-* allow to release a version (1.2.3) which is different from the release tag (v1.2.3) (#120)
+* Allow to release a version (1.2.3) which is different from the release tag (v1.2.3) (#120)
+
+## 2.1.2 - 2022-02-15
+
+* Raise an error if a built resource is present in source and the names conflicts by @3nids
 
 ## 2.1.1 - 2022-01-20
 

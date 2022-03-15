@@ -7,11 +7,13 @@ import unittest
 # 3rd party
 import yaml
 from pytransifex.exceptions import PyTransifexException
-from utils import can_skip_test
 
 # project
 from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
+
+# Tests
+from .utils import can_skip_test
 
 
 class TestTranslation(unittest.TestCase):

@@ -3,6 +3,7 @@
 # standard
 import filecmp
 import os
+import re
 import unittest
 import urllib.request
 from pathlib import Path
@@ -13,7 +14,6 @@ from zipfile import ZipFile
 import yaml
 from github import Github, GithubException
 from pytransifex.exceptions import PyTransifexException
-from utils import can_skip_test
 
 # Project
 from qgispluginci.changelog import ChangelogParser
@@ -23,7 +23,10 @@ from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
 
-# if change, also update CHANGELOG.md
+# Tests
+from .utils import can_skip_test
+
+# If changed, also update CHANGELOG.md
 RELEASE_VERSION_TEST = "0.1.2"
 
 
@@ -173,11 +176,19 @@ class TestRelease(unittest.TestCase):
         # open archive and compare
         with ZipFile(archive_name, "r") as zip_file:
             data = zip_file.read(f"{parameters.plugin_path}/metadata.txt")
+
+        # Changelog
         self.assertGreater(
             data.find(bytes(changelog_lastitems, "utf8")),
             0,
             f"changelog detection failed in release: {data}",
         )
+
+        # Commit number
+        self.assertEqual(1, len(re.findall(r"commitNumber=\d+", str(data))))
+
+        # Commit sha1 not in the metadata.txt
+        self.assertEqual(0, len(re.findall(r"commitSha1=\d+", str(data))))
 
 
 if __name__ == "__main__":

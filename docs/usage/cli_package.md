@@ -28,3 +28,22 @@ optional arguments:
                         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
 
 ```
+
+## Additional metadata
+
+When packaging the plugin, some extra metadata information can be added if these keys are present in the `metadata.txt`:
+
+* `commitNumber=` : the commit number in the branch
+* `commitSha1=` : the commit ID
+* `dateTime=` : the date time in UTC format when the packaging is done
+
+* :::{tip}
+These extra parameters are specific to QGIS Plugin CI, so it's strongly recommended storing them below a dedicated section:
+
+```ini
+[tool:qgis-plugin-ci]
+commitNumber=
+commitSha1=
+dateTime=
+```
+:::
