@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
+## 2.2.0 - 2022-03-17
+
+* allow to release a version (1.2.3) which is different from the release tag (v1.2.3) (#120)
+
 ## 2.1.1 - 2022-01-20
 
 * Fix a regression from 2.1.0 when the changelog command is used without a configuration file
