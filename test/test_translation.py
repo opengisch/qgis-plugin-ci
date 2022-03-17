@@ -18,7 +18,8 @@ from .utils import can_skip_test
 
 class TestTranslation(unittest.TestCase):
     def setUp(self):
-        arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
+        with open(".qgis-plugin-ci") as f:
+            arg_dict = yaml.safe_load(f)
         self.parameters = Parameters(arg_dict)
         self.transifex_token = os.getenv("transifex_token")
         self.assertIsNotNone(self.transifex_token)
