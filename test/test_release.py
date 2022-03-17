@@ -32,7 +32,8 @@ RELEASE_VERSION_TEST = "0.1.2"
 
 class TestRelease(unittest.TestCase):
     def setUp(self):
-        arg_dict = yaml.safe_load(open(".qgis-plugin-ci"))
+        with open(".qgis-plugin-ci", "r", encoding="utf8") as f:
+            arg_dict = yaml.safe_load(f)
         self.parameters = Parameters(arg_dict)
         self.transifex_token = os.getenv("transifex_token")
         self.github_token = os.getenv("github_token")
@@ -122,8 +123,10 @@ class TestRelease(unittest.TestCase):
         if not filecmp.cmp("test/plugins.xml.expected", xml_repo, shallow=False):
             import difflib
 
-            text1 = open("test/plugins.xml.expected").readlines()
-            text2 = open(xml_repo).readlines()
+            with open("test/plugins.xml.expected") as f:
+                text1 = f.readlines()
+            with open(xml_repo) as f:
+                text2 = f.readlines()
             self.assertFalse(True, "\n".join(difflib.unified_diff(text1, text2)))
 
         # compare archive file size
