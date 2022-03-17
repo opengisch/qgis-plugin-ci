@@ -16,6 +16,9 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
+  --release-tag RELEASE_TAG
+                        The release tag (e.g. v1.2.3) can be specified if
+                        it is different from the release version (e.g. 1.2.3).
   --transifex-token TRANSIFEX_TOKEN
                         The Transifex API token. If specified translations
                         will be pulled and compiled.
