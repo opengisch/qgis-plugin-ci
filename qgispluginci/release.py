@@ -438,6 +438,8 @@ def release(
         )
         release_version = parser.latest_version()
 
+    release_tag = release_tag or release_version
+
     if transifex_token is not None:
         tr = Translation(
             parameters, create_project=False, transifex_token=transifex_token
@@ -448,7 +450,7 @@ def release(
     archive_name = parameters.archive_name(parameters.plugin_path, release_version)
 
     is_prerelease = release_is_prerelease(
-        parameters, release_tag=release_version, github_token=github_token
+        parameters, release_tag=release_tag, github_token=github_token
     )
     print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
 
@@ -484,7 +486,7 @@ def release(
         upload_asset_to_github_release(
             parameters,
             asset_path=archive_name,
-            release_tag=release_version,
+            release_tag=release_tag,
             github_token=github_token,
         )
         if upload_plugin_repo_github:
@@ -498,7 +500,7 @@ def release(
             upload_asset_to_github_release(
                 parameters,
                 asset_path=xml_repo,
-                release_tag=release_version,
+                release_tag=release_tag,
                 github_token=github_token,
                 asset_name="plugins.xml",
             )

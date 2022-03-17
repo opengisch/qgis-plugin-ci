@@ -67,7 +67,13 @@ def main():
 
     # release
     release_parser = subparsers.add_parser("release", help="release the plugin")
-    release_parser.add_argument("release_version", help="The version to be released")
+    release_parser.add_argument(
+        "release_version", help="The version to be released (x.y.z)."
+    )
+    release_parser.add_argument(
+        "--release-tag",
+        help="The release tag, if different from the version (e.g. vx.y.z).",
+    )
     release_parser.add_argument(
         "--transifex-token",
         help="The Transifex API token. If specified translations will be pulled and compiled.",
@@ -186,6 +192,7 @@ def main():
         release(
             parameters,
             release_version=args.release_version,
+            release_tag=args.release_tag,
             transifex_token=args.transifex_token,
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
