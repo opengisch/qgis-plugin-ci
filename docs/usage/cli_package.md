@@ -33,7 +33,7 @@ optional arguments:
 
 When packaging the plugin, some extra metadata information can be added if these keys are present in the `metadata.txt`:
 
-* `commitNumber=` : the commit number in the branch
+* `commitNumber=` : the commit number in the branch otherwise 1 on a tag
 * `commitSha1=` : the commit ID
 * `dateTime=` : the date time in UTC format when the packaging is done
 
