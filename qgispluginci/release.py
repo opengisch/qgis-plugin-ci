@@ -230,7 +230,11 @@ def create_archive(
                 f = tt.extractfile(m)
                 fl = f.read()
                 fn = m.name
-                zf.writestr(fn, fl)
+                # Get permissions and add it to ZipInfo
+                st = os.stat(m.name)
+                info = zipfile.ZipInfo(fn)
+                info.external_attr = (st[0] & 0o777) << 16  # Unix attributes
+                zf.writestr(info, fl)
 
     print("-------")
     print("files in ZIP archive ({}):".format(archive_name))
