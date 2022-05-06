@@ -233,7 +233,7 @@ def create_archive(
                 # Get permissions and add it to ZipInfo
                 st = os.stat(m.name)
                 info = zipfile.ZipInfo(fn)
-                info.external_attr = (st[0] & 0o777) << 16  # Unix attributes
+                info.external_attr = (st[0] & 0xFFFF) << 16  # Unix attributes
                 zf.writestr(info, fl)
 
     print("-------")
