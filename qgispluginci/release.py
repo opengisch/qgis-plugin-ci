@@ -230,7 +230,15 @@ def create_archive(
                 f = tt.extractfile(m)
                 fl = f.read()
                 fn = m.name
-                zf.writestr(fn, fl)
+                # Get permissions and add it to ZipInfo
+                st = os.stat(m.name)
+                info = zipfile.ZipInfo(fn)
+
+                # Using flags as defined in python zipfile module
+                # code : https://github.com/python/cpython/blob/b885b8f4be9c74ef1ce7923dbf055c31e7f47735/Lib/zipfile.py#L545
+                # see https://stackoverflow.com/questions/434641/how-do-i-set-permissions-attributes-on-a-file-in-a-zip-file-using-pythons-zip/53008127#53008127
+                info.external_attr = (st[0] & 0xFFFF) << 16  # Unix attributes
+                zf.writestr(info, fl)
 
     print("-------")
     print("files in ZIP archive ({}):".format(archive_name))
