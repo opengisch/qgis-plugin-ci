@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
+* Keep files permissions when creating zip file.
+
 ## 2.3.0 - 2022-03-17
 
 * Add some metadata in the `metadata.txt` when packaging such as commit number, commit SHA1 and date if these keys are presents
