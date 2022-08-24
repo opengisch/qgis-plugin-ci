@@ -9,4 +9,4 @@ flake8-isort>=4.0,<4.2
 pre-commit>=2.10,<2.21
 
 # for testing
-nose2>=0.10,<0.12
+nose2>=0.10,<0.13
