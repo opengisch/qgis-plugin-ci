@@ -8,7 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
-* Keep files permissions when creating zip file.
+## 2.4.0 - 2022-08-25
+
+* Keep files permissions when creating zip file by @jmkerloch #129
+* Update dependencies
+* Documentation improvements
 
 ## 2.3.0 - 2022-03-17
 
