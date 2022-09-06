@@ -91,7 +91,8 @@ jobs:
     - name: Create/update release on GitHub
       uses: ncipollo/release-action@v1.10.0
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
-        omitNameDuringUpdate: true
         artifacts: "dist/*.tar.gz"
+        generateReleaseNotes: true
+        omitNameDuringUpdate: true
+        token: ${{ secrets.GITHUB_TOKEN }}
