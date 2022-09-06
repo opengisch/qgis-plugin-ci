@@ -1,0 +1,21 @@
+changelog:
+  exclude:
+    authors:
+      - dependabot
+      - pre-commit-ci
+  categories:
+    - title: Bugs fixes 🐛
+      labels:
+        - bug
+    - title: Features and enhancements 🎉
+      labels:
+        - enhancement
+    - title: Tooling 🔧
+      labels:
+        - github_actions
+    - title: Documentation 📖
+      labels:
+        - documentation
+    - title: Other Changes
+      labels:
+        - "*"
