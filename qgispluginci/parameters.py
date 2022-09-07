@@ -186,7 +186,7 @@ class Parameters:
         if not self.plugin_path:
             return ""
 
-        metadata_file = "{}/metadata.txt".format(self.plugin_path)
+        metadata_file = f"{self.plugin_path}/metadata.txt"
         with open(metadata_file) as f:
             for line in f:
                 m = re.match(r"{}\s*=\s*(.*)$".format(key), line)
