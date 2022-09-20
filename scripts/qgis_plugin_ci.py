@@ -21,6 +21,7 @@ def main():
     )
 
     parser.add_argument(
+        "-v",
         "--version",
         help="print the version and exit",
         action="version",
