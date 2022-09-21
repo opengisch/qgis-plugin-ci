@@ -2,11 +2,12 @@
 
 import argparse
 import configparser
+import logging
 import os
 
 import yaml
 
-from qgispluginci.__about__ import __version__
+from qgispluginci.__about__ import __title_clean__, __version__
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.parameters import Parameters
@@ -20,8 +21,19 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
+    # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
     parser.add_argument(
         "-v",
+        "--verbose",
+        action="count",
+        default=1,
+        dest="verbosity",
+        help="Verbosity (between 1-4 occurrences with more leading to more "
+        "verbose logging). CRITICAL=0, ERROR=1, WARN=2, INFO=3, "
+        "DEBUG=4",
+    )
+
+    parser.add_argument(
         "--version",
         action="version",
         version=__version__,
@@ -126,6 +138,32 @@ def main():
     push_tr_parser.add_argument("transifex_token", help="The Transifex API token")
 
     args = parser.parse_args()
+
+    # set log level depending on verbosity argument
+    args.verbosity = 40 - (10 * args.verbosity) if args.verbosity > 0 else 0
+    logging.basicConfig(
+        level=args.verbosity,
+        format="%(asctime)s||%(levelname)s||%(module)s||%(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    console = logging.StreamHandler()
+    console.setLevel(args.verbosity)
+
+    # add the handler to the root logger
+    logger = logging.getLogger(__title_clean__)
+    logger.debug(f"Log level set: {logging}")
+
+    # print the version and exit
+    if args.version:
+        import pkg_resources
+
+        print(
+            "qgis-plugin-ci version: {}".format(
+                pkg_resources.get_distribution("qgis-plugin-ci").version
+            )
+        )
+        parser.exit()
 
     # if no command is passed, print the help and exit
     if not args.command:
