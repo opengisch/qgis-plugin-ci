@@ -34,9 +34,7 @@ def main():
     )
 
     parser.add_argument(
-        "--version",
-        action="version",
-        version=__version__,
+        "--version", help="print the version and exit", action="store_true"
     )
 
     subparsers = parser.add_subparsers(
