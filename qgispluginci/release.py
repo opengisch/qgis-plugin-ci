@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import logging
 import os
 import re
 import sys
@@ -33,6 +34,8 @@ from qgispluginci.exceptions import (
 from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
 from qgispluginci.utils import configure_file, parse_tag, replace_in_file
+
+logger = logging.getLogger(__name__)
 
 
 def create_archive(
@@ -88,7 +91,7 @@ def create_archive(
                     r"^changelog=.*$",
                     "",
                 )
-                print(
+                logger.error(
                     "An exception occurred while parsing the changelog file : {}".format(
                         e
                     )
@@ -188,9 +191,9 @@ def create_archive(
     # add translation files
     if add_translations:
         with tarfile.open(top_tar_file, mode="a") as tt:
-            print("adding translations")
+            logger.debug("Adding translations")
             for file in glob("{}/i18n/*.qm".format(parameters.plugin_path)):
-                print("  adding translation: {}".format(os.path.basename(file)))
+                logger.debug("  adding translation: {}".format(os.path.basename(file)))
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
 
@@ -213,7 +216,7 @@ def create_archive(
                         )
                     )
         with tarfile.open(top_tar_file, mode="a") as tt:
-            print("  adding resource: {}".format(file))
+            logger.debug("  adding resource: {}".format(file))
             # https://stackoverflow.com/a/48462950/1548052
             tt.add(file)
 
@@ -241,12 +244,12 @@ def create_archive(
                 info.compress_type = zf.compression
                 zf.writestr(info, fl)
 
-    print("-------")
-    print("files in ZIP archive ({}):".format(archive_name))
+    logger.debug("-" * 40)
+    logger.debug("files in ZIP archive ({}):".format(archive_name))
     with zipfile.ZipFile(file=archive_name, mode="r") as zf:
         for f in zf.namelist():
-            print(f)
-    print("-------")
+            logger.debug(f)
+    logger.debug("-" * 40)
 
     # checkout to reset changes
     if initial_stash:
@@ -267,31 +270,35 @@ def upload_asset_to_github_release(
     slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
     repo = Github(github_token).get_repo(slug)
     try:
-        print(
-            "Getting release on {}/{}".format(
-                parameters.github_organization_slug, parameters.project_slug
-            )
+        logger.debug(
+            f"Getting release on {parameters.github_organization_slug}"
+            f"/{parameters.project_slug}"
         )
         gh_release = repo.get_release(id=release_tag)
-        print(gh_release, gh_release.tag_name, gh_release.upload_url)
-    except GithubException as e:
-        raise GithubReleaseNotFound("Release {} not found".format(release_tag))
+        logger.debug(
+            f"Release retrieved from GitHub: {gh_release}, "
+            f"{gh_release.tag_name}, "
+            f"{gh_release.upload_url}"
+        )
+    except GithubException as exc:
+        raise GithubReleaseNotFound(f"Release {release_tag} not found. Trace: {exc}")
     try:
         assert os.path.exists(asset_path)
         if asset_name:
-            print("Uploading asset: {} as {}".format(asset_path, asset_name))
-            gh_release.upload_asset(path=asset_path, label=asset_name, name=asset_name)
-        else:
-            print("Uploading asset: {}".format(asset_path))
-            gh_release.upload_asset(asset_path)
-        print("OK")
-    except GithubException as e:
-        print(e)
-        raise GithubReleaseCouldNotUploadAsset(
-            "Could not upload asset for release {}. "
-            "Are you sure the user for the given token can upload asset to this repo?".format(
-                release_tag
+            logger.debug(f"Uploading asset: {asset_path} as {asset_name}")
+
+            uploaded_asset = gh_release.upload_asset(
+                path=asset_path, label=asset_name, name=asset_name
             )
+        else:
+            logger.debug(f"Uploading asset: {asset_path}")
+            uploaded_asset = gh_release.upload_asset(asset_path)
+        logger.info(f"Asset successfully uploaded: {uploaded_asset.url}")
+    except GithubException as exc:
+        raise GithubReleaseCouldNotUploadAsset(
+            f"Could not upload asset for release {release_tag}. "
+            "Are you sure the user for the given token can upload asset to this repo?\n"
+            f"Trace: {exc}"
         )
 
 
@@ -312,15 +319,18 @@ def release_is_prerelease(
     slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
     repo = Github(github_token).get_repo(slug)
     try:
-        print(
-            "Getting release on {}/{}".format(
-                parameters.github_organization_slug, parameters.project_slug
-            )
+        logger.debug(
+            f"Getting release on {parameters.github_organization_slug}"
+            f"/{parameters.project_slug}"
         )
         gh_release = repo.get_release(id=release_tag)
-        print(gh_release, gh_release.tag_name, gh_release.upload_url)
-    except GithubException as e:
-        raise GithubReleaseNotFound("Release {} not found".format(release_tag))
+        logger.debug(
+            f"Release retrieved from GitHub: {gh_release}, "
+            f"{gh_release.tag_name}, "
+            f"{gh_release.upload_url}"
+        )
+    except GithubException as exc:
+        raise GithubReleaseNotFound(f"Release {release_tag} not found. Trace: {exc}")
     return gh_release.prerelease
 
 
