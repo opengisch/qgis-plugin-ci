@@ -6,6 +6,7 @@ import os
 
 import yaml
 
+from qgispluginci.__about__ import __version__
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.parameters import Parameters
@@ -18,8 +19,12 @@ def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
+
     parser.add_argument(
-        "-v", "--version", help="print the version and exit", action="store_true"
+        "-v",
+        "--version",
+        action="version",
+        version=__version__,
     )
 
     subparsers = parser.add_subparsers(
@@ -121,17 +126,6 @@ def main():
     push_tr_parser.add_argument("transifex_token", help="The Transifex API token")
 
     args = parser.parse_args()
-
-    # print the version and exit
-    if args.version:
-        import pkg_resources
-
-        print(
-            "qgis-plugin-ci version: {}".format(
-                pkg_resources.get_distribution("qgis-plugin-ci").version
-            )
-        )
-        parser.exit()
 
     # if no command is passed, print the help and exit
     if not args.command:
