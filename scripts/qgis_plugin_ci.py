@@ -189,10 +189,9 @@ def main():
             )
             content = c.content(args.release_version)
             if content:
-                print(content)
-        except Exception:
-            # Better to be safe
-            pass
+                print(content)  # noqa: T2
+        except Exception as exc:
+            logger.error("Something went wrong reading the changelog.", exc_info=exc)
 
         return exit_val
 
