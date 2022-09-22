@@ -13,6 +13,7 @@ import datetime
 import logging
 import os
 import re
+import sys
 
 # 3rd party
 from slugify import slugify
@@ -193,7 +194,8 @@ class Parameters:
                 if m:
                     return m.group(1)
         if default_value is None:
-            raise Exception("missing key in metadata: {}".format(key))
+            logger.error(f"Mandatory key is missing in metadata: {key}")
+            sys.exit(1)
         return default_value
 
 
