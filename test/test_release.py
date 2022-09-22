@@ -96,7 +96,7 @@ class TestRelease(unittest.TestCase):
             "My_Plugin.0.0.0.zip", Parameters.archive_name("My_Plugin", "0.0.0", False)
         )
 
-        with self.assertWarnsRegex(Warning, DASH_WARNING):
+        with self.assertWarns(Warning, DASH_WARNING):
             Parameters.archive_name("my-plugin", "0.0.0")
 
     @unittest.skipIf(can_skip_test(), "Missing github_token")
