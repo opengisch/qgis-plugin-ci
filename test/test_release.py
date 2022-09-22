@@ -96,8 +96,14 @@ class TestRelease(unittest.TestCase):
             "My_Plugin.0.0.0.zip", Parameters.archive_name("My_Plugin", "0.0.0", False)
         )
 
-        with self.assertWarns(Warning, DASH_WARNING):
+        with self.assertLogs(
+            logger="qgispluginci.parameters", level="WARNING"
+        ) as captured:
             Parameters.archive_name("my-plugin", "0.0.0")
+        self.assertEqual(
+            len(captured.records), 1
+        )  # check that there is only one log message
+        self.assertEqual(captured.records[0].getMessage(), DASH_WARNING)
 
     @unittest.skipIf(can_skip_test(), "Missing github_token")
     def test_release_upload_github(self):
