@@ -13,7 +13,6 @@ import datetime
 import logging
 import os
 import re
-import warnings
 
 # 3rd party
 from slugify import slugify
@@ -158,9 +157,10 @@ class Parameters:
         self.issue_tracker = self.__get_from_metadata("tracker")
         self.homepage = self.__get_from_metadata("homepage", "")
         if self.homepage == "":
-            warnings.warn(
+            logger.warning(
                 "Homepage is not given in the metadata. "
-                "It is a requirement to publish the plugin on the repository"
+                "It is a mandatory information to publish "
+                "the plugin on the QGIS official repository."
             )
         self.repository_url = self.__get_from_metadata("repository")
 
@@ -174,7 +174,7 @@ class Parameters:
         # zipname: use dot before version number
         # and not dash since it's causing issues #22
         if "-" in plugin_name:
-            warnings.warn(DASH_WARNING)
+            logger.warning(DASH_WARNING)
 
         return "{zipname}{experimental}.{release_version}.zip".format(
             zipname=plugin_name,
