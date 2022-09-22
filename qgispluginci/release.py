@@ -195,27 +195,28 @@ def create_archive(
                 tt.add(file)
 
     # compile qrc files
-    pyqt5ac.main(
-        ioPaths=[
-            [
-                "{}/*.qrc".format(parameters.plugin_path),
-                "{}/%%FILENAME%%_rc.py".format(parameters.plugin_path),
+    if list(Path(parameters.plugin_path).glob("*.qrc")):
+        pyqt5ac.main(
+            ioPaths=[
+                [
+                    "{}/*.qrc".format(parameters.plugin_path),
+                    "{}/%%FILENAME%%_rc.py".format(parameters.plugin_path),
+                ]
             ]
-        ]
-    )
-    for file in glob("{}/*_rc.py".format(parameters.plugin_path)):
-        with tarfile.open(top_tar_file, mode="r:") as tt:
-            for n in tt.getnames():
-                if n == file:
-                    raise BuiltResourceInSources(
-                        'The file "{}" is present in the sources and its name conflicts with a just built resource. You might want to remove it from the sources or setting export-ignore in .gitattributes config file.'.format(
-                            file
+        )
+        for file in glob("{}/*_rc.py".format(parameters.plugin_path)):
+            with tarfile.open(top_tar_file, mode="r:") as tt:
+                for n in tt.getnames():
+                    if n == file:
+                        raise BuiltResourceInSources(
+                            'The file "{}" is present in the sources and its name conflicts with a just built resource. You might want to remove it from the sources or setting export-ignore in .gitattributes config file.'.format(
+                                file
+                            )
                         )
-                    )
-        with tarfile.open(top_tar_file, mode="a") as tt:
-            print("  adding resource: {}".format(file))
-            # https://stackoverflow.com/a/48462950/1548052
-            tt.add(file)
+            with tarfile.open(top_tar_file, mode="a") as tt:
+                print("  adding resource: {}".format(file))
+                # https://stackoverflow.com/a/48462950/1548052
+                tt.add(file)
 
     # converting to ZIP
     # why using TAR before? because it provides the prefix and makes things easier
