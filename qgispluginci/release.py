@@ -214,7 +214,7 @@ def create_archive(
                             )
                         )
             with tarfile.open(top_tar_file, mode="a") as tt:
-                logger.debug("  adding resource: {}".format(file))
+                print("  adding resource: {}".format(file))
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
 
