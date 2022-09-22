@@ -33,8 +33,14 @@ from qgispluginci.exceptions import (
 )
 from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
-from qgispluginci.utils import configure_file, parse_tag, replace_in_file
+from qgispluginci.utils import (
+    configure_file,
+    convert_octets,
+    parse_tag,
+    replace_in_file,
+)
 
+# GLOBALS
 logger = logging.getLogger(__name__)
 
 
@@ -245,7 +251,7 @@ def create_archive(
                 zf.writestr(info, fl)
 
     logger.debug("-" * 40)
-    logger.debug("files in ZIP archive ({}):".format(archive_name))
+    logger.debug("Files in ZIP archive ({}):".format(archive_name))
     with zipfile.ZipFile(file=archive_name, mode="r") as zf:
         for f in zf.namelist():
             logger.debug(f)
@@ -257,6 +263,12 @@ def create_archive(
         repo.git.reset("HEAD^")
     else:
         repo.git.checkout("--", ".")
+
+    # print the result
+    print(
+        f"Plugin archive created: {archive_name} "
+        f"({convert_octets(Path(archive_name).stat().st_size)})"
+    )
 
 
 def upload_asset_to_github_release(
