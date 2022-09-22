@@ -141,6 +141,10 @@ class ChangelogParser:
     def latest_version(self) -> str:
         """Return the latest tag described in the changelog file."""
         latest = self._version_note("latest")
+        logger.debug(
+            "Latest version retrieved from changelog "
+            f"({self.CHANGELOG_FILEPATH.resolve()}): {latest.version}"
+        )
         return latest.version
 
     def content(self, tag: str) -> Union[str, None]:
