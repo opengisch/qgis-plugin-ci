@@ -72,7 +72,7 @@ def create_archive(
                 "Stash or commit them or use -c / --allow-uncommitted-changes option."
             )
             logger.error(err_msg)
-            raise UncommitedChanges(err_msg)
+            sys.exit(err_msg)
         else:
             initial_stash = repo.git.stash("create")
 
@@ -93,7 +93,7 @@ def create_archive(
                         r"^changelog=.*$",
                         "changelog={}".format(content),
                     )
-            except Exception as e:
+            except Exception as exc:
                 # Do not fail the release process if something is wrong when parsing the changelog
                 replace_in_file(
                     "{}/metadata.txt".format(parameters.plugin_path),
@@ -101,9 +101,7 @@ def create_archive(
                     "",
                 )
                 logger.error(
-                    "An exception occurred while parsing the changelog file : {}".format(
-                        e
-                    )
+                    f"An exception occurred while parsing the changelog file: {exc}"
                 )
     else:
         # Remove the changelog line
@@ -342,7 +340,9 @@ def release_is_prerelease(
             f"{gh_release.upload_url}"
         )
     except GithubException as exc:
-        raise GithubReleaseNotFound(f"Release {release_tag} not found. Trace: {exc}")
+        err_msg = f"Release {release_tag} not found. Trace: {exc}"
+        logger.error(err_msg)
+        raise GithubReleaseNotFound(err_msg)
     return gh_release.prerelease
 
 
