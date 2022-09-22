@@ -1,8 +1,15 @@
+import logging
 import os
 import re
+from math import floor
+from math import log as math_log
+from math import pow
 from typing import Union
 
 from qgispluginci.version_note import VersionNote
+
+# GLOBALS
+logger = logging.getLogger(__name__)
 
 
 def replace_in_file(file_path: str, pattern, new: str, encoding: str = "utf8"):
@@ -20,6 +27,31 @@ def configure_file(source_file: str, dest_file: str, replace: dict):
         content = re.sub(pattern, new, content, flags=re.M)
     with open(dest_file, "w", encoding="utf-8") as f:
         f.write(content)
+
+
+def convert_octets(octets: int) -> str:
+    """Convert a mount of octets in readable size.
+
+    :param int octets: mount of octets to convert
+
+    :Example:
+
+    .. code-block:: python
+
+        >>> convert_octets(1024)
+        "1ko"
+    """
+    # check zero
+    if octets == 0:
+        return "0 octet"
+
+    # conversion
+    size_name = ("octets", "Ko", "Mo", "Go", "To", "Po")
+    i = int(floor(math_log(octets, 1024)))
+    p = pow(1024, i)
+    s = round(octets / p, 2)
+
+    return "%s %s" % (s, size_name[i])
 
 
 def touch_file(path, update_time: bool = False, create_dir: bool = True):
