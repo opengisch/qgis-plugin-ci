@@ -100,8 +100,9 @@ def create_archive(
                     r"^changelog=.*$",
                     "",
                 )
-                logger.error(
-                    f"An exception occurred while parsing the changelog file: {exc}"
+                logger.warning(
+                    f"An exception occurred while parsing the changelog file: {exc}",
+                    exc_info=exc,
                 )
     else:
         # Remove the changelog line
@@ -295,7 +296,11 @@ def upload_asset_to_github_release(
             f"{gh_release.upload_url}"
         )
     except GithubException as exc:
-        raise GithubReleaseNotFound(f"Release {release_tag} not found. Trace: {exc}")
+        logger.error(
+            f"Release {release_tag} not found for {slug}",
+            exc_info=GithubReleaseNotFound(exc),
+        )
+        sys.exit(1)
     try:
         assert os.path.exists(asset_path)
         if asset_name:
@@ -309,11 +314,12 @@ def upload_asset_to_github_release(
             uploaded_asset = gh_release.upload_asset(asset_path)
         logger.info(f"Asset successfully uploaded: {uploaded_asset.url}")
     except GithubException as exc:
-        raise GithubReleaseCouldNotUploadAsset(
-            f"Could not upload asset for release {release_tag}. "
-            "Are you sure the user for the given token can upload asset to this repo?\n"
-            f"Trace: {exc}"
+        logger.error(
+            f"Could not upload asset for release {release_tag} on {slug}. "
+            "Are you sure the user for the given token can upload asset to this repo?",
+            exc_info=GithubReleaseCouldNotUploadAsset(exc),
         )
+        sys.exit(1)
 
 
 def release_is_prerelease(
@@ -344,9 +350,11 @@ def release_is_prerelease(
             f"{gh_release.upload_url}"
         )
     except GithubException as exc:
-        err_msg = f"Release {release_tag} not found. Trace: {exc}"
-        logger.error(err_msg)
-        raise GithubReleaseNotFound(err_msg)
+        logger.error(
+            f"Release {release_tag} not found. Trace: {exc}",
+            exc_info=GithubReleaseNotFound(),
+        )
+        sys.exit(1)
     return gh_release.prerelease
 
 
