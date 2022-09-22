@@ -268,7 +268,7 @@ def create_archive(
         repo.git.checkout("--", ".")
 
     # print the result
-    print(
+    print(  # noqa: T2
         f"Plugin archive created: {archive_name} "
         f"({convert_octets(Path(archive_name).stat().st_size)})"
     )
