@@ -28,6 +28,7 @@ from qgispluginci.exceptions import (
     BuiltResourceInSources,
     GithubReleaseCouldNotUploadAsset,
     GithubReleaseNotFound,
+    MissingChangelog,
     UncommitedChanges,
 )
 from qgispluginci.parameters import Parameters
@@ -471,7 +472,10 @@ def release(
             parent_folder=Path(parameters.plugin_path).resolve().parent,
             changelog_path=parameters.changelog_path,
         )
-        release_version = parser.latest_version()
+        if parser.has_changelog():
+            release_version = parser.latest_version()
+        else:
+            release_version = "latest"
 
     release_tag = release_tag or release_version
 
