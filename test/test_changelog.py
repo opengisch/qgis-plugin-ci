@@ -42,12 +42,12 @@ class TestChangelog(unittest.TestCase):
         self.assertIsInstance(ChangelogParser.CHANGELOG_FILEPATH, Path)
 
         # with a path to a file, must raise a type error
-        with self.assertRaises(TypeError):
+        with self.assertRaises(SystemExit):
             ChangelogParser.has_changelog(parent_folder=Path(__file__))
         self.assertIsNone(ChangelogParser.CHANGELOG_FILEPATH, None)
 
         # with a path to a folder which doesn't exist, must raise a file exists error
-        with self.assertRaises(FileExistsError):
+        with self.assertRaises(SystemExit):
             ChangelogParser.has_changelog(parent_folder=Path("imaginary_path"))
 
     def test_changelog_content(self):
