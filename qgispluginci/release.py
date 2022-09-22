@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import logging
 import os
 import re
 import sys
@@ -34,6 +35,8 @@ from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
 from qgispluginci.utils import configure_file, parse_tag, replace_in_file
 
+logger = logging.getLogger(__name__)
+
 
 def create_archive(
     parameters: Parameters,
@@ -54,13 +57,16 @@ def create_archive(
     initial_stash = None
     diff = repo.index.diff(None)
     if diff:
-        print("Uncommitted changes:")
+        logger.info("There are uncommitted changes:")
         for diff in diff:
-            print(diff)
+            logger.info(diff)
         if not allow_uncommitted_changes:
-            raise UncommitedChanges(
-                "You have uncommitted changes. Stash or commit them or use --allow-uncommitted-changes."
+            err_msg = (
+                "You have uncommitted changes. "
+                "Stash or commit them or use -c / --allow-uncommitted-changes option."
             )
+            logger.error(err_msg)
+            raise UncommitedChanges(err_msg)
         else:
             initial_stash = repo.git.stash("create")
 
@@ -88,7 +94,7 @@ def create_archive(
                     r"^changelog=.*$",
                     "",
                 )
-                print(
+                logger.error(
                     "An exception occurred while parsing the changelog file : {}".format(
                         e
                     )
@@ -158,29 +164,26 @@ def create_archive(
     if stash == "" or stash is None:
         stash = "HEAD"
     # create TAR archive
-    print("archive plugin with stash: {}".format(stash))
+    logger.debug(f"Git archive plugin with stash: {stash}")
     repo.git.archive(stash, "-o", top_tar_file, parameters.plugin_path)
     # adding submodules
     for submodule in repo.submodules:
         _, sub_tar_file = mkstemp(suffix=".tar")
         if submodule.path.split("/")[0] != parameters.plugin_path:
-            print(
-                "skipping submodule not in plugin source directory ({})".format(
-                    submodule.name
-                )
+            logger.debug(
+                f"Skipping submodule not in plugin source directory: {submodule.name}"
             )
             continue
         if not disable_submodule_update:
             submodule.update(init=True)
         sub_repo = submodule.module()
-        print("archive submodule:", sub_repo)
+        logger.info("Git archive submodule: {sub_repo}")
         sub_repo.git.archive(
             "HEAD", "--prefix", "{}/".format(submodule.path), "-o", sub_tar_file
         )
         with tarfile.open(top_tar_file, mode="a") as tt:
             with tarfile.open(sub_tar_file, mode="r:") as st:
                 for m in st.getmembers():
-                    # print('adding', m, m.type, m.isfile())
                     if not m.isfile():
                         continue
                     tt.add(m.name)
@@ -188,9 +191,9 @@ def create_archive(
     # add translation files
     if add_translations:
         with tarfile.open(top_tar_file, mode="a") as tt:
-            print("adding translations")
+            logger.debug("Adding translations")
             for file in glob("{}/i18n/*.qm".format(parameters.plugin_path)):
-                print("  adding translation: {}".format(os.path.basename(file)))
+                logger.debug("  adding translation: {}".format(os.path.basename(file)))
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
 
@@ -213,7 +216,7 @@ def create_archive(
                         )
                     )
         with tarfile.open(top_tar_file, mode="a") as tt:
-            print("  adding resource: {}".format(file))
+            logger.debug("  adding resource: {}".format(file))
             # https://stackoverflow.com/a/48462950/1548052
             tt.add(file)
 
@@ -241,12 +244,12 @@ def create_archive(
                 info.compress_type = zf.compression
                 zf.writestr(info, fl)
 
-    print("-------")
-    print("files in ZIP archive ({}):".format(archive_name))
+    logger.debug("-" * 40)
+    logger.debug("files in ZIP archive ({}):".format(archive_name))
     with zipfile.ZipFile(file=archive_name, mode="r") as zf:
         for f in zf.namelist():
-            print(f)
-    print("-------")
+            logger.debug(f)
+    logger.debug("-" * 40)
 
     # checkout to reset changes
     if initial_stash:
@@ -267,31 +270,35 @@ def upload_asset_to_github_release(
     slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
     repo = Github(github_token).get_repo(slug)
     try:
-        print(
-            "Getting release on {}/{}".format(
-                parameters.github_organization_slug, parameters.project_slug
-            )
+        logger.debug(
+            f"Getting release on {parameters.github_organization_slug}"
+            f"/{parameters.project_slug}"
         )
         gh_release = repo.get_release(id=release_tag)
-        print(gh_release, gh_release.tag_name, gh_release.upload_url)
-    except GithubException as e:
-        raise GithubReleaseNotFound("Release {} not found".format(release_tag))
+        logger.debug(
+            f"Release retrieved from GitHub: {gh_release}, "
+            f"{gh_release.tag_name}, "
+            f"{gh_release.upload_url}"
+        )
+    except GithubException as exc:
+        raise GithubReleaseNotFound(f"Release {release_tag} not found. Trace: {exc}")
     try:
         assert os.path.exists(asset_path)
         if asset_name:
-            print("Uploading asset: {} as {}".format(asset_path, asset_name))
-            gh_release.upload_asset(path=asset_path, label=asset_name, name=asset_name)
-        else:
-            print("Uploading asset: {}".format(asset_path))
-            gh_release.upload_asset(asset_path)
-        print("OK")
-    except GithubException as e:
-        print(e)
-        raise GithubReleaseCouldNotUploadAsset(
-            "Could not upload asset for release {}. "
-            "Are you sure the user for the given token can upload asset to this repo?".format(
-                release_tag
+            logger.debug(f"Uploading asset: {asset_path} as {asset_name}")
+
+            uploaded_asset = gh_release.upload_asset(
+                path=asset_path, label=asset_name, name=asset_name
             )
+        else:
+            logger.debug(f"Uploading asset: {asset_path}")
+            uploaded_asset = gh_release.upload_asset(asset_path)
+        logger.info(f"Asset successfully uploaded: {uploaded_asset.url}")
+    except GithubException as exc:
+        raise GithubReleaseCouldNotUploadAsset(
+            f"Could not upload asset for release {release_tag}. "
+            "Are you sure the user for the given token can upload asset to this repo?\n"
+            f"Trace: {exc}"
         )
 
 
@@ -312,15 +319,18 @@ def release_is_prerelease(
     slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
     repo = Github(github_token).get_repo(slug)
     try:
-        print(
-            "Getting release on {}/{}".format(
-                parameters.github_organization_slug, parameters.project_slug
-            )
+        logger.debug(
+            f"Getting release on {parameters.github_organization_slug}"
+            f"/{parameters.project_slug}"
         )
         gh_release = repo.get_release(id=release_tag)
-        print(gh_release, gh_release.tag_name, gh_release.upload_url)
-    except GithubException as e:
-        raise GithubReleaseNotFound("Release {} not found".format(release_tag))
+        logger.debug(
+            f"Release retrieved from GitHub: {gh_release}, "
+            f"{gh_release.tag_name}, "
+            f"{gh_release.upload_url}"
+        )
+    except GithubException as exc:
+        raise GithubReleaseNotFound(f"Release {release_tag} not found. Trace: {exc}")
     return gh_release.prerelease
 
 
@@ -392,34 +402,39 @@ def upload_plugin_to_osgeo(username: str, password: str, archive: str):
     archive
         The plugin archive file path to be uploaded
     """
-    address = "https://{username}:{password}@plugins.qgis.org:443/plugins/RPC2/".format(
-        username=username, password=password
-    )
+    address = f"https://{username}:{password}@plugins.qgis.org:443/plugins/RPC2/"
 
     server = xmlrpc.client.ServerProxy(address, verbose=True)
 
     try:
+        logger.debug(f"Start uploading {archive} to QGIS plugins repository.")
         with open(archive, "rb") as handle:
             plugin_id, version_id = server.plugin.upload(
                 xmlrpc.client.Binary(handle.read())
             )
-        print(f"Plugin ID: {plugin_id}")
-        print(f"Version ID: {version_id}")
+        logger.debug(f"Plugin ID: {plugin_id}")
+        logger.debug(f"Version ID: {version_id}")
     except xmlrpc.client.ProtocolError as err:
-        print("A protocol error occurred")
         url = re.sub(r":[^/].*@", ":******@", err.url)
-        print(f"URL: {url}")
-        print(f"HTTP/HTTPS headers: {err.headers}")
-        print(f"Error code: {err.errcode}")
-        print(f"Error message: {err.errmsg}")
-        print(f"Plugin path : {archive}")
-        sys.exit(1)
+        err_msg = (
+            "=== A protocol error occurred ===\n"
+            f"URL: {url}\n"
+            f"HTTP/HTTPS headers: {err.headers}\n"
+            f"Error code: {err.errcode}\n"
+            f"Error message: {err.errmsg}\n"
+            f"Plugin path: {archive}"
+        )
+        logger.error(err_msg)
+        sys.exit(err_msg)
     except xmlrpc.client.Fault as err:
-        print("A fault occurred")
-        print(f"Fault code: {err.faultCode}")
-        print(f"Fault string: {err.faultString}")
-        print(f"Plugin path : {archive}")
-        sys.exit(1)
+        err_msg = (
+            "=== A fault occurred occurred ===\n"
+            f"Fault code: {err.faultCode}\n"
+            f"Fault string: {err.faultString}\n"
+            f"Plugin path: {archive}"
+        )
+        logger.error(err_msg)
+        sys.exit(err_msg)
 
 
 def release(
@@ -483,10 +498,15 @@ def release(
 
     archive_name = parameters.archive_name(parameters.plugin_path, release_version)
 
+    # check if the GitHub release is a regular or pre-release
     is_prerelease = release_is_prerelease(
         parameters, release_tag=release_tag, github_token=github_token
     )
-    print("*** is pre-release: {}".format("YES" if is_prerelease else "NO"))
+
+    if is_prerelease:
+        logger.info(f"{release_tag} is a pre-release.")
+    else:
+        logger.info(f"{release_tag} is a regular release.")
 
     create_archive(
         parameters,
@@ -549,7 +569,7 @@ def release(
             osgeo_username=osgeo_username,
             plugin_repo_url=plugin_repo_url,
         )
-        print("Local XML repo file created : {}".format(xml_repo))
+        logger.info(f"Local XML repo file created : {xml_repo}")
 
     if osgeo_username is not None:
         assert osgeo_password is not None
