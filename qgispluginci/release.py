@@ -71,8 +71,8 @@ def create_archive(
                 "You have uncommitted changes. "
                 "Stash or commit them or use -c / --allow-uncommitted-changes option."
             )
-            logger.error(err_msg)
-            sys.exit(err_msg)
+            logger.error(err_msg, exc_info=UncommitedChanges())
+            sys.exit(1)
         else:
             initial_stash = repo.git.stash("create")
 
