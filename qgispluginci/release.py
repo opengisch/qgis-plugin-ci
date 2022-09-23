@@ -366,7 +366,7 @@ def create_plugin_repo(
     archive: str,
     osgeo_username: str,
     is_prerelease: bool = False,
-    plugin_repo_url=None,
+    plugin_repo_url: str = None,
 ) -> str:
     """
     Creates the plugin repo as an XML file
