@@ -363,9 +363,9 @@ def create_plugin_repo(
     parameters: Parameters,
     release_version: str,
     release_tag: str,
-    is_prerelease: bool,
     archive: str,
-    osgeo_username,
+    osgeo_username: str,
+    is_prerelease: bool = False,
     plugin_repo_url=None,
 ) -> str:
     """
@@ -594,6 +594,7 @@ def release(
             release_version=release_version,
             release_tag=release_tag,
             archive=archive_name,
+            is_prerelease=is_prerelease,
             osgeo_username=osgeo_username,
             plugin_repo_url=plugin_repo_url,
         )
