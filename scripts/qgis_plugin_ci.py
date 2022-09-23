@@ -2,11 +2,12 @@
 
 import argparse
 import configparser
+import logging
 import os
 
 import yaml
 
-from qgispluginci.__about__ import __version__
+from qgispluginci.__about__ import __title_clean__, __version__
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.parameters import Parameters
@@ -20,8 +21,17 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
+    # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
     parser.add_argument(
         "-v",
+        "--verbose",
+        action="count",
+        default=1,
+        dest="verbosity",
+        help="Verbosity level: None = WARNING, -v = INFO, -vv = DEBUG",
+    )
+
+    parser.add_argument(
         "--version",
         action="version",
         version=__version__,
@@ -127,6 +137,21 @@ def main():
 
     args = parser.parse_args()
 
+    # set log level depending on verbosity argument
+    args.verbosity = 40 - (10 * args.verbosity) if args.verbosity > 0 else 0
+    logging.basicConfig(
+        level=args.verbosity,
+        format="%(asctime)s||%(levelname)s||%(module)s||%(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    console = logging.StreamHandler()
+    console.setLevel(args.verbosity)
+
+    # add the handler to the root logger
+    logger = logging.getLogger(__title_clean__)
+    logger.debug(f"Log level set: {logging}")
+
     # if no command is passed, print the help and exit
     if not args.command:
         parser.print_help()
@@ -164,10 +189,9 @@ def main():
             )
             content = c.content(args.release_version)
             if content:
-                print(content)
-        except Exception:
-            # Better to be safe
-            pass
+                print(content)  # noqa: T2
+        except Exception as exc:
+            logger.error("Something went wrong reading the changelog.", exc_info=exc)
 
         return exit_val
 

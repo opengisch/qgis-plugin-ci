@@ -11,6 +11,7 @@
 # standard library
 import logging
 import re
+import sys
 from pathlib import Path
 from typing import Union
 
@@ -63,19 +64,29 @@ class ChangelogParser:
 
         # check if the folder exists
         if not parent_folder.exists():
-            raise FileExistsError(
-                f"Parent folder doesn't exist: {parent_folder.resolve()}"
+            logger.error(
+                f"Parent folder doesn't exist: {parent_folder.resolve()}",
+                exc_info=FileExistsError(),
             )
+            sys.exit(1)
         # check if path is a folder
         if not parent_folder.is_dir():
-            raise TypeError(f"Path is not a folder: {parent_folder.resolve()}")
+            logger.error(
+                f"Path is not a folder: {parent_folder.resolve()}", exc_info=TypeError()
+            )
+            sys.exit(1)
 
         # build, check and store the changelog path
         cls.CHANGELOG_FILEPATH = parent_folder / changelog_path
         if cls.CHANGELOG_FILEPATH.is_file():
             logger.info(f"Changelog file used: {cls.CHANGELOG_FILEPATH.resolve()}")
-
-        return cls.CHANGELOG_FILEPATH.is_file()
+            return True
+        else:
+            logger.warning(
+                f"Changelog file doesn't exist: {cls.CHANGELOG_FILEPATH.resolve()}"
+            )
+            cls.CHANGELOG_FILEPATH = None
+            return False
 
     def __init__(
         self,
@@ -141,6 +152,10 @@ class ChangelogParser:
     def latest_version(self) -> str:
         """Return the latest tag described in the changelog file."""
         latest = self._version_note("latest")
+        logger.debug(
+            "Latest version retrieved from changelog "
+            f"({self.CHANGELOG_FILEPATH.resolve()}): {latest.version}"
+        )
         return latest.version
 
     def content(self, tag: str) -> Union[str, None]:
