@@ -429,7 +429,9 @@ def upload_plugin_to_osgeo(username: str, password: str, archive: str):
     """
     address = f"https://{username}:{password}@plugins.qgis.org:443/plugins/RPC2/"
 
-    server = xmlrpc.client.ServerProxy(address, verbose=True)
+    server = xmlrpc.client.ServerProxy(
+        address, verbose=(logger.getEffectiveLevel() <= 10)
+    )
 
     try:
         logger.debug(f"Start uploading {archive} to QGIS plugins repository.")
