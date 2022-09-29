@@ -103,6 +103,7 @@ def main():
         help="Will create a XML repo as a Github release asset. Github token is required.",
     )
     release_parser.add_argument(
+        "-c",
         "--allow-uncommitted-changes",
         action="store_true",
         help="If omitted, uncommitted changes are not allowed before releasing. If specified and some changes are "
