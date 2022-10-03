@@ -113,8 +113,8 @@ class TestChangelog(unittest.TestCase):
         # expected result
         expected = (
             "(This version note is used in unit-tests)\n\n"
-            '- Tag without "v" prefix\n'
-            "- Add a CHANGELOG.md file for testing"
+            '* Tag without "v" prefix\n'
+            "* Add a CHANGELOG.md file for testing"
         )
 
         self.assertIsInstance(fake_version_content, str)

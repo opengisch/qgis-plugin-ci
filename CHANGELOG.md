@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
+* Complete arguments aliases release sub-command. See #164
+
 ## 2.5.2 - 2022-09-26
 
 * Align xmlrpc verbosity on CLI option by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/161>
