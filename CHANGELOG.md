@@ -10,6 +10,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 * Complete arguments aliases release sub-command. See #164
 
+## 2.5.2 - 2022-09-26
+
+* Align xmlrpc verbosity on CLI option by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/161>
+
+## 2.5.1 - 2022-09-22
+
+* Fix 159: Add missing parameters and set a default value by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/160>
+
+## 2.5.0 - 2022-09-22
+
+* fix Experimental flag is not correct for a pre-release tag in the XML by @3nids in <https://github.com/opengisch/qgis-plugin-ci/pull/150>
+* Fix regression in 2.4 where zip was not compressed by @ivanlonel in <https://github.com/opengisch/qgis-plugin-ci/pull/151>
+* Use built-in version argument by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/153>
+* use concurrency to avoid multiple workflow running at once by @3nids in <https://github.com/opengisch/qgis-plugin-ci/pull/154>
+* Do not run pyqt5ac if there is no qrc file by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/157>
+* Feature: add verbosity option and improve log by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/156>
+* Handle missing changelog when latest is passed by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/158>
+* Improve release workflow enabling auto changelog by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/149>
+* Update and clean git hooks by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/152>
+
 ## 2.4.0 - 2022-08-25
 
 * Keep files permissions when creating zip file by @jmkerloch #129
