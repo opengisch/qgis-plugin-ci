@@ -185,7 +185,7 @@ def create_archive(
         sub_repo = submodule.module()
         logger.info("Git archive submodule: {sub_repo}")
         sub_repo.git.archive(
-            "HEAD", "--prefix", "{}/".format(submodule.path), "-o", sub_tar_file
+            "HEAD", "--prefix", f"{submodule.path}/", "-o", sub_tar_file
         )
         with tarfile.open(top_tar_file, mode="a") as tt:
             with tarfile.open(sub_tar_file, mode="r:") as st:
@@ -198,8 +198,8 @@ def create_archive(
     if add_translations:
         with tarfile.open(top_tar_file, mode="a") as tt:
             logger.debug("Adding translations")
-            for file in glob("{}/i18n/*.qm".format(parameters.plugin_path)):
-                logger.debug("  adding translation: {}".format(os.path.basename(file)))
+            for file in glob(f"{parameters.plugin_path}/i18n/*.qm"):
+                logger.debug(f"  adding translation: {os.path.basename(file)}")
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
 
@@ -208,12 +208,12 @@ def create_archive(
         pyqt5ac.main(
             ioPaths=[
                 [
-                    "{}/*.qrc".format(parameters.plugin_path),
-                    "{}/%%FILENAME%%_rc.py".format(parameters.plugin_path),
+                    f"{parameters.plugin_path}/*.qrc",
+                    f"{parameters.plugin_path}/%%FILENAME%%_rc.py",
                 ]
             ]
         )
-        for file in glob("{}/*_rc.py".format(parameters.plugin_path)):
+        for file in glob(f"{parameters.plugin_path}/*_rc.py"):
             with tarfile.open(top_tar_file, mode="r:") as tt:
                 for n in tt.getnames():
                     if n == file:
@@ -226,7 +226,7 @@ def create_archive(
                         logger.error(err_msg, exc_info=BuiltResourceInSources())
                         sys.exit(1)
             with tarfile.open(top_tar_file, mode="a") as tt:
-                logger.debug("\tAdding resource: {}".format(file))
+                logger.debug(f"\tAdding resource: {file}")
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
 
@@ -255,7 +255,7 @@ def create_archive(
                 zf.writestr(info, fl)
 
     logger.debug("-" * 40)
-    logger.debug("Files in ZIP archive ({}):".format(archive_name))
+    logger.debug(f"Files in ZIP archive ({archive_name}):")
     with zipfile.ZipFile(file=archive_name, mode="r") as zf:
         for f in zf.namelist():
             logger.debug(f)
@@ -283,7 +283,7 @@ def upload_asset_to_github_release(
     asset_name: str = None,
 ):
 
-    slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
+    slug = f"{parameters.github_organization_slug}/{parameters.project_slug}"
     repo = Github(github_token).get_repo(slug)
     try:
         logger.debug(
@@ -337,7 +337,7 @@ def release_is_prerelease(
     if not github_token:
         return False
 
-    slug = "{}/{}".format(parameters.github_organization_slug, parameters.project_slug)
+    slug = f"{parameters.github_organization_slug}/{parameters.project_slug}"
     repo = Github(github_token).get_repo(slug)
     try:
         logger.debug(
@@ -393,18 +393,16 @@ def create_plugin_repo(
         "__REPO_URL__": parameters.repository_url,
     }
     if not plugin_repo_url:
-        download_url = "https://github.com/{org}/{repo}/releases/download/{tag}/{pluginzip}".format(
-            org=replace_dict["__ORG__"],
-            repo=replace_dict["__REPO__"],
-            tag=replace_dict["__RELEASE_TAG__"],
-            pluginzip=replace_dict["__PLUGINZIP__"],
+        orgs = replace_dict["__ORG__"]
+        repo = replace_dict["__REPO__"]
+        tag = replace_dict["__RELEASE_TAG__"]
+        plugin_zip = replace_dict["__PLUGINZIP__"]
+        download_url = (
+            f"https://github.com/{orgs}/{repo}/releases/download/{tag}/{plugin_zip}"
         )
         _, xml_repo = mkstemp(suffix=".xml")
     else:
-        download_url = "{url}{pluginzip}".format(
-            url=plugin_repo_url,
-            pluginzip=replace_dict["__PLUGINZIP__"],
-        )
+        download_url = f"{plugin_repo_url}{replace_dict['__PLUGINZIP__']}"
         xml_repo = "./plugins.xml"
     replace_dict["__DOWNLOAD_URL__"] = download_url
     with importlib_resources.path(

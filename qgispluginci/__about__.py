@@ -30,7 +30,7 @@ __all__ = [
 ]
 
 __author__ = "Denis Rouzaud, Étienne Trimaille, Julien Moura"
-__copyright__ = "2019 - {0}, {1}".format(date.today().year, __author__)
+__copyright__ = f"2019 - {date.today().year}, {__author__}"
 __email__ = "denis.rouzaud@gmail.com"
 __license__ = "GNU General Public License v3.0"
 __summary__ = (
