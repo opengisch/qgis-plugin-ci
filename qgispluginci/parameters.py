@@ -103,9 +103,7 @@ class Parameters:
         self.plugin_slug = slugify(self.plugin_name)
         self.project_slug = definition.get(
             "project_slug",
-            os.environ.get("TRAVIS_REPO_SLUG", ".../{}".format(self.plugin_slug)).split(
-                "/"
-            )[1],
+            os.environ.get("TRAVIS_REPO_SLUG", f".../{self.plugin_slug}").split("/")[1],
         )
         self.github_organization_slug = definition.get(
             "github_organization_slug",
@@ -177,11 +175,8 @@ class Parameters:
         if "-" in plugin_name:
             logger.warning(DASH_WARNING)
 
-        return "{zipname}{experimental}.{release_version}.zip".format(
-            zipname=plugin_name,
-            experimental="-experimental" if experimental else "",
-            release_version=release_version,
-        )
+        experimental = "-experimental" if experimental else ""
+        return f"{plugin_name}{experimental}.{release_version}.zip"
 
     def __get_from_metadata(self, key: str, default_value: any = None) -> str:
         if not self.plugin_path:
@@ -190,7 +185,7 @@ class Parameters:
         metadata_file = f"{self.plugin_path}/metadata.txt"
         with open(metadata_file) as f:
             for line in f:
-                m = re.match(r"{}\s*=\s*(.*)$".format(key), line)
+                m = re.match(rf"{key}\s*=\s*(.*)$", line)
                 if m:
                     return m.group(1)
         if default_value is None:

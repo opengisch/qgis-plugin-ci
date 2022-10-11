@@ -39,11 +39,10 @@ class Translation:
             transifex_token, parameters.transifex_organization, i18n_type="QT"
         )
         assert self._t.ping()
-        self.ts_file = "{dir}/i18n/{res}_{lan}.ts".format(
-            dir=self.parameters.plugin_path,
-            res=self.parameters.transifex_resource,
-            lan=self.parameters.translation_source_language,
-        )
+        plugin_path = self.parameters.plugin_path
+        tx = self.parameters.transifex_resource
+        lang = self.parameters.translation_source_language
+        self.ts_file = f"{plugin_path}/i18n/{tx}_{lang}.ts"
 
         if self._t.project_exists(parameters.transifex_project):
             logger.debug(
@@ -91,12 +90,10 @@ class Translation:
         """
         source_py_files = []
         source_ui_files = []
-        relative_path = "./{plugin_path}".format(
-            plugin_path=self.parameters.plugin_path
-        )
+        relative_path = f"./{self.parameters.plugin_path}"
         for ext in ("py", "ui"):
             for file in glob.glob(
-                "{dir}/**/*.{ext}".format(dir=self.parameters.plugin_path, ext=ext),
+                f"{self.parameters.plugin_path}/**/*.{ext}",
                 recursive=True,
             ):
                 file_path = str(Path(file).relative_to(relative_path))
@@ -112,13 +109,13 @@ class Translation:
         )
 
         with open(project_file, "w") as f:
+            source_py_files = " ".join(source_py_files)
+            source_ui_files = " ".join(source_ui_files)
             assert f.write("CODECFORTR = UTF-8\n")
-            assert f.write("SOURCES = {}\n".format(" ".join(source_py_files)))
-            assert f.write("FORMS = {}\n".format(" ".join(source_ui_files)))
+            assert f.write(f"SOURCES = {source_py_files}\n")
+            assert f.write(f"FORMS = {source_ui_files}\n")
             assert f.write(
-                "TRANSLATIONS = {}\n".format(
-                    Path(self.ts_file).relative_to(relative_path)
-                )
+                f"TRANSLATIONS = {Path(self.ts_file).relative_to(relative_path)}\n"
             )
             f.flush()
             f.close()
@@ -142,9 +139,7 @@ class Translation:
         Compile TS file into QM files
         """
         cmd = [self.parameters.lrelease_path]
-        for file in glob.glob(
-            "{dir}/i18n/*.ts".format(dir=self.parameters.plugin_path)
-        ):
+        for file in glob.glob(f"{self.parameters.plugin_path}/i18n/*.ts"):
             cmd.append(file)
         output = subprocess.run(cmd, capture_output=True, text=True)
         if output.returncode != 0:
@@ -179,11 +174,7 @@ class Translation:
                 )
                 existing_langs.append(lang)
         for lang in existing_langs:
-            ts_file = "{dir}/i18n/{res}_{lan}.ts".format(
-                dir=self.parameters.plugin_path,
-                res=self.parameters.transifex_resource,
-                lan=lang,
-            )
+            ts_file = f"{self.parameters.plugin_path}/i18n/{self.parameters.transifex_resource}_{lang}.ts"
             logger.debug(f"Downloading translation file: {ts_file}")
             self._t.get_translation(
                 self.parameters.transifex_project, resource["slug"], lang, ts_file

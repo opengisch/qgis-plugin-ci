@@ -31,7 +31,7 @@ class TestTranslation(unittest.TestCase):
         except PyTransifexException:
             pass
         try:
-            self.t._t.delete_team("{}-team".format(self.parameters.project_slug))
+            self.t._t.delete_team(f"{self.parameters.project_slug}-team")
         except PyTransifexException:
             pass
 

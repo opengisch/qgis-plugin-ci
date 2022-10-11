@@ -53,13 +53,11 @@ class TestRelease(unittest.TestCase):
             try:
                 rel = self.repo.get_release(id=RELEASE_VERSION_TEST)
             except GithubException:
-                raise GithubReleaseNotFound(
-                    "Release {} not found".format(RELEASE_VERSION_TEST)
-                )
+                raise GithubReleaseNotFound(f"Release {RELEASE_VERSION_TEST} not found")
             if rel:
                 print("deleting release assets")
                 for asset in rel.get_assets():
-                    print("  delete {}".format(asset.name))
+                    print(f"  delete {asset.name}")
                     asset.delete_asset()
         if self.t:
             try:
@@ -67,7 +65,7 @@ class TestRelease(unittest.TestCase):
             except PyTransifexException:
                 pass
             try:
-                self.t._t.delete_team("{}-team".format(self.parameters.project_slug))
+                self.t._t.delete_team(f"{self.parameters.project_slug}-team")
             except PyTransifexException:
                 pass
 
@@ -116,10 +114,8 @@ class TestRelease(unittest.TestCase):
 
         # check the custom plugin repo
         _, xml_repo = mkstemp(suffix=".xml")
-        url = "https://github.com/opengisch/qgis-plugin-ci/releases/download/{}/plugins.xml".format(
-            RELEASE_VERSION_TEST
-        )
-        print("retrieve repo from {}".format(url))
+        url = f"https://github.com/opengisch/qgis-plugin-ci/releases/download/{RELEASE_VERSION_TEST}/plugins.xml"
+        print(f"retrieve repo from {url}")
         urllib.request.urlretrieve(url, xml_repo)
         replace_in_file(
             xml_repo,
