@@ -92,7 +92,7 @@ jobs:
         password: ${{ secrets.PYPI_API_TOKEN }}
 
     - name: Create/update release on GitHub
-      uses: ncipollo/release-action@v1.11.1
+      uses: ncipollo/release-action@v1.12.0
       with:
         allowUpdates: true
         artifacts: "dist/*.tar.gz"
