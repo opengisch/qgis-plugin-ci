@@ -7,6 +7,7 @@ usage: qgis-plugin-ci release [-h] [--transifex-token TRANSIFEX_TOKEN]
                               [--github-token GITHUB_TOKEN]
                               [--create-plugin-repo]
                               [--allow-uncommitted-changes]
+                              [--plugin-repo-url REPO_URL]
                               [--osgeo-username OSGEO_USERNAME]
                               [--osgeo-password OSGEO_PASSWORD]
                               release_version
@@ -34,6 +35,8 @@ optional arguments:
                         changes made by qgis-plugin-ci.
   -d --disable-submodule-update
                         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
+  --plgin-repo-url REPO_URL
+                        URL of the plugin repository on which to publish the plugin. If ommited defaults to plugins.qgis.org.
   --osgeo-username OSGEO_USERNAME
                         The Osgeo user name to publish the plugin.
   --osgeo-password OSGEO_PASSWORD
