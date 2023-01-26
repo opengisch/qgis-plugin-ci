@@ -432,7 +432,7 @@ def upload_plugin_to_osgeo(
     if not server_url:
         address = f"https://{username}:{password}@plugins.qgis.org:443/plugins/RPC2/"
     else:
-        address = f"http://{username}:{password}@{server_url}"
+        address = f"https://{username}:{password}@{server_url}"
 
     server = xmlrpc.client.ServerProxy(
         address, verbose=(logger.getEffectiveLevel() <= 10)
