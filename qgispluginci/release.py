@@ -476,7 +476,7 @@ def release(
     github_token: str = None,
     upload_plugin_repo_github: bool = False,
     transifex_token: str = None,
-    osgeo_url: str = None,
+    plugin_repo_url: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,
     allow_uncommitted_changes: bool = False,
@@ -502,7 +502,7 @@ def release(
         If set, this URL will be used to create the ZIP URL in the XML file
     transifex_token
         The Transifex token
-    osgeo_url
+    plugin_repo_url
         URL of the endpoint to upload the plugin to
     osgeo_username
         osgeo username to upload the plugin to official QGIS repository
@@ -618,12 +618,12 @@ def release(
                 username=osgeo_username,
                 password=osgeo_password,
                 archive=experimental_archive_name,
-                server_url=osgeo_url,
+                server_url=plugin_repo_url,
             )
         else:
             upload_plugin_to_osgeo(
                 username=osgeo_username,
                 password=osgeo_password,
                 archive=archive_name,
-                server_url=osgeo_url,
+                server_url=plugin_repo_url,
             )

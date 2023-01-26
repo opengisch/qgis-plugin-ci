@@ -222,7 +222,7 @@ def main():
             transifex_token=args.transifex_token,
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
-            osgeo_url=args.osgeo_url,
+            plugin_repo_url=args.plugin_repo_url,
             osgeo_username=args.osgeo_username,
             osgeo_password=args.osgeo_password,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
