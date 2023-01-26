@@ -117,7 +117,7 @@ def main():
         help="If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.",
     )
     release_parser.add_argument(
-        "--osgeo-url",
+        "--plugin-repo-url",
         help="The URL of the endpoint to publish the plugin (defaults to plugins.qgis.org)",
     )
     release_parser.add_argument(
