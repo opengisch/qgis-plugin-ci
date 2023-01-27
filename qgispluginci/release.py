@@ -421,7 +421,7 @@ def upload_plugin_to_osgeo(
     Parameters
     ----------
     server_url
-        The plugin servers url (defaults to plugins.qgis.org)
+        The plugin server URL (defaults to plugins.qgis.org)
     username
         The username
     password
