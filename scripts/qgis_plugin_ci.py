@@ -117,6 +117,10 @@ def main():
         help="If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.",
     )
     release_parser.add_argument(
+        "--alternative-repo-url",
+        help="The URL of the endpoint to publish the plugin (defaults to plugins.qgis.org)",
+    )
+    release_parser.add_argument(
         "--osgeo-username", help="The Osgeo user name to publish the plugin."
     )
     release_parser.add_argument(
@@ -218,6 +222,7 @@ def main():
             transifex_token=args.transifex_token,
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
+            alternative_repo_url=args.alternative_repo_url,
             osgeo_username=args.osgeo_username,
             osgeo_password=args.osgeo_password,
             allow_uncommitted_changes=args.allow_uncommitted_changes,

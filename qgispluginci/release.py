@@ -412,12 +412,16 @@ def create_plugin_repo(
     return xml_repo
 
 
-def upload_plugin_to_osgeo(username: str, password: str, archive: str):
+def upload_plugin_to_osgeo(
+    username: str, password: str, archive: str, server_url: str = None
+):
     """
     Upload the plugin to QGIS repository
 
     Parameters
     ----------
+    server_url
+        The plugin server URL (defaults to plugins.qgis.org)
     username
         The username
     password
@@ -425,7 +429,9 @@ def upload_plugin_to_osgeo(username: str, password: str, archive: str):
     archive
         The plugin archive file path to be uploaded
     """
-    address = f"https://{username}:{password}@plugins.qgis.org:443/plugins/RPC2/"
+    if not server_url:
+        server_url = "plugins.qgis.org:443/plugins/RPC2/"
+    address = f"https://{username}:{password}@{server_url}"
 
     server = xmlrpc.client.ServerProxy(
         address, verbose=(logger.getEffectiveLevel() <= 10)
@@ -469,6 +475,7 @@ def release(
     github_token: str = None,
     upload_plugin_repo_github: bool = False,
     transifex_token: str = None,
+    alternative_repo_url: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,
     allow_uncommitted_changes: bool = False,
@@ -494,6 +501,8 @@ def release(
         If set, this URL will be used to create the ZIP URL in the XML file
     transifex_token
         The Transifex token
+    alternative_repo_url
+        URL of the endpoint to upload the plugin to
     osgeo_username
         osgeo username to upload the plugin to official QGIS repository
     osgeo_password
@@ -608,8 +617,12 @@ def release(
                 username=osgeo_username,
                 password=osgeo_password,
                 archive=experimental_archive_name,
+                server_url=alternative_repo_url,
             )
         else:
             upload_plugin_to_osgeo(
-                username=osgeo_username, password=osgeo_password, archive=archive_name
+                username=osgeo_username,
+                password=osgeo_password,
+                archive=archive_name,
+                server_url=alternative_repo_url,
             )
