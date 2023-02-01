@@ -31,7 +31,6 @@ logger = logging.getLogger(__name__)
 
 
 class ChangelogParser:
-
     CHANGELOG_FILEPATH: Union[Path, None] = None
 
     @classmethod

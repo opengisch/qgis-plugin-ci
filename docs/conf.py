@@ -129,6 +129,7 @@ intersphinx_mapping = {"python": ("https://docs.python.org/3/", None)}
 
 # -- Options for Sphinx API doc ----------------------------------------------
 
+
 # run api doc
 def run_apidoc(_):
     from sphinx.ext.apidoc import main

@@ -55,7 +55,6 @@ def create_archive(
     raise_min_version: str = None,
     disable_submodule_update: bool = False,
 ):
-
     repo = git.Repo()
 
     top_tar_handle, top_tar_file = mkstemp(suffix=".tar")
@@ -282,7 +281,6 @@ def upload_asset_to_github_release(
     github_token: str,
     asset_name: str = None,
 ):
-
     slug = f"{parameters.github_organization_slug}/{parameters.project_slug}"
     repo = Github(github_token).get_repo(slug)
     try:
