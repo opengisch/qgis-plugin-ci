@@ -2,7 +2,7 @@
 # -----------------------
 
 myst-parser[linkify]>=0.13,<0.19
-sphinx>=3.1,<6
+sphinx>=3.1,<7
 sphinx-autobuild==2021.3.14
 sphinx-autodoc-typehints>=1.11,<1.20
 sphinx-copybutton>=0.2,<1
