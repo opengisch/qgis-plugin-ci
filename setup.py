@@ -20,6 +20,20 @@ from qgispluginci import __about__
 
 HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
+
+with open(HERE / "requirements/base.txt") as f:
+    requirements = [
+        line
+        for line in f.read().splitlines()
+        if not line.startswith(("#", "-")) and len(line)
+    ]
+with open(HERE / "requirements/development.txt") as f:
+    dev_requirements = [
+        line
+        for line in f.read().splitlines()
+        if not line.startswith(("#", "-")) and len(line)
+    ]
+
 python_min_version = (3, 7)
 
 # This string might be updated on CI on runtime with a proper semantic version name with X.Y.Z
@@ -63,17 +77,9 @@ setup(
     download_url="https://github.com/opengisch/qgis-plugin-ci/archive/{}.tar.gz".format(
         VERSION
     ),
-    install_requires=[
-        "GitPython>=3.1,<3.2",
-        "PyGithub>=1.54,<1.56",
-        "PyQt5>=5.15,<5.16",
-        "pyqt5ac>=1.2,<1.3",
-        "python-slugify>=4.0,<4.1",
-        "pytransifex>=0.1.10,<0.2",
-        "pyyaml>=5.4,<5.5",
-    ],
+    install_requires=requirements,
     extras_require={
-        "dev": ["black", "flake8", "pre-commit"],
+        "dev": dev_requirements,
     },
     python_requires=">={vmaj}.{vmin}".format(
         vmaj=python_min_version[0], vmin=python_min_version[1]
@@ -92,6 +98,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Scientific/Engineering :: GIS",
     ],
