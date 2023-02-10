@@ -1,0 +1,7 @@
+qgispluginci.translation module
+===============================
+
+.. automodule:: qgispluginci.translation
+   :members:
+   :undoc-members:
+   :show-inheritance:

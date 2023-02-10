@@ -1,0 +1,7 @@
+qgispluginci.exceptions module
+==============================
+
+.. automodule:: qgispluginci.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:

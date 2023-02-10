@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CHANGELOG &mdash; QGIS Plugin CI 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Tests" href="testing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: SteelBlue" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            QGIS Plugin CI
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/options.html">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/options.html#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/options.html#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/options.html#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../configuration/options.html#using-yaml-file-qgis-plugin-ci">Using YAML file <code class="docutils literal notranslate"><span class="pre">.qgis-plugin-ci</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../configuration/options.html#using-ini-file-setup-cfg">Using INI file <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/exclude.html">Exclude files in the plugin archive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/submodules.html">Handle submodules SSH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/translation.html">Using Transifex to translate your plugin</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use the CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_changelog.html">Changelog (CLI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#command-help">Command help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#use-cases">Use cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cli_changelog.html#extract-changelog-for-latest-version">Extract changelog for latest version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_package.html">Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_package.html#additional-metadata">Additional metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_release.html">Release</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_release.html#additional-metadata">Additional metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_translation.html">Commands related to the translation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_translation.html#pull-translations">Pull translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_translation.html#push-translations">Push translations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use in CI/CD platforms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_github.html">GitHub workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_gitlab.html">GitLab CI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_docker.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_travis.html">TravisCI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/ci_travis.html#basic-configuration">Basic configuration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../misc/faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/faq.html#unknown-error">Unknown error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../misc/faq.html#how-can-i-merge-many-xml-files-into-one">How can I merge many XML files into one ?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contribution guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../_apidoc/modules.html">Code documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_apidoc/qgispluginci.html">qgispluginci package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_apidoc/qgispluginci.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.changelog.html">qgispluginci.changelog module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.exceptions.html">qgispluginci.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.parameters.html">qgispluginci.parameters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.release.html">qgispluginci.release module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.translation.html">qgispluginci.translation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.utils.html">qgispluginci.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_apidoc/qgispluginci.version_note.html">qgispluginci.version_note module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contribute.html#git-hooks">Git hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contribute.html#code-style">Code Style</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="environment.html#environment-setup">Environment setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#build-documentation-website">Build documentation website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="documentation.html#write-documentation-using-live-render">Write documentation using live render</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#system-requirements">System requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#environment-variables">Environment variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#run-tests">Run tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CHANGELOG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#unreleased">Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.5.3 - 2023-02-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bugs-fixes">Bugs fixes 🐛</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#features-and-enhancements">Features and enhancements 🎉</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation 📖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-changes">Other Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#new-contributors">New Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2.5.2 - 2022-09-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.5.1 - 2022-09-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.5.0 - 2022-09-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.4.0 - 2022-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2.3.0 - 2022-03-17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">2.2.0 - 2022-03-17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2.1.2 - 2022-02-15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">2.1.1 - 2022-01-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">2.1.0 - 2022-01-10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">2.0.1 - 2021-05-11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">2.0.0 - 2021-05-06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">1.8.4 - 2020-09-07</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">1.8.3 - 2020-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">1.8.2 - 2020-08-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">1.8.1 - 2020-08-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">1.8.0 - 2020-07-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">0.1.2 - 2017-07-23</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: SteelBlue" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QGIS Plugin CI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CHANGELOG</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/development/history.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="testing.html" class="btn btn-neutral float-left" title="Tests" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="changelog">
+<h1>CHANGELOG<a class="headerlink" href="#changelog" title="Permalink to this headline"></a></h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<p>The format is based on <a class="reference external" href="https://keepachangelog.com/">Keep a Changelog</a>, and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
+<!-- ## Unreleased [{version_tag}](https://github.com/opengisch/qgis-plugin-ci/releases/tag/{version_tag}) - YYYY-MM-DD -->
+<section id="unreleased">
+<h2>Unreleased<a class="headerlink" href="#unreleased" title="Permalink to this headline"></a></h2>
+</section>
+<section id="id1">
+<h2>2.5.3 - 2023-02-10<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<!-- Release notes generated using configuration in .github/release.yml at 2.5.3 -->
+<section id="bugs-fixes">
+<h3>Bugs fixes 🐛<a class="headerlink" href="#bugs-fixes" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>Bump git hooks to fix pre-commit fail because of isort by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/187">https://github.com/opengisch/qgis-plugin-ci/pull/187</a></p></li>
+</ul>
+</section>
+<section id="features-and-enhancements">
+<h3>Features and enhancements 🎉<a class="headerlink" href="#features-and-enhancements" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>Add missing aliases to release subcommand by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/164">https://github.com/opengisch/qgis-plugin-ci/pull/164</a></p></li>
+<li><p>Python - Use Python fstrings everywhere by &#64;Gustry in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/166">https://github.com/opengisch/qgis-plugin-ci/pull/166</a></p></li>
+<li><p>Add option to use a custom plugin server by &#64;towa in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/181">https://github.com/opengisch/qgis-plugin-ci/pull/181</a></p></li>
+</ul>
+</section>
+<section id="documentation">
+<h3>Documentation 📖<a class="headerlink" href="#documentation" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>Complete latest releases notes to changelog by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/163">https://github.com/opengisch/qgis-plugin-ci/pull/163</a></p></li>
+</ul>
+</section>
+<section id="other-changes">
+<h3>Other Changes<a class="headerlink" href="#other-changes" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>Avoid duplicated dependencies listing by loading dependencies from requirements files by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/188">https://github.com/opengisch/qgis-plugin-ci/pull/188</a></p></li>
+</ul>
+</section>
+<section id="new-contributors">
+<h3>New Contributors<a class="headerlink" href="#new-contributors" title="Permalink to this headline"></a></h3>
+<ul class="simple">
+<li><p>&#64;towa made their first contribution in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/181">https://github.com/opengisch/qgis-plugin-ci/pull/181</a></p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>2.5.2 - 2022-09-26<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Align xmlrpc verbosity on CLI option by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/161">https://github.com/opengisch/qgis-plugin-ci/pull/161</a></p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>2.5.1 - 2022-09-22<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Fix 159: Add missing parameters and set a default value by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/160">https://github.com/opengisch/qgis-plugin-ci/pull/160</a></p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>2.5.0 - 2022-09-22<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>fix Experimental flag is not correct for a pre-release tag in the XML by &#64;3nids in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/150">https://github.com/opengisch/qgis-plugin-ci/pull/150</a></p></li>
+<li><p>Fix regression in 2.4 where zip was not compressed by &#64;ivanlonel in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/151">https://github.com/opengisch/qgis-plugin-ci/pull/151</a></p></li>
+<li><p>Use built-in version argument by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/153">https://github.com/opengisch/qgis-plugin-ci/pull/153</a></p></li>
+<li><p>use concurrency to avoid multiple workflow running at once by &#64;3nids in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/154">https://github.com/opengisch/qgis-plugin-ci/pull/154</a></p></li>
+<li><p>Do not run pyqt5ac if there is no qrc file by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/157">https://github.com/opengisch/qgis-plugin-ci/pull/157</a></p></li>
+<li><p>Feature: add verbosity option and improve log by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/156">https://github.com/opengisch/qgis-plugin-ci/pull/156</a></p></li>
+<li><p>Handle missing changelog when latest is passed by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/158">https://github.com/opengisch/qgis-plugin-ci/pull/158</a></p></li>
+<li><p>Improve release workflow enabling auto changelog by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/149">https://github.com/opengisch/qgis-plugin-ci/pull/149</a></p></li>
+<li><p>Update and clean git hooks by &#64;Guts in <a class="reference external" href="https://github.com/opengisch/qgis-plugin-ci/pull/152">https://github.com/opengisch/qgis-plugin-ci/pull/152</a></p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>2.4.0 - 2022-08-25<a class="headerlink" href="#id5" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Keep files permissions when creating zip file by &#64;jmkerloch #129</p></li>
+<li><p>Update dependencies</p></li>
+<li><p>Documentation improvements</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>2.3.0 - 2022-03-17<a class="headerlink" href="#id6" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Add some metadata in the <code class="docutils literal notranslate"><span class="pre">metadata.txt</span></code> when packaging such as commit number, commit SHA1 and date if these keys are presents</p></li>
+</ul>
+</section>
+<section id="id7">
+<h2>2.2.0 - 2022-03-17<a class="headerlink" href="#id7" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Allow to release a version (1.2.3) which is different from the release tag (v1.2.3) (#120)</p></li>
+</ul>
+</section>
+<section id="id8">
+<h2>2.1.2 - 2022-02-15<a class="headerlink" href="#id8" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Raise an error if a built resource is present in source and the names conflicts by &#64;3nids</p></li>
+</ul>
+</section>
+<section id="id9">
+<h2>2.1.1 - 2022-01-20<a class="headerlink" href="#id9" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Fix a regression from 2.1.0 when the changelog command is used without a configuration file</p></li>
+</ul>
+</section>
+<section id="id10">
+<h2>2.1.0 - 2022-01-10<a class="headerlink" href="#id10" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Add the possibility to choose the changelog filepath in the configuration file with <code class="docutils literal notranslate"><span class="pre">changelog_path</span></code></p></li>
+<li><p>Add some aliases in the command line for some parameters</p></li>
+<li><p>Update the documentation</p></li>
+</ul>
+</section>
+<section id="id11">
+<h2>2.0.1 - 2021-05-11<a class="headerlink" href="#id11" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Fix an issue when packaging this project on <a class="reference external" href="https://pypi.org/">https://pypi.org/</a></p></li>
+</ul>
+</section>
+<section id="id12">
+<h2>2.0.0 - 2021-05-06<a class="headerlink" href="#id12" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Add a dedicated website for the documentation <a class="reference external" href="https://opengisch.github.io/qgis-plugin-ci/">https://opengisch.github.io/qgis-plugin-ci/</a></p></li>
+<li><p>Improve the changelog parser :</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">changelog_regexp</span></code> parameter has been removed</p></li>
+<li><p>The <a class="reference external" href="http://CHANGELOG.md">CHANGELOG.md</a> must follow <a class="reference external" href="https://semver.org/">semantic versioning</a> and <a class="reference external" href="https://keepachangelog.com/">Keep A Changelog</a></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">experimental</span></code> flag is determined automatically if the package name is following the semantic versioning</p></li>
+</ul>
+</li>
+<li><p>Add a special keyword <code class="docutils literal notranslate"><span class="pre">latest</span></code> to package the latest version described in a <a class="reference external" href="http://CHANGELOG.md">CHANGELOG.md</a> file</p></li>
+<li><p>Possible to install the repository using pip install with the GIT URL</p></li>
+</ul>
+</section>
+<section id="id13">
+<h2>1.8.4 - 2020-09-07<a class="headerlink" href="#id13" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Separate python files and UI files in the temporary PRO file (#29)</p></li>
+</ul>
+</section>
+<section id="id14">
+<h2>1.8.3 - 2020-08-25<a class="headerlink" href="#id14" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Keep the plugin path when creating the ZIP</p></li>
+<li><p>Rename qgis_plugin_ci_testing to qgis_plugin_CI_testing to have a capital letter</p></li>
+<li><p>Update readme about plugin_path</p></li>
+</ul>
+</section>
+<section id="id15">
+<h2>1.8.2 - 2020-08-05<a class="headerlink" href="#id15" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Run travis on tags too (#24)</p></li>
+</ul>
+</section>
+<section id="id16">
+<h2>1.8.1 - 2020-08-05<a class="headerlink" href="#id16" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>better support of spaces in plugin name</p></li>
+<li><p>Use underscore instead of hyphen for plugin name #22 (#23)</p></li>
+</ul>
+</section>
+<section id="id17">
+<h2>1.8.0 - 2020-07-16<a class="headerlink" href="#id17" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p>Create temporary .pro file to make pylupdate5 work with unicode char (#19)</p></li>
+</ul>
+</section>
+<section id="id18">
+<h2>0.1.2 - 2017-07-23<a class="headerlink" href="#id18" title="Permalink to this headline"></a></h2>
+<p>(This version note is used in unit-tests)</p>
+<ul class="simple">
+<li><p>Tag without “v” prefix</p></li>
+<li><p>Add a <a class="reference external" href="http://CHANGELOG.md">CHANGELOG.md</a> file for testing</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="testing.html" class="btn btn-neutral float-left" title="Tests" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019 - 2023, Denis Rouzaud, Étienne Trimaille, Julien Moura.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+qgispluginci.parameters module
+==============================
+
+.. automodule:: qgispluginci.parameters
+   :members:
+   :undoc-members:
+   :show-inheritance:

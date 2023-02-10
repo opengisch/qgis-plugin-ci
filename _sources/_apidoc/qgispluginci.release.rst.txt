@@ -1,0 +1,7 @@
+qgispluginci.release module
+===========================
+
+.. automodule:: qgispluginci.release
+   :members:
+   :undoc-members:
+   :show-inheritance:

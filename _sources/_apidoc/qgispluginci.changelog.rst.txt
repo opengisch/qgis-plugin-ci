@@ -1,0 +1,7 @@
+qgispluginci.changelog module
+=============================
+
+.. automodule:: qgispluginci.changelog
+   :members:
+   :undoc-members:
+   :show-inheritance:

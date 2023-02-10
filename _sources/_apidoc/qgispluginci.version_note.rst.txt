@@ -1,0 +1,7 @@
+qgispluginci.version\_note module
+=================================
+
+.. automodule:: qgispluginci.version_note
+   :members:
+   :undoc-members:
+   :show-inheritance:

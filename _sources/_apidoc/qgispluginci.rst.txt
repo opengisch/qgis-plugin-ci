@@ -1,0 +1,21 @@
+qgispluginci package
+====================
+
+.. automodule:: qgispluginci
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   qgispluginci.changelog
+   qgispluginci.exceptions
+   qgispluginci.parameters
+   qgispluginci.release
+   qgispluginci.translation
+   qgispluginci.utils
+   qgispluginci.version_note

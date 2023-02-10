@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qgispluginci &mdash; QGIS Plugin CI 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="qgispluginci package" href="qgispluginci.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="../misc/faq.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: SteelBlue" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            QGIS Plugin CI
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/options.html">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/options.html#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/options.html#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration/options.html#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../configuration/options.html#using-yaml-file-qgis-plugin-ci">Using YAML file <code class="docutils literal notranslate"><span class="pre">.qgis-plugin-ci</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../configuration/options.html#using-ini-file-setup-cfg">Using INI file <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/exclude.html">Exclude files in the plugin archive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/submodules.html">Handle submodules SSH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration/translation.html">Using Transifex to translate your plugin</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use the CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_changelog.html">Changelog (CLI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#command-help">Command help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#use-cases">Use cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_changelog.html#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../usage/cli_changelog.html#extract-changelog-for-latest-version">Extract changelog for latest version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_package.html">Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_package.html#additional-metadata">Additional metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_release.html">Release</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_release.html#additional-metadata">Additional metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/cli_translation.html">Commands related to the translation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_translation.html#pull-translations">Pull translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usage/cli_translation.html#push-translations">Push translations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use in CI/CD platforms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_github.html">GitHub workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_gitlab.html">GitLab CI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_docker.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/ci_travis.html">TravisCI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usage/ci_travis.html#basic-configuration">Basic configuration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../misc/faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/faq.html#unknown-error">Unknown error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../misc/faq.html#how-can-i-merge-many-xml-files-into-one">How can I merge many XML files into one ?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contribution guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qgispluginci.html">qgispluginci package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.changelog.html">qgispluginci.changelog module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.exceptions.html">qgispluginci.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.parameters.html">qgispluginci.parameters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.release.html">qgispluginci.release module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.translation.html">qgispluginci.translation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.utils.html">qgispluginci.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qgispluginci.version_note.html">qgispluginci.version_note module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/contribute.html">Contributing Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/contribute.html#git-hooks">Git hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contribute.html#code-style">Code Style</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/environment.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/environment.html#environment-setup">Environment setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/documentation.html#build-documentation-website">Build documentation website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/documentation.html#write-documentation-using-live-render">Write documentation using live render</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/testing.html">Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/testing.html#system-requirements">System requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/testing.html#environment-variables">Environment variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/testing.html#run-tests">Run tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/history.html">CHANGELOG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#unreleased">Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id1">2.5.3 - 2023-02-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../development/history.html#bugs-fixes">Bugs fixes 🐛</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../development/history.html#features-and-enhancements">Features and enhancements 🎉</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../development/history.html#documentation">Documentation 📖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../development/history.html#other-changes">Other Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../development/history.html#new-contributors">New Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id2">2.5.2 - 2022-09-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id3">2.5.1 - 2022-09-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id4">2.5.0 - 2022-09-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id5">2.4.0 - 2022-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id6">2.3.0 - 2022-03-17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id7">2.2.0 - 2022-03-17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id8">2.1.2 - 2022-02-15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id9">2.1.1 - 2022-01-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id10">2.1.0 - 2022-01-10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id11">2.0.1 - 2021-05-11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id12">2.0.0 - 2021-05-06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id13">1.8.4 - 2020-09-07</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id14">1.8.3 - 2020-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id15">1.8.2 - 2020-08-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id16">1.8.1 - 2020-08-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id17">1.8.0 - 2020-07-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/history.html#id18">0.1.2 - 2017-07-23</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: SteelBlue" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QGIS Plugin CI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">qgispluginci</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_apidoc/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="../misc/faq.html" class="btn btn-neutral float-left" title="Frequently Asked Questions" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qgispluginci.html" class="btn btn-neutral float-right" title="qgispluginci package" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="qgispluginci">
+<h1>qgispluginci<a class="headerlink" href="#qgispluginci" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="qgispluginci.html">qgispluginci package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="qgispluginci.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.changelog.html">qgispluginci.changelog module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.exceptions.html">qgispluginci.exceptions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.parameters.html">qgispluginci.parameters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.release.html">qgispluginci.release module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.translation.html">qgispluginci.translation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.utils.html">qgispluginci.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qgispluginci.version_note.html">qgispluginci.version_note module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../misc/faq.html" class="btn btn-neutral float-left" title="Frequently Asked Questions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="qgispluginci.html" class="btn btn-neutral float-right" title="qgispluginci package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019 - 2023, Denis Rouzaud, Étienne Trimaille, Julien Moura.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>

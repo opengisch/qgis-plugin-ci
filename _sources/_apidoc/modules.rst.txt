@@ -1,0 +1,7 @@
+qgispluginci
+============
+
+.. toctree::
+   :maxdepth: 4
+
+   qgispluginci

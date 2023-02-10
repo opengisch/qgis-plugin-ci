@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qgispluginci.utils &mdash; QGIS Plugin CI 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: SteelBlue" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            QGIS Plugin CI
+          </a>
+              <div class="version">
+                0.0.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/options.html">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/options.html#conventions">Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/options.html#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../configuration/options.html#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration/options.html#using-yaml-file-qgis-plugin-ci">Using YAML file <code class="docutils literal notranslate"><span class="pre">.qgis-plugin-ci</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../configuration/options.html#using-ini-file-setup-cfg">Using INI file <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/exclude.html">Exclude files in the plugin archive</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/submodules.html">Handle submodules SSH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/translation.html">Using Transifex to translate your plugin</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use the CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/cli_changelog.html">Changelog (CLI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_changelog.html#command-help">Command help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_changelog.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_changelog.html#use-cases">Use cases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_changelog.html#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../usage/cli_changelog.html#extract-changelog-for-latest-version">Extract changelog for latest version</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/cli_package.html">Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_package.html#additional-metadata">Additional metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/cli_release.html">Release</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_release.html#additional-metadata">Additional metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/cli_translation.html">Commands related to the translation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_translation.html#pull-translations">Pull translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/cli_translation.html#push-translations">Push translations</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Use in CI/CD platforms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/ci_github.html">GitHub workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/ci_gitlab.html">GitLab CI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/ci_docker.html">Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/ci_travis.html">TravisCI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usage/ci_travis.html#basic-configuration">Basic configuration</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/faq.html#unknown-error">Unknown error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/faq.html#how-can-i-merge-many-xml-files-into-one">How can I merge many XML files into one ?</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contribution guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../_apidoc/modules.html">Code documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../_apidoc/qgispluginci.html">qgispluginci package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../_apidoc/qgispluginci.html#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.changelog.html">qgispluginci.changelog module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.exceptions.html">qgispluginci.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.parameters.html">qgispluginci.parameters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.release.html">qgispluginci.release module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.translation.html">qgispluginci.translation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.utils.html">qgispluginci.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_apidoc/qgispluginci.version_note.html">qgispluginci.version_note module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/contribute.html">Contributing Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../development/contribute.html#git-hooks">Git hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/contribute.html#code-style">Code Style</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/environment.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../development/environment.html#environment-setup">Environment setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/documentation.html">Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../development/documentation.html#build-documentation-website">Build documentation website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/documentation.html#write-documentation-using-live-render">Write documentation using live render</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/testing.html">Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../development/testing.html#system-requirements">System requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/testing.html#environment-variables">Environment variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/testing.html#run-tests">Run tests</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/history.html">CHANGELOG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#unreleased">Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id1">2.5.3 - 2023-02-10</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../development/history.html#bugs-fixes">Bugs fixes 🐛</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../development/history.html#features-and-enhancements">Features and enhancements 🎉</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../development/history.html#documentation">Documentation 📖</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../development/history.html#other-changes">Other Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../development/history.html#new-contributors">New Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id2">2.5.2 - 2022-09-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id3">2.5.1 - 2022-09-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id4">2.5.0 - 2022-09-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id5">2.4.0 - 2022-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id6">2.3.0 - 2022-03-17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id7">2.2.0 - 2022-03-17</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id8">2.1.2 - 2022-02-15</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id9">2.1.1 - 2022-01-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id10">2.1.0 - 2022-01-10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id11">2.0.1 - 2021-05-11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id12">2.0.0 - 2021-05-06</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id13">1.8.4 - 2020-09-07</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id14">1.8.3 - 2020-08-25</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id15">1.8.2 - 2020-08-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id16">1.8.1 - 2020-08-05</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id17">1.8.0 - 2020-07-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../development/history.html#id18">0.1.2 - 2017-07-23</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: SteelBlue" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QGIS Plugin CI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">qgispluginci.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qgispluginci.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">floor</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">log</span> <span class="k">as</span> <span class="n">math_log</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="nb">pow</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">qgispluginci.version_note</span> <span class="kn">import</span> <span class="n">VersionNote</span>
+
+<span class="c1"># GLOBALS</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="replace_in_file"><a class="viewcode-back" href="../../_apidoc/qgispluginci.utils.html#qgispluginci.utils.replace_in_file">[docs]</a><span class="k">def</span> <span class="nf">replace_in_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;utf8&quot;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="configure_file"><a class="viewcode-back" href="../../_apidoc/qgispluginci.utils.html#qgispluginci.utils.configure_file">[docs]</a><span class="k">def</span> <span class="nf">configure_file</span><span class="p">(</span><span class="n">source_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dest_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">source_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">new</span> <span class="ow">in</span> <span class="n">replace</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="convert_octets"><a class="viewcode-back" href="../../_apidoc/qgispluginci.utils.html#qgispluginci.utils.convert_octets">[docs]</a><span class="k">def</span> <span class="nf">convert_octets</span><span class="p">(</span><span class="n">octets</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a mount of octets in readable size.</span>
+
+<span class="sd">    :param int octets: mount of octets to convert</span>
+
+<span class="sd">    :Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        &gt;&gt;&gt; convert_octets(1024)</span>
+<span class="sd">        &quot;1ko&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check zero</span>
+    <span class="k">if</span> <span class="n">octets</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;0 octet&quot;</span>
+
+    <span class="c1"># conversion</span>
+    <span class="n">size_name</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;octets&quot;</span><span class="p">,</span> <span class="s2">&quot;Ko&quot;</span><span class="p">,</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span> <span class="s2">&quot;Go&quot;</span><span class="p">,</span> <span class="s2">&quot;To&quot;</span><span class="p">,</span> <span class="s2">&quot;Po&quot;</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">floor</span><span class="p">(</span><span class="n">math_log</span><span class="p">(</span><span class="n">octets</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">octets</span> <span class="o">/</span> <span class="n">p</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">size_name</span><span class="p">[</span><span class="n">i</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="touch_file"><a class="viewcode-back" href="../../_apidoc/qgispluginci.utils.html#qgispluginci.utils.touch_file">[docs]</a><span class="k">def</span> <span class="nf">touch_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">update_time</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">create_dir</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="n">basedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">create_dir</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">basedir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">basedir</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">update_time</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="parse_tag"><a class="viewcode-back" href="../../_apidoc/qgispluginci.utils.html#qgispluginci.utils.parse_tag">[docs]</a><span class="k">def</span> <span class="nf">parse_tag</span><span class="p">(</span><span class="n">version_tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">VersionNote</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse a tag and determine the semantic version.&quot;&quot;&quot;</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">version_tag</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">VersionNote</span><span class="p">(</span>
+                <span class="n">major</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">patch</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">prerelease</span><span class="o">=</span><span class="n">components</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">VersionNote</span><span class="p">(</span><span class="n">major</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">minor</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">patch</span><span class="o">=</span><span class="n">items</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">VersionNote</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019 - 2023, Denis Rouzaud, Étienne Trimaille, Julien Moura.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
