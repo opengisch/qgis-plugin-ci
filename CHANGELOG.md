@@ -8,9 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## Unreleased
 
-* Complete arguments aliases release sub-command. See #164
-
 ## 2.5.3 - 2023-02-10
+
+<!-- Release notes generated using configuration in .github/release.yml at 2.5.3 -->
 
 ### Bugs fixes 🐛
 
@@ -19,6 +19,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Features and enhancements 🎉
 
 * Add missing aliases to release subcommand by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/164>
+* Python - Use Python fstrings everywhere by @Gustry in <https://github.com/opengisch/qgis-plugin-ci/pull/166>
+* Add option to use a custom plugin server by @towa in <https://github.com/opengisch/qgis-plugin-ci/pull/181>
 
 ### Documentation 📖
 
@@ -26,11 +28,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ### Other Changes
 
-* Python - Use Python fstrings everywhere by @Gustry in <https://github.com/opengisch/qgis-plugin-ci/pull/166>
-* Add option to use a custom plugin server by @towa in <https://github.com/opengisch/qgis-plugin-ci/pull/181>
 * Avoid duplicated dependencies listing by loading dependencies from requirements files by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/188>
 
-## New Contributors
+### New Contributors
 
 * @towa made their first contribution in <https://github.com/opengisch/qgis-plugin-ci/pull/181>
 
