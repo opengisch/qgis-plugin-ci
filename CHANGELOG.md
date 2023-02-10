@@ -10,6 +10,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 * Complete arguments aliases release sub-command. See #164
 
+## 2.5.3 - 2023-02-10
+
+### Bugs fixes 🐛
+
+* Bump git hooks to fix pre-commit fail because of isort by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/187>
+
+### Features and enhancements 🎉
+
+* Add missing aliases to release subcommand by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/164>
+
+### Documentation 📖
+
+* Complete latest releases notes to changelog by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/163>
+
+### Other Changes
+
+* Python - Use Python fstrings everywhere by @Gustry in <https://github.com/opengisch/qgis-plugin-ci/pull/166>
+* Add option to use a custom plugin server by @towa in <https://github.com/opengisch/qgis-plugin-ci/pull/181>
+* Avoid duplicated dependencies listing by loading dependencies from requirements files by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/188>
+
+## New Contributors
+
+* @towa made their first contribution in <https://github.com/opengisch/qgis-plugin-ci/pull/181>
+
 ## 2.5.2 - 2022-09-26
 
 * Align xmlrpc verbosity on CLI option by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/161>
