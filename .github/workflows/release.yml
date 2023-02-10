@@ -28,90 +28,121 @@ jobs:
             # Do not make simultaneous tests, transifex and GitHub release will fail
             # "3.6",
             "3.9",
-            # "3.10",
-        ]
+          ]
+
+    # "3.10",
+    steps:
+      - name: Get source code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+          cache: "pip"
+          cache-dependency-path: "requirements/*.txt"
+
+      - name: Install system requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install qtbase5-dev qttools5-dev-tools
+
+      - name: Install Python requirements
+        run: |
+          python -m pip install -U pip setuptools wheel
+          python -m pip install -U -r requirements.txt
+          python -m pip install -U nose2
+
+      - name: Run tests
+        env:
+          transifex_token: ${{ secrets.TRANSIFEX_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: nose2 -v
+
+  build-python-wheel:
+    name: "🐍 Python Wheel"
+    runs-on: ubuntu-22.04
 
     steps:
-    - name: Get source code
-      uses: actions/checkout@v3
+      - name: Get source code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python }}
-        cache: "pip"
-        cache-dependency-path: "requirements/*.txt"
+      - name: Set version number
+        run: |
+          VERSION=${GITHUB_REF:-0.0.0}
+          VERSION=${VERSION##*/}
+          sed -i "s/__VERSION__/${VERSION}/g" setup.py
+          sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
 
-    - name: Install system requirements
-      run: |
-        sudo apt-get update
-        sudo apt-get install qtbase5-dev qttools5-dev-tools
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION_RELEASE }}
+          cache: "pip"
+          cache-dependency-path: "requirements/*.txt"
 
-    - name: Install Python requirements
-      run: |
-        python -m pip install -U pip setuptools wheel
-        python -m pip install -U -r requirements.txt
-        python -m pip install -U nose2
+      - name: Install project requirements
+        run: |
+          python -m pip install -U pip setuptools wheel
+          python -m pip install -U -r requirements.txt
+          python -m pip install -U build
 
-    - name: Run tests
-      env:
-        transifex_token: ${{ secrets.TRANSIFEX_TOKEN }}
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-      run: nose2 -v
+      - name: Install project as a package
+        run: python -m pip install -e .
 
-  release:
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+          .
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: python_wheel
+          path: dist/*
+          if-no-files-found: error
+
+  release-gh:
     name: "Release on tag 🚀"
     runs-on: ubuntu-latest
-    needs: [tests]
+    needs: [build-python-wheel, tests]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
     steps:
-    - name: Get source code
-      uses: actions/checkout@v3
+      - name: Retrieve artifact from Python build
+        uses: actions/download-artifact@v3
+        with:
+          name: python_wheel
+          path: dist/
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION_RELEASE }}
+      - name: Create/update release on GitHub
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          allowUpdates: true
+          artifacts: "builds**/*"
+          generateReleaseNotes: true
+          omitNameDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Setup
-      run: |
-        VERSION=${GITHUB_REF:-0.0.0}
-        VERSION=${VERSION##*/}
-        sed -i "s/__VERSION__/${VERSION}/g" setup.py
-        sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
+  release-pypi:
+    name: "🐍 Release on PyPI"
+    runs-on: ubuntu-latest
+    needs: [build-python-wheel, tests]
 
-    - name: Install project and packaging requirements
-      run: |
-        python -m pip install -U pip setuptools wheel
-        python -m pip install -U -r requirements.txt
-        python -m pip install -U build
+    steps:
+      - name: Retrieve artifact from Python build
+        uses: actions/download-artifact@v3
+        with:
+          name: python_wheel
+          path: dist/
 
-    - name: Install project as a package
-      run: python -m pip install -e .
+      # -- FROM HERE, A TAG IS REQUIRED ---
+      - name: Deploy to PyPI
+        uses: pypa/gh-action-pypi-publish@master
 
-    - name: Build a binary wheel and a source tarball
-      run: >-
-        python -m
-        build
-        --no-isolation
-        --sdist
-        --wheel
-        --outdir dist/
-        .
-
-    - name: Deploy to PyPI
-      uses: pypa/gh-action-pypi-publish@master
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
-
-    - name: Create/update release on GitHub
-      uses: ncipollo/release-action@v1.12.0
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-      with:
-        allowUpdates: true
-        artifacts: "dist/*.tar.gz"
-        generateReleaseNotes: true
-        omitNameDuringUpdate: true
-        token: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
