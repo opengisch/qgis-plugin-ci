@@ -11,7 +11,14 @@
 # ##################################
 
 # standard library
+import logging
+import subprocess
 from datetime import date
+from os import getenv
+from pathlib import Path
+
+# package
+from qgispluginci.changelog import ChangelogParser
 
 # ############################################################################
 # ########## Globals #############
@@ -47,12 +54,33 @@ __uri_homepage__ = "https://opengisch.github.io/qgis-plugin-ci/"
 __uri_tracker__ = f"{__uri__}issues/"
 
 # This string might be updated on CI on runtime with a proper semantic version name with X.Y.Z
-__version__ = "__VERSION__"
+__version__ = getenv("GITHUB_REF_NAME", "__VERSION__")
 
 if "." not in __version__:
     # If __version__ is still not a proper semantic versioning with X.Y.Z
     # let's hardcode 0.0.0
     __version__ = "0.0.0"
+
+    # try to get it from git tag
+    try:
+        git_cmd = "git tag -l --sort=-creatordate | head -n 1"
+        returned_output: bytes = subprocess.check_output(git_cmd, shell=True)
+        if len(returned_output):
+            __version__ = returned_output.decode("utf-8")
+        else:
+            chglog = ChangelogParser(parent_folder=Path(__file__).parent.parent)
+            if chglog.CHANGELOG_FILEPATH:
+                __version__ = chglog.latest_version()
+    except Exception as err:
+        logging.debug(f"Unable to retrieve version from latest git tag. Trace: {err}")
+
+    try:
+        # bump latest number
+        M, m, p = __version__.split(".")
+        __version__ = f"{M}.{m}.{int(p)+ 1}.dev"
+    except Exception as err:
+        logging.debug(f"Unable to parse version to bump latest number. Trace: {err}")
+        __version__ = f"{__version__}.dev"
 
 __version_info__ = tuple(
     [
