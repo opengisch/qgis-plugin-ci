@@ -37,12 +37,7 @@ with open(HERE / "requirements/development.txt") as f:
 python_min_version = (3, 7)
 
 # This string might be updated on CI on runtime with a proper semantic version name with X.Y.Z
-VERSION = "__VERSION__"
-
-if "." not in VERSION:
-    # If VERSION is still not a proper semantic versioning with X.Y.Z
-    # let's hardcode 0.0.0
-    VERSION = "0.0.0"
+VERSION = __about__.__version__
 
 # ############################################################################
 # ########## Setup #############
