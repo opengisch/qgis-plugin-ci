@@ -51,6 +51,7 @@ usage/ci_travis
 caption: Miscellaneous
 maxdepth: 1
 ---
+misc/credits
 misc/faq
 ```
 
@@ -67,7 +68,9 @@ development/testing
 development/history
 ```
 
-## Examples
+----
+
+## Plugins published using qgis-plugin-ci
 
 ```{eval-rst}
 .. panels::

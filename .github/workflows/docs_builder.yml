@@ -1,4 +1,4 @@
-name: Documentation Builder
+name: "📚 Documentation Builder"
 
 on:
   push:
@@ -7,16 +7,34 @@ on:
       - 'docs/**/*'
       - '.github/workflows/docs_builder.yml'
       - 'qgispluginci/**/*.py'
-    tags: "*"
+    tags:
+      - "*"
+
+  pull_request:
+    branches: [master]
+    paths:
+      - ".github/workflows/docs_builder.yml"
+      - docs/**/*
+      - requirements/documentation.txt
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 env:
-  PYTHON_VERSION: 3.8
+  PYTHON_VERSION: 3.11
 
 jobs:
   build-docs:
 
-    runs-on: ubuntu-20.04
-    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
 
     steps:
     - name: Get source code
@@ -27,24 +45,50 @@ jobs:
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         cache: "pip"
-
-    - name: Cache project dependencies (pip)
-      uses: actions/cache@v3.2.4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements/*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+        cache-dependency-path: "requirements/*.txt"
 
     - name: Install project requirements
       run: |
         python -m pip install -U pip setuptools wheel
+        python -m pip install -U -r requirements.txt
+
+    - name: Install project as a package
+      run: python -m pip install -e .
+
+    # this job must run before installing other dependencies to avoid listing everything
+    - name: Generates licenses page with pip-licences
+      run: |
+        python -m pip install -U "pip-licenses>=4,<5"
+        pip-licenses --format=markdown --with-authors --with-description --with-urls --ignore-packages qgis-plugin-ci --output-file=docs/misc/licenses.md
+
+    - name: Install documentation requirements
+      run: |
+        python -m pip install -U -r requirements/development.txt
         python -m pip install -U -r requirements/documentation.txt
 
     - name: Build doc using Sphinx
-      run: sphinx-build -b html docs docs/_build/html
+      run: sphinx-build -b html -j auto -d docs/_build/cache -q docs docs/_build/html
+
+    - name: Save build doc as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: docs/_build/html/*
+        if-no-files-found: error
+        retention-days: 30
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+      with:
+        # Upload entire repository
+        path: docs/_build/html/
 
     - name: Deploy to GitHub Pages
-      run: |
-        python -m pip install ghp-import
-        ghp-import --force --no-jekyll --push docs/_build/html
+      id: deployment
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+      uses: actions/deploy-pages@v1
