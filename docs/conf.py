@@ -40,6 +40,7 @@ extensions = [
     "myst_parser",
     "sphinx_copybutton",
     "sphinx_design",
+    "sphinx_sitemap",
 ]
 
 
@@ -119,6 +120,8 @@ myst_url_schemes = ("http", "https", "mailto")
 # Configuration for intersphinx (refer to others docs).
 intersphinx_mapping = {"python": ("https://docs.python.org/3/", None)}
 
+# sitemap
+sitemap_url_scheme = "{link}"
 
 # -- Options for Sphinx API doc ----------------------------------------------
 
