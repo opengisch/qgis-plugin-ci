@@ -11,9 +11,6 @@ from os import environ, path
 
 sys.path.insert(0, path.abspath(".."))  # move into project package
 
-# 3rd party
-import sphinx_rtd_theme  # noqa: F401 theme of Read the Docs
-
 # Package
 from qgispluginci import __about__
 
@@ -21,21 +18,11 @@ from qgispluginci import __about__
 on_rtd = environ.get("READTHEDOCS", None) == "True"
 
 # -- Project information -----------------------------------------------------
-project = __about__.__title__
 author = __about__.__author__
 copyright = __about__.__copyright__
+project = __about__.__title__
 version = release = __about__.__version__
-github_doc_root = "{}/tree/master/doc/".format(__about__.__uri__)
 
-myst_substitutions = {
-    "author": author,
-    "date_update": datetime.now().strftime("%d %B %Y"),
-    "repo_url": __about__.__uri__,
-    "title": project,
-    "version": version,
-}
-
-myst_url_schemes = ("http", "https", "mailto")
 
 # -- General configuration ---------------------------------------------------
 
@@ -47,15 +34,12 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.githubpages",
-    "sphinx.ext.imgmath",
     "sphinx.ext.intersphinx",
     "sphinx.ext.extlinks",
-    "sphinx.ext.viewcode",
     # 3rd party
     "myst_parser",
     "sphinx_copybutton",
     "sphinx_design",
-    "sphinx_rtd_theme",
 ]
 
 
@@ -87,40 +71,50 @@ pygments_style = "sphinx"
 
 # -- Theme
 
-# html_favicon = "../qgispluginci/resources/images/icon.png"
-# html_logo = "../qgispluginci/resources/images/icon.png"
-# html_static_path = ["_static"]
-html_theme = "sphinx_rtd_theme"
+# final URL
+html_baseurl = __about__.__uri_homepage__
+
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+# html_static_path = ["static"]
+html_extra_path = ["robots.txt"]
+
+# theme
+html_theme = "furo"
 html_theme_options = {
-    # "canonical_url": __about__.__uri_homepage__,
-    "display_version": True,
-    # "github_url": __about__.__uri__,
-    "logo_only": False,
-    "prev_next_buttons_location": "both",
-    # "repository_url": __about__.__uri__,
-    "style_external_links": True,
-    "style_nav_header_background": "SteelBlue",
-    # Toc options
-    "collapse_navigation": False,
-    "includehidden": False,
-    "navigation_depth": 4,
-    "sticky_navigation": False,
-    "titles_only": False,
+    "navigation_with_keys": True,
+    "source_repository": __about__.__uri__,
+    "source_branch": "main",
+    "source_directory": "docs/",
 }
 
 
+# -- EXTENSIONS --------------------------------------------------------
+
 myst_enable_extensions = [
-    "amsmath",
     "colon_fence",
     "deflist",
-    "dollarmath",
     "html_image",
     "linkify",
     "replacements",
     "smartquotes",
     "substitution",
 ]
-# -- EXTENSIONS --------------------------------------------------------
+
+myst_heading_anchors = 3
+
+# replacement variables
+myst_substitutions = {
+    "author": author,
+    "date_update": datetime.now().strftime("%d %B %Y"),
+    "description": __about__.__summary__,
+    "repo_url": __about__.__uri__,
+    "title": project,
+    "version": version,
+}
+
+myst_url_schemes = ("http", "https", "mailto")
 
 # Configuration for intersphinx (refer to others docs).
 intersphinx_mapping = {"python": ("https://docs.python.org/3/", None)}
