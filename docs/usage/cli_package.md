@@ -37,7 +37,7 @@ When packaging the plugin, some extra metadata information can be added if these
 * `commitSha1=` : the commit ID
 * `dateTime=` : the date time in UTC format when the packaging is done
 
-* :::{tip}
+:::{tip}
 These extra parameters are specific to QGIS Plugin CI, so it's strongly recommended storing them below a dedicated section:
 
 ```ini
@@ -46,4 +46,5 @@ commitNumber=
 commitSha1=
 dateTime=
 ```
+
 :::
