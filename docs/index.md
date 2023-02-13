@@ -1,5 +1,6 @@
 # {{ title }} - Documentation
 
+> **Description:** {{ description }}  
 > **Author and contributors:** {{ author }}  
 > **Version:** {{ version }}  
 > **Source code:** {{ repo_url }}  
