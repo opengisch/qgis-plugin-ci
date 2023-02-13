@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 <!-- ## Unreleased [{version_tag}](https://github.com/opengisch/qgis-plugin-ci/releases/tag/{version_tag}) - YYYY-MM-DD -->
 
-## Unreleased
+## 2.5.4 - 2023-02-10
+
+### Bugs fixes 🐛
+
+* Modernize build and packaging to publish as wheel by @Guts in <https://github.com/opengisch/qgis-plugin-ci/pull/191>
 
 ## 2.5.3 - 2023-02-10
 
