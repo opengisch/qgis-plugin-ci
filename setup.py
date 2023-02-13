@@ -70,8 +70,8 @@ setup(
     version=VERSION,
     url=__about__.__uri__,
     project_urls={
-        "Docs": "https://opengisch.github.io/qgis-plugin-ci/",
-        "Bug Reports": "{}issues/".format(__about__.__uri__),
+        "Docs": __about__.__uri_homepage__,
+        "Bug Reports": __about__.__uri_tracker__,
         "Source": __about__.__uri__,
     },
     download_url="https://github.com/opengisch/qgis-plugin-ci/archive/{}.tar.gz".format(

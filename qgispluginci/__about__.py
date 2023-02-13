@@ -35,13 +35,16 @@ __email__ = "denis.rouzaud@gmail.com"
 __license__ = "GNU General Public License v3.0"
 __summary__ = (
     "Let qgis-plugin-ci package and release your QGIS plugins for you. "
-    "Have a tea or go hiking meanwhile."
+    "Have a tea or go hiking meanwhile.\n"
     "Contains scripts to perform automated testing and deployment for QGIS plugins. "
-    "These scripts are written for and tested on GitHub, Travis-CI, GitHub workflows and Transifex."
+    "These scripts are written for and tested on GitHub Actions, GitLab CI, "
+    "Travis-CI, and Transifex."
 )
 __title__ = "QGIS Plugin CI"
 __title_clean__ = "".join(e for e in __title__ if e.isalnum())
 __uri__ = "https://github.com/opengisch/qgis-plugin-ci/"
+__uri_homepage__ = "https://opengisch.github.io/qgis-plugin-ci/"
+__uri_tracker__ = f"{__uri__}issues/"
 
 # This string might be updated on CI on runtime with a proper semantic version name with X.Y.Z
 __version__ = "__VERSION__"
