@@ -81,106 +81,125 @@ development/history
 
 ## Plugins published using qgis-plugin-ci
 
-```{eval-rst}
-.. panels::
-    :card: shadow
-    :container: container-lg pb-6
-    :column: col-lg-6 col-md-6 col-sm-6 col-xs-12 p-2
+<!-- markdownlint-disable MD034 -->
 
-    Render GeoJSON (server)
-    ^^^^^^^^^^^^^^^^^^^^^^^
+:::::{grid} 2
 
-    * deployment on github releases and plugin repository
-    * works on gihtub workflows
-    * barebone implementation, no bells and whistles
+:::{card}
+:link: https://github.com/opengisch/qgis_server_render_geojson/
 
-    .. link-button:: https://github.com/opengisch/qgis_server_render_geojson/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+Render GeoJSON (server)
+^^^^^^^^^^^^^^^^^^^^^^^
 
-    ---
+* deployment on GitHub Releases and plugin repository
+* works on GitHub workflows
+* barebone implementation, no bells and whistles
+:::
 
-    Lizmap
-    ^^^^^^
+:::{card}
+:link: https://github.com/3liz/lizmap-plugin/
 
-    * using a `setup.cfg` file
-    * metadata populated automatically from CHANGELOG.md file
-    * GitHub release created automatically from Travis
-    * released on official repository
-    * translations are committed from Travis to the repository after the release process
-    * GitLab-CI with Docker is used as well
+Lizmap
+^^^^^^
 
-    .. link-button:: https://github.com/3liz/lizmap-plugin/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+* using a `setup.cfg` file
+* metadata populated automatically from CHANGELOG.md file
+* GitHub release created automatically from Travis
+* released on official repository
+* translations are committed from Travis to the repository after the release process
+* GitLab-CI with Docker is used as well
+:::
 
-    ---
+:::{card}
+:link: https://github.com/opengisch/qgis_geomapfish_locator/
 
-    GeoMapFish Locator
-    ^^^^^^^^^^^^^^^^^^
+GeoMapFish Locator
+^^^^^^^^^^^^^^^^^^
 
-    * translated on Transifex
-    * released on official repo
+* translated on Transifex
+* released on official repo
+:::
 
-    .. link-button:: https://github.com/opengisch/qgis_geomapfish_locator/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+:::{card}
+:link: https://github.com/VeriVD/qgis_VeriVD/
 
-    ---
+VeriVD
+^^^^^^
 
-    VeriVD
-    ^^^^^^
+* translated on Transifex
+* released on official repo
+:::
 
-    * released on custom repo as GitHub release
+:::{card}
+:link: https://github.com/VeriVD/qgis_VeriVD/
 
-    .. link-button:: https://github.com/VeriVD/qgis_VeriVD/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+VeriVD
+^^^^^^
 
-    ---
+* released on custom repo as GitHub release
+:::
 
-    pgMetadata
-    ^^^^^^^^^^
+:::{card}
+:link: https://github.com/3liz/qgis-pgmetadata-plugin/
 
-    * Released using GitHub Actions and Transifex
+pgMetadata
+^^^^^^
 
-    .. link-button:: https://github.com/3liz/qgis-pgmetadata-plugin/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+* Released using GitHub Actions and Transifex
 
-    ---
+:::
 
-    QTribu
-    ^^^^^^
+:::{card}
+:link: https://github.com/geotribu/qtribu/
 
-    * GitHub Actions
-    * using a `setup.cfg` file
-    * Used to on custom plugins repository as GitHub release
+QTribu
+^^^^^^
 
-    .. link-button:: https://github.com/geotribu/qtribu/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+* GitHub Actions
+* using a `setup.cfg` file
+* Used to on custom plugins repository as GitHub release
 
-    ---
+:::
 
-    Land Survey Codes Import
-    ^^^^^^^^^^^^^^^^^^^^^^^^
+:::{card}
+:link: https://gitlab.com/Oslandia/qgis/landsurveycodesimport/
 
-    * Release using GitLab CI
-    * Local translations
-    * using a `setup.cfg` file
+Land Survey Codes Import
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-    .. link-button:: https://gitlab.com/Oslandia/qgis/landsurveycodesimport/
-        :type: url
-        :text: Repository
-        :classes: btn-outline-primary btn-block
+* Release using **GitLab CI**
+* Local translations
+* using a `setup.cfg` file
 
+:::
 
+:::{card}
+:link: https://gitlab.com/Oslandia/qgis/french_locator_filter/
 
-```
+French Locator Filter
+^^^^^^^^^^^^^^^^^^^^^
+
+* Release using **GitLab CI**
+* Local translations (no transifex)
+* Configured using a `setup.cfg` file
+* Both deployed on custom repository on GitLab Pages (on master) on official repository (on git tag)
+
+:::
+
+:::{card}
+:link: https://gitlab.com/Oslandia/qgis/thyrsis/
+
+Thyrsis
+^^^^^^^
+
+* Packaged and release using **GitLab CI**
+* Embed some built external dependencies
+* Local translations (no transifex)
+* Configured using a `setup.cfg` file
+* Both deployed on custom repository on GitLab Pages (on master) on official repository (on git tag)
+
+:::
+
+:::::
+
+<!-- markdownlint-enable MD034 -->
