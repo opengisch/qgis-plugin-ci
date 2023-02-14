@@ -6,6 +6,8 @@ build/
 dist/
 *.egg-info
 
+*.orig
+
 __pycache__/
 *.pyc
 *.tar
