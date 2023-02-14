@@ -51,10 +51,8 @@ if "." not in VERSION:
 
 if sys.version_info < python_min_version:
     sys.exit(
-        "qgis-plugin-ci requires at least Python version {vmaj}.{vmin}.\n"
-        "You are currently running this installation with\n\n{curver}".format(
-            vmaj=python_min_version[0], vmin=python_min_version[1], curver=sys.version
-        )
+        f"qgis-plugin-ci requires at least Python version {python_min_version[0]}.{python_min_version[1]}.\n"
+        f"You are currently running this installation with\n\n{sys.version}"
     )
 
 setup(
@@ -74,16 +72,12 @@ setup(
         "Bug Reports": __about__.__uri_tracker__,
         "Source": __about__.__uri__,
     },
-    download_url="https://github.com/opengisch/qgis-plugin-ci/archive/{}.tar.gz".format(
-        VERSION
-    ),
+    download_url=f"https://github.com/opengisch/qgis-plugin-ci/archive/{VERSION}.tar.gz",
     install_requires=requirements,
     extras_require={
         "dev": dev_requirements,
     },
-    python_requires=">={vmaj}.{vmin}".format(
-        vmaj=python_min_version[0], vmin=python_min_version[1]
-    ),
+    python_requires=f">={python_min_version[0]}.{python_min_version[1]}",
     # metadata
     keywords=["QGIS", "CI", "changelog", "plugin"],
     classifiers=[
