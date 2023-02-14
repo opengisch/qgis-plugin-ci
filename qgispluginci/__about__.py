@@ -65,14 +65,14 @@ if "." not in __version__:
     try:
         git_cmd = "git tag -l --sort=-creatordate | head -n 1"
         returned_output: bytes = subprocess.check_output(git_cmd, shell=True)
-        if len(returned_output):
-            __version__ = returned_output.decode("utf-8")
-        else:
-            chglog = ChangelogParser(parent_folder=Path(__file__).parent.parent)
-            if chglog.CHANGELOG_FILEPATH:
-                __version__ = chglog.latest_version()
+        __version__ = returned_output.decode("utf-8")
     except Exception as err:
         logging.debug(f"Unable to retrieve version from latest git tag. Trace: {err}")
+
+    if not len(__version__):
+        chglog = ChangelogParser(parent_folder=Path(__file__).parent.parent)
+        if chglog.CHANGELOG_FILEPATH:
+            __version__ = chglog.latest_version()
 
     try:
         # bump latest number
