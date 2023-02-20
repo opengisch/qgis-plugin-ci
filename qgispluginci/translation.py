@@ -36,9 +36,9 @@ class Translation:
         """
         self.parameters = parameters
         self._t = Transifex(
-            api_token=transifex_token, 
-            organization_name=parameters.transifex_organization, 
-            i18n_type="QT"
+            api_token=transifex_token,
+            organization_name=parameters.transifex_organization,
+            i18n_type="QT",
         )
         assert self._t.ping()
         plugin_path = self.parameters.plugin_path
@@ -62,7 +62,7 @@ class Translation:
                 project_slug=self.parameters.transifex_project,
                 source_language_code=parameters.translation_source_language,
                 private=False,
-                repository_url=self.parameters.repository_url
+                repository_url=self.parameters.repository_url,
             )
             self.update_strings()
             logger.debug(
@@ -180,10 +180,10 @@ class Translation:
             ts_file = f"{self.parameters.plugin_path}/i18n/{self.parameters.transifex_resource}_{lang}.ts"
             logger.debug(f"Downloading translation file: {ts_file}")
             self._t.get_translation(
-                project_slug=self.parameters.transifex_project, 
-                resource_slug=resource["slug"], 
-                language_code=lang, 
-                path_to_output_file=ts_file
+                project_slug=self.parameters.transifex_project,
+                resource_slug=resource["slug"],
+                language_code=lang,
+                path_to_output_file=ts_file,
             )
 
     def push(self):
