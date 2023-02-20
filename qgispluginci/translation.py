@@ -36,7 +36,9 @@ class Translation:
         """
         self.parameters = parameters
         self._t = Transifex(
-            transifex_token, parameters.transifex_organization, i18n_type="QT"
+            api_token=transifex_token, 
+            organization_name=parameters.transifex_organization, 
+            i18n_type="QT"
         )
         assert self._t.ping()
         plugin_path = self.parameters.plugin_path
@@ -57,9 +59,10 @@ class Translation:
                 f"{self.parameters.transifex_project}"
             )
             self._t.create_project(
-                slug=self.parameters.transifex_project,
-                repository_url=self.parameters.repository_url,
+                project_slug=self.parameters.transifex_project,
                 source_language_code=parameters.translation_source_language,
+                private=False,
+                repository_url=self.parameters.repository_url
             )
             self.update_strings()
             logger.debug(
@@ -168,16 +171,19 @@ class Translation:
             if lang not in existing_langs:
                 logger.debug(f"Creating missing language: {lang}")
                 self._t.create_language(
-                    self.parameters.transifex_project,
-                    lang,
-                    [self.parameters.transifex_coordinator],
+                    project_slug=self.parameters.transifex_project,
+                    language_code=lang,
+                    coordinators=[self.parameters.transifex_coordinator],
                 )
                 existing_langs.append(lang)
         for lang in existing_langs:
             ts_file = f"{self.parameters.plugin_path}/i18n/{self.parameters.transifex_resource}_{lang}.ts"
             logger.debug(f"Downloading translation file: {ts_file}")
             self._t.get_translation(
-                self.parameters.transifex_project, resource["slug"], lang, ts_file
+                project_slug=self.parameters.transifex_project, 
+                resource_slug=resource["slug"], 
+                language_code=lang, 
+                path_to_output_file=ts_file
             )
 
     def push(self):
