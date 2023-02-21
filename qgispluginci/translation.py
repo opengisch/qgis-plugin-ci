@@ -84,10 +84,12 @@ class Translation:
                 path_to_file=self.ts_file,
                 resource_slug=self.parameters.transifex_resource,
             )
-            logger.info(f"""
+            logger.info(
+                f"""
                 Transifex project {self.parameters.transifex_organization}/
                 {self.parameters.transifex_project} and resource ({self.parameters.transifex_resource}) have been created.
-            """)
+            """
+            )
         else:
             logger.error(
                 "Project does not exists on Transifex: "
