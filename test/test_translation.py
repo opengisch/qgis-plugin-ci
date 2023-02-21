@@ -16,6 +16,8 @@ from qgispluginci.translation import Translation
 # Tests
 from .utils import can_skip_test
 
+# Logging
+logger = logging.getLogger(__name__)
 
 class TestTranslation(unittest.TestCase):
     @classmethod
@@ -28,19 +30,19 @@ class TestTranslation(unittest.TestCase):
         assert cls.transifex_token
 
     def setUp(self):
-        """Initialize the next test method (run between every test method)"""
+        """Initialize the next test method (run before every test method)"""
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
     def tearDown(self):
         try:
             self.t._t.delete_project(self.parameters.project_slug)
         except PyTransifexException as error:
-            logging.debug(error)
+            logger.debug(error)
         """
         try:
             self.t._t.delete_team(f"{self.parameters.project_slug}-team")
         except PyTransifexException as error:
-            logging.debug(error)
+            logger.debug(error)
         """
 
     @unittest.skipIf(can_skip_test(), "Missing transifex_token")

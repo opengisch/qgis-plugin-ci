@@ -17,6 +17,7 @@ from qgispluginci.utils import touch_file
 # GLOBALS
 logger = logging.getLogger(__name__)
 
+
 class Translation:
     def __init__(
         self, parameters: Parameters, transifex_token: str, create_project: bool = True

@@ -1,2 +1,4 @@
+import sys
 import logging
-logging.basicConfig(level=logging.DEBUG)
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
