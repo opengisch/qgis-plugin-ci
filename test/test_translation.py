@@ -17,12 +17,17 @@ from .utils import can_skip_test
 
 
 class TestTranslation(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+        """ Initialize the test case """
         with open(".qgis-plugin-ci") as f:
             arg_dict = yaml.safe_load(f)
-        self.parameters = Parameters(arg_dict)
-        self.transifex_token = os.getenv("transifex_token")
-        self.assertIsNotNone(self.transifex_token)
+        cls.parameters = Parameters(arg_dict)
+        cls.transifex_token = os.getenv("transifex_token")
+        cls.assertIsNotNone(cls.transifex_token)
+        
+    def setUp(self):
+        """ Initialize the next test method (run between every test method) """
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
     def tearDown(self):
@@ -37,7 +42,10 @@ class TestTranslation(unittest.TestCase):
 
     @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_creation(self):
-        self.t = Translation(self.parameters, transifex_token=self.transifex_token)
+        """ 
+        Translation initialized from setUp, so we 'fake' a new test
+        by tearing it down
+        """
         self.tearDown()
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
