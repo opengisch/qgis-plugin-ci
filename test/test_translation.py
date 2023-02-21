@@ -19,6 +19,9 @@ from .utils import can_skip_test
 # Logging
 logger = logging.getLogger(__name__)
 
+# Ensuring proper ordering for tests sensitive to state
+unittest.TestLoader.sortTestMethodsUsing = None
+
 
 class TestTranslation(unittest.TestCase):
     @classmethod
@@ -56,14 +59,14 @@ class TestTranslation(unittest.TestCase):
         self.t = Translation(self.parameters, transifex_token=self.transifex_token)
 
     @unittest.skipIf(can_skip_test(), "Missing transifex_token")
-    def test_pull(self):
-        self.t.pull()
-        self.t.compile_strings()
-
-    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_push(self):
         self.t.update_strings()
         self.t.push()
+
+    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
+    def test_pull(self):
+        self.t.pull()
+        self.t.compile_strings()
 
 
 if __name__ == "__main__":
