@@ -19,6 +19,7 @@ from .utils import can_skip_test
 # Logging
 logger = logging.getLogger(__name__)
 
+
 class TestTranslation(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -35,12 +36,12 @@ class TestTranslation(unittest.TestCase):
 
     def tearDown(self):
         try:
-            self.t._t.delete_project(self.parameters.project_slug)
+            self.t.tx_client.delete_project(self.parameters.project_slug)
         except PyTransifexException as error:
             logger.debug(error)
         """
         try:
-            self.t._t.delete_team(f"{self.parameters.project_slug}-team")
+            self.t.tx_client.delete_team(f"{self.parameters.project_slug}-team")
         except PyTransifexException as error:
             logger.debug(error)
         """

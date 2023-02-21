@@ -35,18 +35,18 @@ class Translation:
 
         """
         self.parameters = parameters
-        self._t = Transifex(
+        self.tx_client = Transifex(
             api_token=transifex_token,
             organization_name=parameters.transifex_organization,
             i18n_type="QT",
         )
-        assert self._t.ping()
+        assert self.tx_client.ping()
         plugin_path = self.parameters.plugin_path
         tx = self.parameters.transifex_resource
         lang = self.parameters.translation_source_language
         self.ts_file = f"{plugin_path}/i18n/{tx}_{lang}.ts"
 
-        if self._t.project_exists(parameters.transifex_project):
+        if self.tx_client.project_exists(parameters.transifex_project):
             logger.debug(
                 f"Project {self.parameters.transifex_organization}/"
                 f"{self.parameters.transifex_project} exists on Transifex"
@@ -58,19 +58,20 @@ class Translation:
                 f"{self.parameters.transifex_organization}/"
                 f"{self.parameters.transifex_project}"
             )
-            self._t.create_project(
+            self.tx_client.create_project(
                 project_slug=self.parameters.transifex_project,
                 private=False,
                 repository_url=self.parameters.repository_url,
                 source_language_code=parameters.translation_source_language,
             )
+            assert self.tx_client.project_exists(self.parameters.transifex_project)
             self.update_strings()
             logger.debug(
                 f"Creating resource in {self.parameters.transifex_organization}/"
                 f"{self.parameters.transifex_project}/"
                 f"{self.parameters.transifex_resource} with {self.ts_file}"
             )
-            self._t.create_resource(
+            self.tx_client.create_resource(
                 project_slug=self.parameters.transifex_project,
                 path_to_file=self.ts_file,
                 resource_slug=self.parameters.transifex_resource,
@@ -160,7 +161,7 @@ class Translation:
         Pull TS files from Transifex
         """
         resource = self.__get_resource()
-        existing_langs = self._t.list_languages(
+        existing_langs = self.tx_client.list_languages(
             project_slug=self.parameters.transifex_project,
             resource_slug=resource["slug"],
         )
@@ -172,7 +173,7 @@ class Translation:
         for lang in self.parameters.translation_languages:
             if lang not in existing_langs:
                 logger.debug(f"Creating missing language: {lang}")
-                self._t.create_language(
+                self.tx_client.create_language(
                     project_slug=self.parameters.transifex_project,
                     language_code=lang,
                     coordinators=[self.parameters.transifex_coordinator],
@@ -181,7 +182,7 @@ class Translation:
         for lang in existing_langs:
             ts_file = f"{self.parameters.plugin_path}/i18n/{self.parameters.transifex_resource}_{lang}.ts"
             logger.debug(f"Downloading translation file: {ts_file}")
-            self._t.get_translation(
+            self.tx_client.get_translation(
                 project_slug=self.parameters.transifex_project,
                 resource_slug=resource["slug"],
                 language_code=lang,
@@ -194,7 +195,7 @@ class Translation:
             f"Pushing resource: {self.parameters.transifex_resource} "
             f"with file {self.ts_file}"
         )
-        result = self._t.update_source_translation(
+        result = self.tx_client.update_source_translation(
             project_slug=self.parameters.transifex_project,
             resource_slug=resource["slug"],
             path_to_file=self.ts_file,
@@ -202,7 +203,7 @@ class Translation:
         logger.info(f"Translation resource updated: {result}")
 
     def __get_resource(self) -> dict:
-        resources = self._t.list_resources(self.parameters.transifex_project)
+        resources = self.tx_client.list_resources(self.parameters.transifex_project)
         if len(resources) == 0:
             logger.error(
                 f"Project '{self.parameters.transifex_project}' has no resource on Transifex",
