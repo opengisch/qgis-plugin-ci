@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 # standard library
+import logging
 import os
 import unittest
 
@@ -33,12 +34,14 @@ class TestTranslation(unittest.TestCase):
     def tearDown(self):
         try:
             self.t._t.delete_project(self.parameters.project_slug)
-        except PyTransifexException:
-            pass
+        except PyTransifexException as error:
+            logging.debug(error)
+        """
         try:
             self.t._t.delete_team(f"{self.parameters.project_slug}-team")
-        except PyTransifexException:
-            pass
+        except PyTransifexException as error:
+            logging.debug(error)
+        """
 
     @unittest.skipIf(can_skip_test(), "Missing transifex_token")
     def test_creation(self):
