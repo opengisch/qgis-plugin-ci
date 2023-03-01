@@ -7,13 +7,6 @@ on:
   push:
     tags:
       - "*"
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-    paths-ignore:
-      - docs/**/*
 
 env:
   PROJECT_FOLDER: "qgispluginci"
@@ -22,87 +15,13 @@ env:
 jobs:
   tests:
     name: "Tests"
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python: [
-            "3.8",
-          ]
-
-    steps:
-      - name: Get source code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python }}
-          cache: "pip"
-          cache-dependency-path: "requirements/*.txt"
-
-      - name: Install system requirements
-        run: |
-          sudo apt-get update
-          sudo apt-get install qtbase5-dev qttools5-dev-tools
-
-      - name: Install Python requirements
-        run: |
-          python -m pip install -U pip setuptools wheel
-          python -m pip install -U -r requirements.txt
-          python -m pip install -U nose2
-
-      - name: Run tests
-        env:
-          tx_api_token: ${{ secrets.TRANSIFEX_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-        run: nose2 -v
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
 
   build-python-wheel:
     name: "🐍 Python Wheel"
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Get source code
-        uses: actions/checkout@v3
-
-      - name: Set version number
-        run: |
-          VERSION=${GITHUB_REF:-0.0.0}
-          VERSION=${VERSION##*/}
-          sed -i "s/__VERSION__/${VERSION}/g" setup.py
-          sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.PYTHON_VERSION_RELEASE }}
-          cache: "pip"
-          cache-dependency-path: "requirements/*.txt"
-
-      - name: Install project requirements
-        run: |
-          python -m pip install -U pip setuptools wheel
-          python -m pip install -U -r requirements.txt
-          python -m pip install -U build
-
-      - name: Install project as a package
-        run: python -m pip install -e .
-
-      - name: Build a binary wheel and a source tarball
-        run: >-
-          python -m
-          build
-          --sdist
-          --wheel
-          --outdir dist/
-          .
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: python_wheel
-          path: dist/*
-          if-no-files-found: error
+    uses: ./.github/workflows/wheel.yml
+    secrets: inherit
 
   release-gh:
     name: "Release on tag 🚀"

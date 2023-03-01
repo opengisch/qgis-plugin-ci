@@ -1,0 +1,47 @@
+name: test qgis-plugin-ci
+
+concurrency: testing_environment
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+  workflow_call:
+
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      # Not using strategy.matrix to create multiple jobs
+      # as we do NOT want to test with any form of concurrency
+      # to avoid 'race conditions' against Transifex
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+          cache: "pip"
+          cache-dependency-path: "requirements/*.txt"
+
+      - name: Install system requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install qtbase5-dev qttools5-dev-tools
+
+      - name: Install project requirements
+        run: |
+          python -m pip install -U -r requirements/base.txt
+          python -m pip install -U -r requirements/development.txt
+
+      - name: Tests
+        env:
+          tx_api_token: ${{ secrets.TRANSIFEX_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: nose2 -v
