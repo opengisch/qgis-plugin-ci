@@ -5,6 +5,10 @@ docs/_autosummary/
 build/
 dist/
 *.egg-info
+Pipfile
+Pipfile.lock
+
+*.orig
 
 __pycache__/
 *.pyc

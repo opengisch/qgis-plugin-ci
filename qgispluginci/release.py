@@ -472,7 +472,7 @@ def release(
     release_tag: str = None,
     github_token: str = None,
     upload_plugin_repo_github: bool = False,
-    transifex_token: str = None,
+    tx_api_token: str = None,
     alternative_repo_url: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,
@@ -497,7 +497,7 @@ def release(
         If true, a custom repo will be created as a release asset on Github and could later be used in QGIS as a custom plugin repository.
     plugin_repo_url
         If set, this URL will be used to create the ZIP URL in the XML file
-    transifex_token
+    tx_api_token
         The Transifex token
     alternative_repo_url
         URL of the endpoint to upload the plugin to
@@ -524,10 +524,8 @@ def release(
 
     release_tag = release_tag or release_version
 
-    if transifex_token is not None:
-        tr = Translation(
-            parameters, create_project=False, transifex_token=transifex_token
-        )
+    if tx_api_token is not None:
+        tr = Translation(parameters, create_project=False, tx_api_token=tx_api_token)
         tr.pull()
         tr.compile_strings()
 
@@ -547,7 +545,7 @@ def release(
         parameters,
         release_version,
         archive_name,
-        add_translations=transifex_token is not None,
+        add_translations=tx_api_token is not None,
         allow_uncommitted_changes=allow_uncommitted_changes,
         is_prerelease=is_prerelease,
         disable_submodule_update=disable_submodule_update,
@@ -564,7 +562,7 @@ def release(
             parameters,
             release_version,
             experimental_archive_name,
-            add_translations=transifex_token is not None,
+            add_translations=tx_api_token is not None,
             allow_uncommitted_changes=allow_uncommitted_changes,
             is_prerelease=True,
             raise_min_version="3.14",
