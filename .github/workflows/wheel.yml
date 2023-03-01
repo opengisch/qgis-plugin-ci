@@ -20,8 +20,8 @@ jobs:
 
       - name: Set version number
         run: |
-          VERSION=${GITHUB_REF:-0.0.0}
-          VERSION=${VERSION##*/}
+          VERSION=${GITHUB_REFNAME:-0.0.0}
+          VERSION=$(echo "$VERSION" | cut -d- -f1 )
           sed -i "s/__VERSION__/${VERSION}/g" setup.py
           sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
 
