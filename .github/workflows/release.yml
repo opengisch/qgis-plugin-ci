@@ -1,8 +1,5 @@
 name: Run tests and release
 
-# run this workflow only one at a time
-concurrency: testing_environment
-
 on:
   push:
     tags:
