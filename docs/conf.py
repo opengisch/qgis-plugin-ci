@@ -6,22 +6,26 @@
 
 # standard
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from os import environ, path
+
+import toml
 
 sys.path.insert(0, path.abspath(".."))  # move into project package
 
-# Package
-from qgispluginci import __about__
+# Package info
+from qgispluginci import __version__
+
+pyproject = toml.load("pyproject.toml")
 
 # -- Build environment -----------------------------------------------------
 on_rtd = environ.get("READTHEDOCS", None) == "True"
 
 # -- Project information -----------------------------------------------------
-author = __about__.__author__
-copyright = __about__.__copyright__
-project = __about__.__title__
-version = release = __about__.__version__
+author = ", ".join([a["name"] for a in pyproject["project"]["authors"]])
+__copyright__ = f"2019 - {date.today().year}, {author}"
+project = "QGIS Plugin CI"
+version = release = __version__.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -73,7 +77,7 @@ pygments_style = "sphinx"
 # -- Theme
 
 # final URL
-html_baseurl = __about__.__uri_homepage__
+html_baseurl = pyproject["project"]["urls"]["homepage"]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -85,7 +89,7 @@ html_extra_path = ["robots.txt"]
 html_theme = "furo"
 html_theme_options = {
     "navigation_with_keys": True,
-    "source_repository": __about__.__uri__,
+    "source_repository": pyproject["project"]["urls"]["repository"],
     "source_branch": "main",
     "source_directory": "docs/",
 }
@@ -109,8 +113,8 @@ myst_heading_anchors = 3
 myst_substitutions = {
     "author": author,
     "date_update": datetime.now().strftime("%d %B %Y"),
-    "description": __about__.__summary__,
-    "repo_url": __about__.__uri__,
+    "description": pyproject["project"]["description"],
+    "repo_url": pyproject["project"]["urls"]["homepage"],
     "title": project,
     "version": version,
 }
