@@ -27,12 +27,9 @@ jobs:
     strategy:
       matrix:
         python: [
-            # Do not make simultaneous tests, transifex and GitHub release will fail
-            # "3.6",
-            "3.9",
+            "3.8",
           ]
 
-    # "3.10",
     steps:
       - name: Get source code
         uses: actions/checkout@v3
@@ -57,7 +54,7 @@ jobs:
 
       - name: Run tests
         env:
-          transifex_token: ${{ secrets.TRANSIFEX_TOKEN }}
+          tx_api_token: ${{ secrets.TRANSIFEX_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
         run: nose2 -v
 

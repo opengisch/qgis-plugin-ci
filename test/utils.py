@@ -9,7 +9,7 @@ def can_skip_test():
         # Always run the test on CI
         return False
 
-    if not os.getenv("transifex_token") or not os.getenv("github_token"):
+    if not os.getenv("tx_api_token") or not os.getenv("github_token"):
         # On local, the token must be set
         return True
 

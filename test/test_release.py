@@ -13,7 +13,6 @@ from zipfile import ZipFile
 # 3rd party
 import yaml
 from github import Github, GithubException
-from pytransifex.exceptions import PyTransifexException
 
 # Project
 from qgispluginci.changelog import ChangelogParser
@@ -35,7 +34,7 @@ class TestRelease(unittest.TestCase):
         with open(".qgis-plugin-ci", "r", encoding="utf8") as f:
             arg_dict = yaml.safe_load(f)
         self.parameters = Parameters(arg_dict)
-        self.transifex_token = os.getenv("transifex_token")
+        self.tx_api_token = os.getenv("tx_api_token")
         self.github_token = os.getenv("github_token")
         self.repo = None
         self.t = None
@@ -60,24 +59,15 @@ class TestRelease(unittest.TestCase):
                     print(f"  delete {asset.name}")
                     asset.delete_asset()
         if self.t:
-            try:
-                self.t._t.delete_project(self.parameters.project_slug)
-            except PyTransifexException:
-                pass
-            try:
-                self.t._t.delete_team(f"{self.parameters.project_slug}-team")
-            except PyTransifexException:
-                pass
+            self.t._t.delete_project(self.parameters.project_slug)
 
     def test_release(self):
         release(self.parameters, RELEASE_VERSION_TEST)
 
-    @unittest.skipIf(can_skip_test(), "Missing transifex_token")
+    @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
     def test_release_with_transifex(self):
-        Translation(self.parameters, transifex_token=self.transifex_token)
-        release(
-            self.parameters, RELEASE_VERSION_TEST, transifex_token=self.transifex_token
-        )
+        Translation(self.parameters, tx_api_token=self.tx_api_token)
+        release(self.parameters, RELEASE_VERSION_TEST, tx_api_token=self.tx_api_token)
 
     def test_zipname(self):
         """Tests about the zipname for the QGIS plugin manager.

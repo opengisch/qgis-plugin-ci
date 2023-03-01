@@ -9,4 +9,6 @@ translation_languages:
   - de
 create_date: 1985-07-21
 
+repository_url: https://github.com/opengisch/qgis-plugin-ci/
+
 #lrelease_path: /usr/local/opt/qt5/bin/lrelease
