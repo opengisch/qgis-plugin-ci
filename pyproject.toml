@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools-scm", "wheel", "setuptools-git-versioning"
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "qgispluginci"
+name = "qgis-plugin-ci"
 dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
 authors = [
     {name = "Denis Rouzaud", email = "denis@opengis.ch"},

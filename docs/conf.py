@@ -12,7 +12,7 @@ from os import environ, path
 
 import toml
 
-__version__ = version("qgispluginci")
+__version__ = version("qgis-plugin-ci")
 pyproject = toml.load("../pyproject.toml")
 
 # -- Build environment -----------------------------------------------------
