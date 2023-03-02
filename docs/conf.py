@@ -7,14 +7,16 @@
 # standard
 import sys
 from datetime import date, datetime
+from importlib.metadata import PackageNotFoundError, version
 from os import environ, path
 
 import toml
 
-sys.path.insert(0, path.abspath(".."))  # move into project package
-
-# Package info
-from qgispluginci import __version__
+try:
+    __version__ = version("qgispluginci")
+except PackageNotFoundError:
+    # package is not installed
+    pass
 
 pyproject = toml.load("pyproject.toml")
 
@@ -25,7 +27,7 @@ on_rtd = environ.get("READTHEDOCS", None) == "True"
 author = ", ".join([a["name"] for a in pyproject["project"]["authors"]])
 __copyright__ = f"2019 - {date.today().year}, {author}"
 project = "QGIS Plugin CI"
-version = release = __version__.__version__
+version = release = __version__
 
 
 # -- General configuration ---------------------------------------------------
