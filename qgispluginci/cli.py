@@ -4,15 +4,18 @@ import argparse
 import configparser
 import logging
 import os
+from importlib.metadata import version
 
 import yaml
 
-from qgispluginci.__about__ import __title_clean__, __version__
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
+
+__version__ = version("qgispluginci")
+__title__ = "QGISPluginCI"
 
 
 def main():
@@ -156,7 +159,7 @@ def main():
     console.setLevel(args.verbosity)
 
     # add the handler to the root logger
-    logger = logging.getLogger(__title_clean__)
+    logger = logging.getLogger(__title__)
     logger.debug(f"Log level set: {logging}")
 
     # if no command is passed, print the help and exit

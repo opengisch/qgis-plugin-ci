@@ -7,17 +7,12 @@
 # standard
 import sys
 from datetime import date, datetime
-from importlib.metadata import PackageNotFoundError, version
+from importlib.metadata import version
 from os import environ, path
 
 import toml
 
-try:
-    __version__ = version("qgispluginci")
-except PackageNotFoundError:
-    # package is not installed
-    pass
-
+__version__ = version("qgispluginci")
 pyproject = toml.load("pyproject.toml")
 
 # -- Build environment -----------------------------------------------------
