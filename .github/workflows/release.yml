@@ -50,36 +50,16 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
     steps:
-      - name: Get source code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Retrieve artifact from Python build
+        uses: actions/download-artifact@v3
         with:
-          python-version: ${{ env.PYTHON_VERSION_RELEASE }}
+          name: python_wheel
+          path: dist/
 
-      - name: Setup
-        run: |
-          VERSION=${GITHUB_REF:-0.0.0}
-          VERSION=${VERSION##*/}
-          sed -i "s/__VERSION__/${VERSION}/g" setup.py
-          sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
-
-      - name: Build package
-        run: |
-          python setup.py sdist
-
+      # -- FROM HERE, A TAG IS REQUIRED ---
       - name: Deploy to PyPI
         uses: pypa/gh-action-pypi-publish@master
+
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-
-      - name: Create/update release on GitHub
-        uses: ncipollo/release-action@v1.12.0
-        with:
-          allowUpdates: true
-          artifacts: "dist/*.tar.gz"
-          generateReleaseNotes: true
-          omitNameDuringUpdate: true
-          token: ${{ secrets.GITHUB_TOKEN }}
