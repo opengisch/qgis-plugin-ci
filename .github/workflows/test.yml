@@ -45,3 +45,6 @@ jobs:
           tx_api_token: ${{ secrets.TRANSIFEX_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
         run: nose2 -v
+
+      - name: Simple cli test
+        run: qgis-plugin-ci --help
