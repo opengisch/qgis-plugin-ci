@@ -39,7 +39,7 @@ jobs:
         run: |
           python -m pip install -U -r requirements/base.txt
           python -m pip install -U -r requirements/development.txt
-          
+
       - name: Simple cli test
         run: qgis-plugin-ci --help
 
@@ -48,4 +48,3 @@ jobs:
           tx_api_token: ${{ secrets.TRANSIFEX_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
         run: nose2 -v
-
