@@ -13,7 +13,7 @@ from os import environ, path
 import toml
 
 __version__ = version("qgispluginci")
-pyproject = toml.load("pyproject.toml")
+pyproject = toml.load("../pyproject.toml")
 
 # -- Build environment -----------------------------------------------------
 on_rtd = environ.get("READTHEDOCS", None) == "True"
