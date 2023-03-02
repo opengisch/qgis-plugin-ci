@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm", "wheel", "setuptools-git-versioning"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qgis-plugin-ci"
+dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
+authors = [
+    {name = "Denis Rouzaud", email = "denis@opengis.ch"},
+    {name = "Etienne Trimaille", email = "etienne.trimaille@gmail.com"},
+    {name = "Julien Moura", email = "dev@ingeoveritas.com"},
+]
+description = "Let qgis-plugin-ci package and release your QGIS plugins for you. Have a tea or go hiking meanwhile. Contains scripts to perform automated testing and deployment for QGIS plugins. These scripts are written for and tested on GitHub Actions, GitLab CI, Travis-CI, and Transifex."
+requires-python = ">=3.8"
+keywords = ["QGIS", "CI", "changelog", "plugin"]
+license = {text = "GPLv3"}
+classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: System Administrators",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Information Technology",
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: Implementation :: CPython",
+        "Topic :: Scientific/Engineering :: GIS",
+]
+
+[project.scripts]
+qgis-plugin-ci = "qgispluginci.cli:main"
+
+[project.urls]
+homepage = "https://opengisch.github.io/qgis-plugin-ci/"
+documentation = "https://opengisch.github.io/qgis-plugin-ci/"
+repository = "https://github.com/opengisch/qgis-plugin-ci/"
+tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
+
+[tool.setuptools.packages.find]
+where = ["qgispluginci"]
+
+[tool.setuptools-git-versioning]
+enabled = true
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"], content-type = "text/markdown"}
+dependencies = {file = ["requirements/base.txt"]}
+optional-dependencies.dev = {file = ["requirements/development.txt"]}

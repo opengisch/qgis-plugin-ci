@@ -8,3 +8,4 @@ sphinx-autobuild==2021.3.14
 sphinx-copybutton>=0.2,<1
 sphinx-design>=0.3,<0.4
 sphinx-sitemap>=2.4,<3
+toml>=0.10.2

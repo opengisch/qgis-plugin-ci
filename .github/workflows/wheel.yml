@@ -18,13 +18,6 @@ jobs:
       - name: Get source code
         uses: actions/checkout@v3
 
-      - name: Set version number
-        run: |
-          VERSION=${GITHUB_REFNAME:-0.0.0}
-          VERSION=$(echo "$VERSION" | cut -d- -f1 )
-          sed -i "s/__VERSION__/${VERSION}/g" setup.py
-          sed -i "s/__VERSION__/${VERSION}/g" qgispluginci/__about__.py
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -43,12 +36,7 @@ jobs:
 
       - name: Build a binary wheel and a source tarball
         run: >-
-          python -m
-          build
-          --sdist
-          --wheel
-          --outdir dist/
-          .
+          python -m build --sdist --wheel --outdir dist/ .
 
       - uses: actions/upload-artifact@v3
         with:
