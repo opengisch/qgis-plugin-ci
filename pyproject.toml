@@ -49,5 +49,5 @@ enabled = true
 [tool.setuptools.dynamic]
 readme = {file = ["README.md"], content-type = "text/markdown"}
 dependencies = {file = ["requirements/base.txt"]}
-optional-dependencies.dev = {file = ["requirements/translation-transifex.txt"]}
-optional-dependencies.translation = {file = ["requirements/translation-transifex.txt"]}
+optional-dependencies.dev = {file = ["requirements/translation.txt"]}
+optional-dependencies.translation = {file = ["requirements/translation.txt"]}
