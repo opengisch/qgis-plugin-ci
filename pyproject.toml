@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm", "wheel", "setuptools-git-versioning"]
+requires = ["setuptools>=61.0", "setuptools-scm", "wheel", "setuptools-git-versioning"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -44,6 +44,8 @@ where = ["qgispluginci"]
 
 [tool.setuptools-git-versioning]
 enabled = true
+version_file = "VERSION"
+
 
 [tool.setuptools.dynamic]
 readme = {file = ["README.md"], content-type = "text/markdown"}
