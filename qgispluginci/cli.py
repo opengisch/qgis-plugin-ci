@@ -14,7 +14,7 @@ from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 
-__version__ = version("qgispluginci")
+__version__ = version("qgis-plugin-ci")
 __title__ = "QGISPluginCI"
 
 
