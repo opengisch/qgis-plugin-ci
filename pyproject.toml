@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm", "wheel", "setuptools-git-versioning"]
+requires = ["setuptools>=61.0", "setuptools-scm", "wheel", "setuptools-git-versioning"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -31,7 +31,7 @@ classifiers = [
 ]
 
 [project.scripts]
-qgis-plugin-ci = "qgispluginci.cli:main"
+qgis-plugin-ci = "qgispluginci.cli:cli"
 
 [project.urls]
 homepage = "https://opengisch.github.io/qgis-plugin-ci/"
@@ -39,11 +39,12 @@ documentation = "https://opengisch.github.io/qgis-plugin-ci/"
 repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
 
-[tool.setuptools.packages.find]
-where = ["qgispluginci"]
+[tool.setuptools]
+py-modules = ["qgispluginci"]
 
 [tool.setuptools-git-versioning]
 enabled = true
+
 
 [tool.setuptools.dynamic]
 readme = {file = ["README.md"], content-type = "text/markdown"}

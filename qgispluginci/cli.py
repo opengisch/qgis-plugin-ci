@@ -14,11 +14,11 @@ from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 
-__version__ = version("qgispluginci")
+__version__ = version("qgis-plugin-ci")
 __title__ = "QGISPluginCI"
 
 
-def main():
+def cli():
     # create the top-level parser
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -246,7 +246,3 @@ def main():
         t.push()
 
     return exit_val
-
-
-if __name__ == "__main__":
-    exit(main())
