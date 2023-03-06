@@ -31,7 +31,7 @@ classifiers = [
 ]
 
 [project.scripts]
-qgis-plugin-ci = "cli:main"
+qgis-plugin-ci = "qgispluginci.cli:main"
 
 [project.urls]
 homepage = "https://opengisch.github.io/qgis-plugin-ci/"
