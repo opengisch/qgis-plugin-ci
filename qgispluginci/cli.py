@@ -134,7 +134,7 @@ def cli():
     pull_tr_parser = subparsers.add_parser(
         "pull-translation", help="pull translations from Transifex"
     )
-    pull_tr_parser.add_argument("tx_api_token", help="The Transifex API token")
+    pull_tr_parser.add_argument("transifex_token", help="The Transifex API token")
     pull_tr_parser.add_argument(
         "--compile", action="store_true", help="Will compile TS files into QM files"
     )
@@ -143,7 +143,7 @@ def cli():
     push_tr_parser = subparsers.add_parser(
         "push-translation", help="update strings and push translations"
     )
-    push_tr_parser.add_argument("tx_api_token", help="The Transifex API token")
+    push_tr_parser.add_argument("transifex_token", help="The Transifex API token")
 
     args = parser.parse_args()
 
@@ -210,7 +210,7 @@ def cli():
         release(
             parameters,
             release_version=args.release_version,
-            tx_api_token=args.tx_api_token,
+            tx_api_token=args.transifex_token,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
             plugin_repo_url=args.plugin_repo_url,
             disable_submodule_update=args.disable_submodule_update,
@@ -222,7 +222,7 @@ def cli():
             parameters,
             release_version=args.release_version,
             release_tag=args.release_tag,
-            tx_api_token=args.tx_api_token,
+            tx_api_token=args.transifex_token,
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
             alternative_repo_url=args.alternative_repo_url,
@@ -234,14 +234,14 @@ def cli():
 
     # TRANSLATION PULL
     elif args.command == "pull-translation":
-        t = Translation(parameters, args.tx_api_token)
+        t = Translation(parameters, args.transifex_token)
         t.pull()
         if args.compile:
             t.compile_strings()
 
     # TRANSLATION PUSH
     elif args.command == "push-translation":
-        t = Translation(parameters, args.tx_api_token)
+        t = Translation(parameters, args.transifex_token)
         t.update_strings()
         t.push()
 
