@@ -40,7 +40,7 @@ repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
 
 [tool.setuptools]
-py-modules = ["qgispluginci"]
+packages = ["qgispluginci", "qgispluginci.translation_clients"]
 
 [tool.setuptools-git-versioning]
 enabled = true
