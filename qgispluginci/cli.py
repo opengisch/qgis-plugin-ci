@@ -18,7 +18,7 @@ __version__ = version("qgispluginci")
 __title__ = "QGISPluginCI"
 
 
-def main():
+def cli():
     # create the top-level parser
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -246,7 +246,3 @@ def main():
         t.push()
 
     return exit_val
-
-
-if __name__ == "__main__":
-    exit(main())
