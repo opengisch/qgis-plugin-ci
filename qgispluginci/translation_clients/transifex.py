@@ -15,7 +15,7 @@ class TransifexClient(BaseClient):
     def __init__(
         self, config: TranslationConfig, update_string_fcn, create_project: bool = True
     ):
-        super(TransifexClient, self).__init__(config, update_string_fcn, create_project)
+        super().__init__(config, update_string_fcn, create_project)
 
     def login(self):
         tx_api.setup(auth=self.config.api_token)
@@ -81,7 +81,7 @@ class TransifexClient(BaseClient):
             i18n_format=tx_api.I18nFormat(id=self.config.i18n_type),
         )
 
-        with open(self.config.resource_file_path, "r") as fh:
+        with open(self.config.resource_file_path) as fh:
             content = fh.read()
 
         tx_api.ResourceStringsAsyncUpload.upload(content, resource=resource)
@@ -112,7 +112,7 @@ class TransifexClient(BaseClient):
         #    self.get_project().add("coordinators", coordinators)
 
     def update_source_translation(self):
-        with open(self.config.resource_file_path, "r") as fh:
+        with open(self.config.resource_file_path) as fh:
             content = fh.read()
 
         tx_api.ResourceStringsAsyncUpload.upload(content, resource=self.get_resource())

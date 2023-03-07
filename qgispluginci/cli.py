@@ -171,7 +171,7 @@ def cli():
 
     if os.path.isfile(".qgis-plugin-ci"):
         # We read the .qgis-plugin-ci file
-        with open(".qgis-plugin-ci", "r", encoding="utf8") as f:
+        with open(".qgis-plugin-ci", encoding="utf8") as f:
             arg_dict = yaml.safe_load(f)
     else:
         config = configparser.ConfigParser()
