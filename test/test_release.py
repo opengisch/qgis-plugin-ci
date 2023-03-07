@@ -31,7 +31,7 @@ RELEASE_VERSION_TEST = "0.1.2"
 
 class TestRelease(unittest.TestCase):
     def setUp(self):
-        with open(".qgis-plugin-ci", "r", encoding="utf8") as f:
+        with open(".qgis-plugin-ci", encoding="utf8") as f:
             arg_dict = yaml.safe_load(f)
         self.parameters = Parameters(arg_dict)
         self.tx_api_token = os.getenv("tx_api_token")
