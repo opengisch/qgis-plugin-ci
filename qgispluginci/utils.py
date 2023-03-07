@@ -51,7 +51,7 @@ def convert_octets(octets: int) -> str:
     p = pow(1024, i)
     s = round(octets / p, 2)
 
-    return "{} {}".format(s, size_name[i])
+    return f"{s} {size_name[i]}"
 
 
 def touch_file(path, update_time: bool = False, create_dir: bool = True):
