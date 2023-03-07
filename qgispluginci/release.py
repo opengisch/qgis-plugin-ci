@@ -89,14 +89,14 @@ def create_archive(
                 )
                 if content:
                     replace_in_file(
-                        "{}/metadata.txt".format(parameters.plugin_path),
+                        f"{parameters.plugin_path}/metadata.txt",
                         r"^changelog=.*$",
-                        "changelog={}".format(content),
+                        f"changelog={content}",
                     )
             except Exception as exc:
                 # Do not fail the release process if something is wrong when parsing the changelog
                 replace_in_file(
-                    "{}/metadata.txt".format(parameters.plugin_path),
+                    f"{parameters.plugin_path}/metadata.txt",
                     r"^changelog=.*$",
                     "",
                 )
@@ -106,15 +106,13 @@ def create_archive(
                 )
     else:
         # Remove the changelog line
-        replace_in_file(
-            "{}/metadata.txt".format(parameters.plugin_path), r"^changelog=.*$", ""
-        )
+        replace_in_file(f"{parameters.plugin_path}/metadata.txt", r"^changelog=.*$", "")
 
     # set version in metadata
     replace_in_file(
-        "{}/metadata.txt".format(parameters.plugin_path),
+        f"{parameters.plugin_path}/metadata.txt",
         r"^version=.*$",
-        "version={}".format(release_version),
+        f"version={release_version}",
     )
 
     # Commit number
@@ -144,21 +142,21 @@ def create_archive(
     # set the plugin as experimental on a pre-release
     if is_prerelease:
         replace_in_file(
-            "{}/metadata.txt".format(parameters.plugin_path),
+            f"{parameters.plugin_path}/metadata.txt",
             r"^experimental=.*$",
-            "experimental={}".format(True if is_prerelease else False),
+            f"experimental={True if is_prerelease else False}",
         )
 
     if raise_min_version:
         replace_in_file(
-            "{}/metadata.txt".format(parameters.plugin_path),
+            f"{parameters.plugin_path}/metadata.txt",
             r"^qgisMinimumVersion=.*$",
-            "qgisMinimumVersion={}".format(raise_min_version),
+            f"qgisMinimumVersion={raise_min_version}",
         )
 
     # replace any DEBUG=False in all Python files
     if not is_prerelease:
-        for file in glob("{}/**/*.py".format(parameters.plugin_path), recursive=True):
+        for file in glob(f"{parameters.plugin_path}/**/*.py", recursive=True):
             replace_in_file(file, r"^DEBUG\s*=\s*True", "DEBUG = False")
 
     # keep track of current state
