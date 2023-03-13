@@ -540,36 +540,32 @@ def release(
     else:
         logger.info(f"{release_tag} is a regular release.")
 
-    create_archive(
-        parameters,
-        release_version,
-        archive_name,
-        add_translations=tx_api_token is not None,
-        allow_uncommitted_changes=allow_uncommitted_changes,
-        is_prerelease=is_prerelease,
-        disable_submodule_update=disable_submodule_update,
-    )
-
     # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
     # since only QGIS 3.14+ supports the beta/experimental plugins trial
-    experimental_archive_name = None
     create_experimental_archive = (
         osgeo_username is not None
         and is_prerelease
         and semver.compare(parameters.qgis_minimum_version, "3.14.0") < 0
     )
     if create_experimental_archive:
-        experimental_archive_name = parameters.archive_name(
-            parameters.plugin_path, release_version, True
-        )
         create_archive(
             parameters,
             release_version,
-            experimental_archive_name,
+            archive_name,
             add_translations=tx_api_token is not None,
             allow_uncommitted_changes=allow_uncommitted_changes,
             is_prerelease=True,
             raise_min_version="3.14",
+            disable_submodule_update=disable_submodule_update,
+        )
+    else:
+        create_archive(
+            parameters,
+            release_version,
+            archive_name,
+            add_translations=tx_api_token is not None,
+            allow_uncommitted_changes=allow_uncommitted_changes,
+            is_prerelease=is_prerelease,
             disable_submodule_update=disable_submodule_update,
         )
 
@@ -611,18 +607,9 @@ def release(
 
     if osgeo_username is not None:
         assert osgeo_password is not None
-        if create_experimental_archive:
-            assert experimental_archive_name is not None
-            upload_plugin_to_osgeo(
-                username=osgeo_username,
-                password=osgeo_password,
-                archive=experimental_archive_name,
-                server_url=alternative_repo_url,
-            )
-        else:
-            upload_plugin_to_osgeo(
-                username=osgeo_username,
-                password=osgeo_password,
-                archive=archive_name,
-                server_url=alternative_repo_url,
-            )
+        upload_plugin_to_osgeo(
+            username=osgeo_username,
+            password=osgeo_password,
+            archive=archive_name,
+            server_url=alternative_repo_url,
+        )
