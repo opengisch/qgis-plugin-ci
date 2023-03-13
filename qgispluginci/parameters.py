@@ -175,7 +175,7 @@ class Parameters:
         if "-" in plugin_name:
             logger.warning(DASH_WARNING)
 
-        experimental = "-experimental" if experimental else ""
+        experimental = ".experimental" if experimental else ""
         return f"{plugin_name}{experimental}.{release_version}.zip"
 
     def __get_from_metadata(self, key: str, default_value: any = None) -> str:
