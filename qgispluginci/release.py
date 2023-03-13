@@ -12,6 +12,7 @@ from pathlib import Path
 from tempfile import mkstemp
 
 import git
+import semver
 from github import Github, GithubException
 
 try:
@@ -266,7 +267,7 @@ def create_archive(
         repo.git.checkout("--", ".")
 
     # print the result
-    print(  # noqa: T2
+    logger.info(
         f"Plugin archive created: {archive_name} "
         f"({convert_octets(Path(archive_name).stat().st_size)})"
     )
@@ -552,7 +553,12 @@ def release(
     # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
     # since only QGIS 3.14+ supports the beta/experimental plugins trial
     experimental_archive_name = None
-    if osgeo_username is not None and is_prerelease:
+    create_experimental_archive = (
+        osgeo_username is not None
+        and is_prerelease
+        and semver.compare(parameters.qgis_minimum_version, "3.14.0") < 0
+    )
+    if create_experimental_archive:
         experimental_archive_name = parameters.archive_name(
             parameters.plugin_path, release_version, True
         )
@@ -605,7 +611,7 @@ def release(
 
     if osgeo_username is not None:
         assert osgeo_password is not None
-        if is_prerelease:
+        if create_experimental_archive:
             assert experimental_archive_name is not None
             upload_plugin_to_osgeo(
                 username=osgeo_username,
