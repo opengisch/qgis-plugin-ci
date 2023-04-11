@@ -43,6 +43,8 @@ options:
                         The Osgeo password to publish the plugin.
 ```
 
+If the exit code is `2`, it means the upload to the QGIS server has failed.
+
 ## Additional metadata
 
 When packaging the plugin, some extra metadata information can be added if these keys are present in the `metadata.txt`:
