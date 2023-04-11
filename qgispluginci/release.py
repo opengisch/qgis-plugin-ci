@@ -452,7 +452,7 @@ def upload_plugin_to_osgeo(
             f"Plugin path: {archive}"
         )
         logger.error(err_msg)
-        sys.exit(err_msg)
+        sys.exit(2)
     except xmlrpc.client.Fault as err:
         err_msg = (
             "=== A fault occurred occurred ===\n"
@@ -461,7 +461,7 @@ def upload_plugin_to_osgeo(
             f"Plugin path: {archive}"
         )
         logger.error(err_msg)
-        sys.exit(err_msg)
+        sys.exit(2)
 
 
 def release(
