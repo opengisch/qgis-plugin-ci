@@ -133,7 +133,9 @@ class TransifexClient(BaseClient):
             resource=self.get_resource(), language=language
         )
 
-        translated_content = requests.get(url).text
+        r = requests.get(url)
+        r.encoding = 'utf-8'
+        translated_content = r.text
         with open(path_to_output_file, "w") as fh:
             fh.write(translated_content)
 
