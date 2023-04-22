@@ -58,7 +58,7 @@ jobs:
 
       # -- FROM HERE, A TAG IS REQUIRED ---
       - name: Deploy to PyPI
-        uses: pypa/gh-action-pypi-publish@v1
+        uses: pypa/gh-action-pypi-publish@release/v1
 
         with:
           user: __token__
