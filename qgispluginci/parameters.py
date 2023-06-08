@@ -14,6 +14,7 @@ import logging
 import os
 import re
 import sys
+from typing import Any, Callable, Iterator, Optional, Tuple
 
 # 3rd party
 from slugify import slugify
@@ -99,7 +100,9 @@ class Parameters:
 
     def __init__(self, definition: dict):
         self.plugin_path = definition.get("plugin_path")
-        self.plugin_name = self.__get_from_metadata("name")
+
+        get_metadata = self.collect_metadata()
+        self.plugin_name = get_metadata("name")
         self.plugin_slug = slugify(self.plugin_name)
         self.project_slug = definition.get(
             "project_slug",
@@ -146,22 +149,22 @@ class Parameters:
             # This tool can be used outside of a QGIS plugin to read a changelog file
             return
 
-        self.author = self.__get_from_metadata("author", "")
-        self.description = self.__get_from_metadata("description")
-        self.qgis_minimum_version = self.__get_from_metadata("qgisMinimumVersion")
-        self.icon = self.__get_from_metadata("icon", "")
-        self.tags = self.__get_from_metadata("tags", "")
-        self.experimental = self.__get_from_metadata("experimental", False)
-        self.deprecated = self.__get_from_metadata("deprecated", False)
-        self.issue_tracker = self.__get_from_metadata("tracker")
-        self.homepage = self.__get_from_metadata("homepage", "")
+        self.author = get_metadata("author", "")
+        self.description = get_metadata("description")
+        self.qgis_minimum_version = get_metadata("qgisMinimumVersion")
+        self.icon = get_metadata("icon", "")
+        self.tags = get_metadata("tags", "")
+        self.experimental = get_metadata("experimental", False)
+        self.deprecated = get_metadata("deprecated", False)
+        self.issue_tracker = get_metadata("tracker")
+        self.homepage = get_metadata("homepage", "")
         if self.homepage == "":
             logger.warning(
                 "Homepage is not given in the metadata. "
                 "It is a mandatory information to publish "
                 "the plugin on the QGIS official repository."
             )
-        self.repository_url = self.__get_from_metadata("repository")
+        self.repository_url = get_metadata("repository")
 
     @staticmethod
     def archive_name(
@@ -178,20 +181,43 @@ class Parameters:
         experimental = "-experimental" if experimental else ""
         return f"{plugin_name}{experimental}.{release_version}.zip"
 
-    def __get_from_metadata(self, key: str, default_value: any = None) -> str:
-        if not self.plugin_path:
-            return ""
-
+    def collect_metadata(self) -> Callable[[str, Optional[Any]], Any]:
+        """
+        Returns a closure capturing a Dict of metadata, allowing to retrieve one
+        value after the other while also iterating over the file once.
+        """
         metadata_file = f"{self.plugin_path}/metadata.txt"
-        with open(metadata_file) as f:
-            for line in f:
-                m = re.match(rf"{key}\s*=\s*(.*)$", line)
-                if m:
-                    return m.group(1)
-        if default_value is None:
-            logger.error(f"Mandatory key is missing in metadata: {key}")
-            sys.exit(1)
-        return default_value
+        metadata = {}
+
+        with open(metadata_file) as fh:
+            for line in fh:
+                split = line.strip().split("=", 1)
+                if len(split) == 2:
+                    metadata[split[0]] = split[1]
+
+        def get_metadata(key: str, default_value: Optional[Any] = None) -> Any:
+            if not self.plugin_path:
+                return ""
+
+            value = metadata.get(key, None)
+            if value:
+                return value
+            elif default_value is not None:
+                return default_value
+            else:
+                logger.error(f"Mandatory key is missing in metadata: {key}")
+                sys.exit(1)
+
+        return get_metadata
+
+    def __iter__(self) -> Iterator[Tuple[str, Any]]:
+        """Allows to represent attributes as dict, list, etc."""
+        for k in vars(self):
+            yield k, self.__getattribute__(k)
+
+    def __str__(self) -> str:
+        """Allows to represent instances as a string."""
+        return str(dict(self))
 
 
 # ############################################################################
