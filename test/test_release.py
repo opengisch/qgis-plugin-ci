@@ -20,7 +20,7 @@ from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
-from qgispluginci.utils import replace_in_file
+from qgispluginci.utils import make_parameters, replace_in_file
 
 # Tests
 from .utils import can_skip_test
@@ -31,9 +31,10 @@ RELEASE_VERSION_TEST = "0.1.2"
 
 class TestRelease(unittest.TestCase):
     def setUp(self):
-        with open(".qgis-plugin-ci", encoding="utf8") as f:
-            arg_dict = yaml.safe_load(f)
-        self.parameters = Parameters(arg_dict)
+        self.setup_params = make_parameters("setup.cfg")
+        self.qgis_plugin_config_params = make_parameters(".qgis-plugin-ci")
+        self.pyproject_params = make_parameters("pyproject.toml")
+
         self.tx_api_token = os.getenv("tx_api_token")
         self.github_token = os.getenv("github_token")
         self.repo = None
@@ -59,15 +60,28 @@ class TestRelease(unittest.TestCase):
                     print(f"  delete {asset.name}")
                     asset.delete_asset()
         if self.t:
-            self.t._t.delete_project(self.parameters.project_slug)
+            self.t._t.delete_project(self.qgis_plugin_config_params.project_slug)
 
-    def test_release(self):
-        release(self.parameters, RELEASE_VERSION_TEST)
+    def test_dict_from_config(self):
+        with self.subTest():
+            self.assertTrue(dict(self.qgis_plugin_config_params))
+            self.assertTrue(dict(self.pyproject_params))
+            self.assertTrue(dict(self.setup_params))
+
+    def test_release_from_dot_qgis_plugin_ci(self):
+        release(self.qgis_plugin_config_params, RELEASE_VERSION_TEST)
+
+    def test_release_from_pyproject(self):
+        release(self.pyproject_params, RELEASE_VERSION_TEST)
 
     @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
     def test_release_with_transifex(self):
-        Translation(self.parameters, tx_api_token=self.tx_api_token)
-        release(self.parameters, RELEASE_VERSION_TEST, tx_api_token=self.tx_api_token)
+        Translation(self.qgis_plugin_config_params, tx_api_token=self.tx_api_token)
+        release(
+            self.qgis_plugin_config_params,
+            RELEASE_VERSION_TEST,
+            tx_api_token=self.tx_api_token,
+        )
 
     def test_zipname(self):
         """Tests about the zipname for the QGIS plugin manager.
@@ -96,7 +110,7 @@ class TestRelease(unittest.TestCase):
     @unittest.skipIf(can_skip_test(), "Missing github_token")
     def test_release_upload_github(self):
         release(
-            self.parameters,
+            self.qgis_plugin_config_params,
             RELEASE_VERSION_TEST,
             github_token=self.github_token,
             upload_plugin_repo_github=True,
@@ -123,8 +137,8 @@ class TestRelease(unittest.TestCase):
 
         # compare archive file size
         gh_release = self.repo.get_release(id=RELEASE_VERSION_TEST)
-        archive_name = self.parameters.archive_name(
-            self.parameters.plugin_path, RELEASE_VERSION_TEST
+        archive_name = self.qgis_plugin_config_params.archive_name(
+            self.qgis_plugin_config_params.plugin_path, RELEASE_VERSION_TEST
         )
         fs = os.path.getsize(archive_name)
         print("size: ", fs)

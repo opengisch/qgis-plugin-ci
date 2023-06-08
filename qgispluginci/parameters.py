@@ -14,6 +14,7 @@ import logging
 import os
 import re
 import sys
+from typing import Any, Iterator, Tuple
 
 # 3rd party
 from slugify import slugify
@@ -192,6 +193,15 @@ class Parameters:
             logger.error(f"Mandatory key is missing in metadata: {key}")
             sys.exit(1)
         return default_value
+
+    def __iter__(self) -> Iterator[Tuple[str, Any]]:
+        """Allows to represent attributes as dict, list, etc."""
+        for k in vars(self):
+            yield k, self.__getattribute__(k)
+
+    def __str__(self) -> str:
+        """Allows to represent instances as a string."""
+        return str(dict(self))
 
 
 # ############################################################################
