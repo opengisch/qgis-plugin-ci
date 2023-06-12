@@ -2,7 +2,7 @@
 # -----------------------
 
 furo==2023.*
-myst-parser[linkify]>=0.13,<0.19
+myst-parser[linkify]>=0.13,<1.1
 sphinx>=3.1,<8
 sphinx-autobuild==2021.3.14
 sphinx-copybutton>=0.2,<1
