@@ -142,8 +142,6 @@ class Parameters:
 
         def load_config(path_to_file: str) -> Dict[str, Any]:
             if "setup.cfg" in path_to_file:
-                with open(path_to_file) as fh:
-                    print(fh.read())
                 config = configparser.ConfigParser()
                 config.read(path_to_file)
                 return dict(config.items("qgis-plugin-ci"))
