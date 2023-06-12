@@ -1,9 +1,10 @@
 # Settings
 
-The plugin must have a configuration, located at the top directory:
+The plugin must have a configuration, located at the top directory; it can be either:
 
-- either you use a `.qgis-plugin-ci` YAML file
-- or you use a `[qgis-plugin-ci]` section in a `setup.cfg` file (which is used by many other tools).
+- a YAML file named `.qgis-plugin-ci`
+- an INI file named `setup.cfg` with a `[qgis-plugin-ci]` section
+- a TOML file (= your actual `pyproject.toml` file) with a `[qgis-plugin-ci]` section.
 
 In the configuration, you should at least provide the following configuration:
 
@@ -46,4 +47,12 @@ project_slug: qgis-plugin-ci
 plugin_path = QuickOSM
 github_organization_slug = 3liz
 project_slug = QuickOSM
+```
+### Using TOML file `pyproject.toml`
+
+```toml
+[qgis-plugin-ci]
+plugin_path = "qgis_plugin_ci_testing"
+github_organization_slug = "opengisch"
+project_slug = "qgis-plugin-ci"
 ```

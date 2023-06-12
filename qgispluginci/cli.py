@@ -1,15 +1,9 @@
 #!/usr/bin/env python3
-
 import argparse
-import configparser
 import logging
-import os
 from importlib.metadata import version
 
-import yaml
-
 from qgispluginci.changelog import ChangelogParser
-from qgispluginci.exceptions import ConfigurationNotFound
 from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
@@ -169,28 +163,8 @@ def cli():
 
     exit_val = 0
 
-    if os.path.isfile(".qgis-plugin-ci"):
-        # We read the .qgis-plugin-ci file
-        with open(".qgis-plugin-ci", encoding="utf8") as f:
-            arg_dict = yaml.safe_load(f)
-    else:
-        config = configparser.ConfigParser()
-        config.read("setup.cfg")
-        if "qgis-plugin-ci" in config.sections():
-            # We read the setup.cfg file
-            arg_dict = dict(config.items("qgis-plugin-ci"))
-        else:
-            # We don't have either a .qgis-plugin-ci or a setup.cfg
-            if args.command == "changelog":
-                # but for the "changelog" sub command, the config file is not required, we can continue
-                arg_dict = dict()
-            else:
-                raise ConfigurationNotFound(
-                    ".qgis-plugin-ci or setup.cfg with a 'qgis-plugin-ci' section have not been found."
-                )
-
-    parameters = Parameters(arg_dict)
-
+    # Initialize Parameters
+    parameters = Parameters.make_from(args=args)
     # CHANGELOG
     if args.command == "changelog":
         try:

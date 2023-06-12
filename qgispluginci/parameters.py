@@ -9,14 +9,21 @@
 # ##################################
 
 # standard library
+import configparser
 import datetime
 import logging
 import os
 import re
 import sys
+from typing import Any, Callable, Dict, Iterator, Optional, Tuple
+
+import toml
+import yaml
 
 # 3rd party
 from slugify import slugify
+
+from qgispluginci.exceptions import ConfigurationNotFound
 
 # ############################################################################
 # ########## Globals #############
@@ -97,9 +104,69 @@ class Parameters:
 
     """
 
-    def __init__(self, definition: dict):
+    @classmethod
+    def make_from(
+        cls, *, args: Optional[Any] = None, config_file: Optional[str] = None
+    ) -> "Parameters":
+        """
+        Instantiate from a config file or by exploring the filesystem
+        Accepts an argparse Namespace for backward compatibility.
+        """
+        configuration_not_found = ConfigurationNotFound(
+            ".qgis-plugin-ci or setup.cfg or pyproject.toml with a 'qgis-plugin-ci' section have not been found."
+        )
+
+        def explore_config() -> Dict[str, Any]:
+            if os.path.isfile(".qgis-plugin-ci"):
+                # We read the .qgis-plugin-ci file
+                with open(".qgis-plugin-ci", encoding="utf8") as f:
+                    arg_dict = yaml.safe_load(f)
+            elif os.path.isfile("pyproject.toml"):
+                # We read the pyproject.toml file
+                with open("pyproject.toml", encoding="utf8") as f:
+                    arg_dict = toml.load(f)
+            else:
+                config = configparser.ConfigParser()
+                config.read("setup.cfg")
+                if "qgis-plugin-ci" in config.sections():
+                    # We read the setup.cfg file
+                    arg_dict = dict(config.items("qgis-plugin-ci"))
+                else:
+                    # We don't have either a .qgis-plugin-ci or a setup.cfg
+                    if args and args.command == "changelog":
+                        # but for the "changelog" sub command, the config file is not required, we can continue
+                        arg_dict = dict()
+                    else:
+                        raise configuration_not_found
+            return arg_dict
+
+        def load_config(path_to_file: str) -> Dict[str, Any]:
+            if "setup.cfg" in path_to_file:
+                config = configparser.ConfigParser()
+                config.read(path_to_file)
+                return dict(config.items("qgis-plugin-ci"))
+
+            with open(path_to_file) as f:
+                if ".qgis-plugin-ci" in path_to_file:
+                    return yaml.safe_load(f)
+                _, suffix = path_to_file.rsplit(".", 1)
+                if suffix == "toml":
+                    contents = toml.load(f)
+                    return contents["qgis-plugin-ci"]
+
+            raise configuration_not_found
+
+        if config_file:
+            config_dict = load_config(config_file)
+        else:
+            config_dict = explore_config()
+        return cls(config_dict)
+
+    def __init__(self, definition: Dict[str, Any]):
         self.plugin_path = definition.get("plugin_path")
-        self.plugin_name = self.__get_from_metadata("name")
+
+        get_metadata = self.collect_metadata()
+        self.plugin_name = get_metadata("name")
         self.plugin_slug = slugify(self.plugin_name)
         self.project_slug = definition.get(
             "project_slug",
@@ -146,22 +213,22 @@ class Parameters:
             # This tool can be used outside of a QGIS plugin to read a changelog file
             return
 
-        self.author = self.__get_from_metadata("author", "")
-        self.description = self.__get_from_metadata("description")
-        self.qgis_minimum_version = self.__get_from_metadata("qgisMinimumVersion")
-        self.icon = self.__get_from_metadata("icon", "")
-        self.tags = self.__get_from_metadata("tags", "")
-        self.experimental = self.__get_from_metadata("experimental", False)
-        self.deprecated = self.__get_from_metadata("deprecated", False)
-        self.issue_tracker = self.__get_from_metadata("tracker")
-        self.homepage = self.__get_from_metadata("homepage", "")
+        self.author = get_metadata("author", "")
+        self.description = get_metadata("description")
+        self.qgis_minimum_version = get_metadata("qgisMinimumVersion")
+        self.icon = get_metadata("icon", "")
+        self.tags = get_metadata("tags", "")
+        self.experimental = get_metadata("experimental", False)
+        self.deprecated = get_metadata("deprecated", False)
+        self.issue_tracker = get_metadata("tracker")
+        self.homepage = get_metadata("homepage", "")
         if self.homepage == "":
             logger.warning(
                 "Homepage is not given in the metadata. "
                 "It is a mandatory information to publish "
                 "the plugin on the QGIS official repository."
             )
-        self.repository_url = self.__get_from_metadata("repository")
+        self.repository_url = get_metadata("repository")
 
     @staticmethod
     def archive_name(
@@ -178,20 +245,42 @@ class Parameters:
         experimental = "-experimental" if experimental else ""
         return f"{plugin_name}{experimental}.{release_version}.zip"
 
-    def __get_from_metadata(self, key: str, default_value: any = None) -> str:
-        if not self.plugin_path:
-            return ""
-
+    def collect_metadata(self) -> Callable[[str, Optional[Any]], Any]:
+        """
+        Returns a closure capturing a Dict of metadata, allowing to retrieve one
+        value after the other while also iterating over the file once.
+        """
         metadata_file = f"{self.plugin_path}/metadata.txt"
-        with open(metadata_file) as f:
-            for line in f:
-                m = re.match(rf"{key}\s*=\s*(.*)$", line)
-                if m:
-                    return m.group(1)
-        if default_value is None:
-            logger.error(f"Mandatory key is missing in metadata: {key}")
-            sys.exit(1)
-        return default_value
+        metadata = {}
+        with open(metadata_file) as fh:
+            for line in fh:
+                split = line.strip().split("=", 1)
+                if len(split) == 2:
+                    metadata[split[0]] = split[1]
+
+        def get_metadata(key: str, default_value: Optional[Any] = None) -> Any:
+            if not self.plugin_path:
+                return ""
+
+            value = metadata.get(key, None)
+            if value:
+                return value
+            elif default_value is not None:
+                return default_value
+            else:
+                logger.error(f"Mandatory key is missing in metadata: {key}")
+                sys.exit(1)
+
+        return get_metadata
+
+    def __iter__(self) -> Iterator[Tuple[str, Any]]:
+        """Allows to represent attributes as dict, list, etc."""
+        for k in vars(self):
+            yield k, self.__getattribute__(k)
+
+    def __str__(self) -> str:
+        """Allows to represent instances as a string."""
+        return str(dict(self))
 
 
 # ############################################################################
