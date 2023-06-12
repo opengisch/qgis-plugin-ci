@@ -20,7 +20,7 @@ from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
-from qgispluginci.utils import make_parameters, replace_in_file
+from qgispluginci.utils import replace_in_file
 
 # Tests
 from .utils import can_skip_test
@@ -31,10 +31,15 @@ RELEASE_VERSION_TEST = "0.1.2"
 
 class TestRelease(unittest.TestCase):
     def setUp(self):
-        self.setup_params = make_parameters("setup.cfg")
-        self.qgis_plugin_config_params = make_parameters(".qgis-plugin-ci")
-        self.pyproject_params = make_parameters("pyproject.toml")
-
+        self.setup_params = Parameters.make_from(
+            config_file=os.path.relpath("test/fixtures/setup.cfg")
+        )
+        self.qgis_plugin_config_params = Parameters.make_from(
+            config_file=os.path.relpath("test/fixtures/.qgis-plugin-ci")
+        )
+        self.pyproject_params = Parameters.make_from(
+            config_file=os.path.realpath("test/fixtures/pyproject.toml")
+        )
         self.tx_api_token = os.getenv("tx_api_token")
         self.github_token = os.getenv("github_token")
         self.repo = None
@@ -72,6 +77,7 @@ class TestRelease(unittest.TestCase):
         release(self.qgis_plugin_config_params, RELEASE_VERSION_TEST)
 
     def test_release_from_pyproject(self):
+        print(self.pyproject_params)
         release(self.pyproject_params, RELEASE_VERSION_TEST)
 
     @unittest.skipIf(can_skip_test(), "Missing tx_api_token")

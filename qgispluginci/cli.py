@@ -4,9 +4,9 @@ import logging
 from importlib.metadata import version
 
 from qgispluginci.changelog import ChangelogParser
+from qgispluginci.parameters import Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
-from qgispluginci.utils import make_parameters
 
 __version__ = version("qgis-plugin-ci")
 __title__ = "QGISPluginCI"
@@ -164,7 +164,7 @@ def cli():
     exit_val = 0
 
     # Initialize Parameters
-    parameters = make_parameters(args)
+    parameters = Parameters.make_from(args=args)
     # CHANGELOG
     if args.command == "changelog":
         try:

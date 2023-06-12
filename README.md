@@ -55,11 +55,8 @@ commands:
 
 - The code is under a **git** repository (`git archive` is used to bundle the plugin).
 - There is no uncommitted changes when doing a package/release (althought there is an option to bypass this requirement).
-- A configuration at the top directory either in `.qgis-plugin-ci` or in `setup.cfg` or `pyproject.toml` with a `[qgis-plugin-ci]` section with the following fields:
-    - github_organization_slug (unless you're running from Travis CI)
-    - plugin_path
-    - project_slug (unless you're running from Travis CI)
-- The source files of the plugin are within a sub-directory, with among others, a `metadata.txt` file with the following fields:
+- A configuration at the top directory either in `.qgis-plugin-ci` or in `setup.cfg` or `pyproject.toml` with a `[qgis-plugin-ci]` section (see `docs/configuration/options.md` for details).
+- The source files of the plugin are within a sub-directory  with a `metadata.txt` file with the following fields:
     - description
     - qgisMinimumVersion
     - repository

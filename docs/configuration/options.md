@@ -47,3 +47,11 @@ plugin_path = QuickOSM
 github_organization_slug = 3liz
 project_slug = QuickOSM
 ```
+### Using TOML file `pyproject.toml`
+
+```toml
+[qgis-plugin-ci]
+plugin_path = "qgis_plugin_ci_testing"
+github_organization_slug = "opengisch"
+project_slug = "qgis-plugin-ci"
+```
