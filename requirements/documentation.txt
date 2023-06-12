@@ -6,6 +6,6 @@ myst-parser[linkify]>=0.13,<0.19
 sphinx>=3.1,<8
 sphinx-autobuild==2021.3.14
 sphinx-copybutton>=0.2,<1
-sphinx-design>=0.3,<0.4
+sphinx-design>=0.3,<0.5
 sphinx-sitemap>=2.4,<3
 toml>=0.10.2
