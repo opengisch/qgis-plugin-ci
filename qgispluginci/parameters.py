@@ -124,7 +124,8 @@ class Parameters:
             elif os.path.isfile("pyproject.toml"):
                 # We read the pyproject.toml file
                 with open("pyproject.toml", encoding="utf8") as f:
-                    arg_dict = toml.load(f)
+                    contents = toml.load(f)
+                    arg_dict = contents["qgis-plugin-ci"]
             else:
                 config = configparser.ConfigParser()
                 config.read("setup.cfg")
