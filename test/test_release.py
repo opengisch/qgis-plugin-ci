@@ -32,13 +32,13 @@ RELEASE_VERSION_TEST = "0.1.2"
 class TestRelease(unittest.TestCase):
     def setUp(self):
         self.setup_params = Parameters.make_from(
-            config_file=os.path.relpath("test/fixtures/setup.cfg")
+            path_to_config_file=Path("test/fixtures/setup.cfg")
         )
         self.qgis_plugin_config_params = Parameters.make_from(
-            config_file=os.path.relpath("test/fixtures/.qgis-plugin-ci")
+            path_to_config_file=Path("test/fixtures/.qgis-plugin-ci")
         )
         self.pyproject_params = Parameters.make_from(
-            config_file=os.path.realpath("test/fixtures/pyproject.toml")
+            path_to_config_file=Path("test/fixtures/pyproject.toml")
         )
         self.tx_api_token = os.getenv("tx_api_token")
         self.github_token = os.getenv("github_token")

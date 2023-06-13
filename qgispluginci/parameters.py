@@ -13,9 +13,9 @@ import configparser
 import datetime
 import logging
 import os
-import re
 import sys
-from typing import Any, Callable, Dict, Iterator, Optional, Tuple
+from pathlib import Path
+from typing import Any, Callable, Dict, Iterator, Literal, Optional, Tuple
 
 import toml
 import yaml
@@ -106,59 +106,56 @@ class Parameters:
 
     @classmethod
     def make_from(
-        cls, *, args: Optional[Any] = None, config_file: Optional[str] = None
+        cls, *, args: Optional[Any] = None, path_to_config_file: Optional[Path] = None
     ) -> "Parameters":
         """
         Instantiate from a config file or by exploring the filesystem
         Accepts an argparse Namespace for backward compatibility.
         """
+        supported_config_file_names = {
+            "setup.cfg",
+            ".qgis-plugin-ci",
+            "pyproject.toml",
+        }
         configuration_not_found = ConfigurationNotFound(
             ".qgis-plugin-ci or setup.cfg or pyproject.toml with a 'qgis-plugin-ci' section have not been found."
         )
 
-        def explore_config() -> Dict[str, Any]:
-            if os.path.isfile(".qgis-plugin-ci"):
-                # We read the .qgis-plugin-ci file
-                with open(".qgis-plugin-ci", encoding="utf8") as f:
-                    arg_dict = yaml.safe_load(f)
-            elif os.path.isfile("pyproject.toml"):
-                # We read the pyproject.toml file
-                with open("pyproject.toml", encoding="utf8") as f:
-                    contents = toml.load(f)
-                    arg_dict = contents["qgis-plugin-ci"]
-            else:
+        def load_config(path_to_config_file: Path, file_name: str) -> Dict[str, Any]:
+            if file_name == "setup.cfg":
                 config = configparser.ConfigParser()
-                config.read("setup.cfg")
-                if "qgis-plugin-ci" in config.sections():
-                    # We read the setup.cfg file
-                    arg_dict = dict(config.items("qgis-plugin-ci"))
-                else:
-                    # We don't have either a .qgis-plugin-ci or a setup.cfg
-                    if args and args.command == "changelog":
-                        # but for the "changelog" sub command, the config file is not required, we can continue
-                        arg_dict = dict()
+                config.read(path_to_config_file)
+                arg_dict = dict(config.items("qgis-plugin-ci"))
+            else:
+                with open(path_to_config_file) as fh:
+                    if file_name == ".qgis-plugin-ci":
+                        arg_dict = yaml.safe_load(fh)
+                    elif file_name == "pyproject.toml":
+                        contents = toml.load(fh)
+                        arg_dict = contents["qgis-plugin-ci"]
                     else:
                         raise configuration_not_found
             return arg_dict
 
-        def load_config(path_to_file: str) -> Dict[str, Any]:
-            if "setup.cfg" in path_to_file:
-                config = configparser.ConfigParser()
-                config.read(path_to_file)
-                return dict(config.items("qgis-plugin-ci"))
-
-            with open(path_to_file) as f:
-                if ".qgis-plugin-ci" in path_to_file:
-                    return yaml.safe_load(f)
-                _, suffix = path_to_file.rsplit(".", 1)
-                if suffix == "toml":
-                    contents = toml.load(f)
-                    return contents["qgis-plugin-ci"]
-
+        def explore_config() -> Dict[str, Any]:
+            for file_name in supported_config_file_names:
+                path_to_file = Path(file_name)
+                if path_to_file.is_file():
+                    try:
+                        return load_config(path_to_file, path_to_file.name)
+                    except ConfigurationNotFound:
+                        pass
             raise configuration_not_found
 
-        if config_file:
-            config_dict = load_config(config_file)
+        if path_to_config_file:
+            file_name = path_to_config_file.name
+
+            if not (
+                path_to_config_file.is_file()
+                and file_name in supported_config_file_names
+            ):
+                raise configuration_not_found
+            config_dict = load_config(path_to_config_file, file_name)
         else:
             config_dict = explore_config()
         return cls(config_dict)
