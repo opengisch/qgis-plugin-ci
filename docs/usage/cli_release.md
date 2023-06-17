@@ -37,6 +37,8 @@ options:
   --alternative-repo-url ALTERNATIVE_REPO_URL
                         The URL of the endpoint to publish the plugin (defaults to
                         plugins.qgis.org)
+  -a ASSET_PATH, --asset-path ASSET_PATH
+                        An additional asset path to add. Can be specified multiple times.
   --osgeo-username OSGEO_USERNAME
                         The Osgeo user name to publish the plugin.
   --osgeo-password OSGEO_PASSWORD

@@ -26,7 +26,8 @@ optional arguments:
                         changes made by qgis-plugin-ci.
   -d --disable-submodule-update
                         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
-
+  -a ASSET_PATH, --asset-path ASSET_PATH
+                        An additional asset path to add. Can be specified multiple times.
 ```
 
 ## Additional metadata

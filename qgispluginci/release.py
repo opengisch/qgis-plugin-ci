@@ -10,6 +10,7 @@ import zipfile
 from glob import glob
 from pathlib import Path
 from tempfile import mkstemp
+from typing import List
 
 import git
 from github import Github, GithubException
@@ -54,6 +55,7 @@ def create_archive(
     is_prerelease: bool = False,
     raise_min_version: str = None,
     disable_submodule_update: bool = False,
+    asset_paths: List[str] = [],
 ):
     repo = git.Repo()
 
@@ -226,6 +228,10 @@ def create_archive(
                 logger.debug(f"\tAdding resource: {file}")
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
+    # Add assets
+    with tarfile.open(top_tar_file, mode="a") as tt:
+        for asset_path in asset_paths:
+            tt.add(asset_path)
 
     # converting to ZIP
     # why using TAR before? because it provides the prefix and makes things easier
@@ -477,6 +483,7 @@ def release(
     allow_uncommitted_changes: bool = False,
     plugin_repo_url: str = None,
     disable_submodule_update: bool = False,
+    asset_paths: List[str] = [],
 ):
     """
 
@@ -547,6 +554,7 @@ def release(
         allow_uncommitted_changes=allow_uncommitted_changes,
         is_prerelease=is_prerelease,
         disable_submodule_update=disable_submodule_update,
+        asset_paths=asset_paths,
     )
 
     # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14

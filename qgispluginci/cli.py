@@ -65,6 +65,12 @@ def cli():
         action="store_true",
         help="If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.",
     )
+    package_parser.add_argument(
+        "-a",
+        "--asset-path",
+        action="append",
+        help="An additional asset path to add. Can be specified multiple times.",
+    )
 
     # changelog
     changelog_parser = subparsers.add_parser(
@@ -112,6 +118,12 @@ def cli():
         "--disable-submodule-update",
         action="store_true",
         help="If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.",
+    )
+    release_parser.add_argument(
+        "-a",
+        "--asset-path",
+        action="append",
+        help="An additional asset path to add. Can be specified multiple times.",
     )
     release_parser.add_argument(
         "--alternative-repo-url",
@@ -188,6 +200,7 @@ def cli():
             allow_uncommitted_changes=args.allow_uncommitted_changes,
             plugin_repo_url=args.plugin_repo_url,
             disable_submodule_update=args.disable_submodule_update,
+            asset_paths=args.asset_path,
         )
 
     # RELEASE
@@ -204,6 +217,7 @@ def cli():
             osgeo_password=args.osgeo_password,
             allow_uncommitted_changes=args.allow_uncommitted_changes,
             disable_submodule_update=args.disable_submodule_update,
+            asset_paths=args.asset_path,
         )
 
     # TRANSLATION PULL
