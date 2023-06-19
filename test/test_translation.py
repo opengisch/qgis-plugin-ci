@@ -3,6 +3,7 @@
 # standard library
 import logging
 import os
+import shutil
 import unittest
 
 # 3rd party
@@ -35,6 +36,10 @@ class TestTranslation(unittest.TestCase):
     def setUp(self):
         """Initialize the next test method (run before every test method)"""
         self.t = Translation(self.parameters, tx_api_token=self.tx_api_token)
+        shutil.copyfile(
+            "qgis_plugin_CI_testing/_metadata.txt",
+            "qgis_plugin_CI_testing/metadata.txt",
+        )
 
     def tearDown(self):
         self.t.tx_client.delete_project()

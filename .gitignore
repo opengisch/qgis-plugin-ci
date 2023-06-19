@@ -17,6 +17,7 @@ __pycache__/
 
 qgis_plugin_CI_testing/i18n
 qgis_plugin_CI_testing/resources_rc.py
+qgis_plugin_ci_testing/metadata.txt
 
 .tokens
 

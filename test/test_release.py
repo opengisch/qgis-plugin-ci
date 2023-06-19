@@ -4,6 +4,7 @@
 import filecmp
 import os
 import re
+import shutil
 import unittest
 import urllib.request
 from pathlib import Path
@@ -31,6 +32,11 @@ RELEASE_VERSION_TEST = "0.1.2"
 
 class TestRelease(unittest.TestCase):
     def setUp(self):
+        shutil.copyfile(
+            "qgis_plugin_CI_testing/_metadata.txt",
+            "qgis_plugin_CI_testing/metadata.txt",
+        )
+
         self.setup_params = Parameters.make_from(
             path_to_config_file=Path("test/fixtures/setup.cfg")
         )

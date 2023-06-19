@@ -10,6 +10,8 @@
         python -m unittest test.test_changelog.TestChangelog.test_has_changelog
 """
 
+import shutil
+
 # standard library
 import tempfile
 import unittest
@@ -25,6 +27,12 @@ from qgispluginci.version_note import VersionNote
 
 
 class TestChangelog(unittest.TestCase):
+    def setUp(self) -> None:
+        shutil.copyfile(
+            "qgis_plugin_CI_testing/_metadata.txt",
+            "qgis_plugin_CI_testing/metadata.txt",
+        )
+
     def test_has_changelog(self):
         """Test changelog path logic."""
         # using this repository as parent folder
