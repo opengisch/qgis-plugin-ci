@@ -229,9 +229,10 @@ def create_archive(
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
     # Add assets
-    with tarfile.open(top_tar_file, mode="a") as tt:
-        for asset_path in asset_paths:
-            tt.add(asset_path)
+    if len(asset_paths) > 0:
+        with tarfile.open(top_tar_file, mode="a") as tt:
+            for asset_path in asset_paths:
+                tt.add(asset_path)
 
     # converting to ZIP
     # why using TAR before? because it provides the prefix and makes things easier
