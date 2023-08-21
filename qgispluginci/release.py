@@ -229,7 +229,7 @@ def create_archive(
                 # https://stackoverflow.com/a/48462950/1548052
                 tt.add(file)
     # Add assets
-    if len(asset_paths) > 0:
+    if asset_paths:
         with tarfile.open(top_tar_file, mode="a") as tt:
             for asset_path in asset_paths:
                 tt.add(asset_path)
