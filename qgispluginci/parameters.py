@@ -132,7 +132,7 @@ class Parameters:
                         arg_dict = yaml.safe_load(fh)
                     elif file_name == "pyproject.toml":
                         contents = toml.load(fh)
-                        arg_dict = contents["qgis-plugin-ci"]
+                        arg_dict = contents["tool"]["qgis-plugin-ci"]
                     else:
                         raise configuration_not_found
             return arg_dict
