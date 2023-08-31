@@ -51,7 +51,7 @@ project_slug = QuickOSM
 ### Using TOML file `pyproject.toml`
 
 ```toml
-[qgis-plugin-ci]
+[tool.qgis-plugin-ci]
 plugin_path = "qgis_plugin_ci_testing"
 github_organization_slug = "opengisch"
 project_slug = "qgis-plugin-ci"
