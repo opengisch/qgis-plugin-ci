@@ -4,7 +4,7 @@ The plugin must have a configuration, located at the top directory; it can be ei
 
 - a YAML file named `.qgis-plugin-ci`
 - an INI file named `setup.cfg` with a `[qgis-plugin-ci]` section
-- a TOML file (= your actual `pyproject.toml` file) with a `[qgis-plugin-ci]` section.
+- a TOML file (= your actual `pyproject.toml` file) with a `[tool.qgis-plugin-ci]` section.
 
 In the configuration, you should at least provide the following configuration:
 
