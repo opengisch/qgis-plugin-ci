@@ -6,6 +6,7 @@ import os
 import re
 import unittest
 import urllib.request
+from itertools import product
 from pathlib import Path
 from tempfile import mkstemp
 from zipfile import ZipFile
@@ -204,6 +205,22 @@ class TestRelease(unittest.TestCase):
 
         # Commit sha1 not in the metadata.txt
         self.assertEqual(0, len(re.findall(r"commitSha1=\d+", str(data))))
+
+    def test_release_version(self):
+        valid_tags = ["v1.1.1", "v1.1", "1.0.1", "1.1", "1.0.0-alpha", "1.0.0-dev"]
+        invalid_tags = ["1", "v1", ".", ".1"]
+        valid_results = {tag: [] for tag in valid_tags}
+        invalid_results = {tag: [] for tag in invalid_tags}
+
+        for key, cand in product(Parameters.release_version_patterns, valid_results):
+            if re.match(Parameters.release_version_patterns[key], cand):
+                valid_results[cand].append(key)
+        self.assertTrue(all(valid_results.values()))
+
+        for key, cand in product(Parameters.release_version_patterns, invalid_results):
+            if re.match(Parameters.release_version_patterns[key], cand):
+                invalid_results[cand].append(key)
+        self.assertFalse(any(invalid_results.values()))
 
 
 if __name__ == "__main__":

@@ -152,6 +152,7 @@ def cli():
     push_tr_parser.add_argument("transifex_token", help="The Transifex API token")
 
     args = parser.parse_args()
+    Parameters.validate_args(args)
 
     # set log level depending on verbosity argument
     args.verbosity = 40 - (10 * args.verbosity) if args.verbosity > 0 else 0

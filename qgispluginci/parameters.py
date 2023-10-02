@@ -8,14 +8,17 @@
 # ########## Libraries #############
 # ##################################
 
-# standard library
 import configparser
 import datetime
 import logging
 import os
+import re
 import sys
+
+# standard library
+from argparse import Namespace
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterator, Literal, Optional, Tuple
+from typing import Any, Callable, Dict, Iterator, Optional, Tuple
 
 import toml
 import yaml
@@ -103,6 +106,17 @@ class Parameters:
 
 
     """
+
+    release_version_patterns = {
+        "simple": re.compile(r"\d+\.\d+$"),
+        "double": re.compile(r"\d+\.\d+\.\d+$"),
+        "v2": re.compile(r"^v\d+\.\d+$"),
+        "v3": re.compile(r"^v\d+\.\d+\.\d+$"),
+        # See https://github.com/semver/semver/blob/master/semver.md#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+        "semver": re.compile(
+            r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
+        ),
+    }
 
     @classmethod
     def make_from(
@@ -227,6 +241,16 @@ class Parameters:
                 "the plugin on the QGIS official repository."
             )
         self.repository_url = get_metadata("repository")
+
+    @staticmethod
+    def validate_args(args: Namespace):
+        if args.release_version and not any(
+            re.match(pattern, args.release_version)
+            for pattern in Parameters.release_version_patterns.values()
+        ):
+            raise ValueError(
+                f"Unable to validate the release version '{args.release_version}'. Please use a version name that looks like this: 'v1.1.1', 'v1.1', '1.0.1', '1.1'."
+            )
 
     @staticmethod
     def archive_name(
