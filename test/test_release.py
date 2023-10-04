@@ -210,15 +210,22 @@ class TestRelease(unittest.TestCase):
     def test_release_version_valid_invalid(self):
         valid_tags = ["v1.1.1", "v1.1", "1.0.1", "1.1", "1.0.0-alpha", "1.0.0-dev"]
         invalid_tags = ["1", "v1", ".", ".1"]
+        expected_valid_results = {
+            "v1.1.1": ["v3"],
+            "v1.1": ["v2"],
+            "1.0.1": ["double", "semver"],
+            "1.1": ["simple"],
+            "1.0.0-alpha": ["semver"],
+            "1.0.0-dev": ["semver"],
+        }
         valid_results = {tag: [] for tag in valid_tags}
-        invalid_results = {tag: [] for tag in invalid_tags}
-
         patterns = Parameters.get_release_version_patterns()
         for key, cand in product(patterns, valid_results):
             if re.match(patterns[key], cand):
                 valid_results[cand].append(key)
-        self.assertTrue(all(valid_results.values()))
+        self.assertEqual(valid_results, expected_valid_results)
 
+        invalid_results = {tag: [] for tag in invalid_tags}
         for key, cand in product(patterns, invalid_results):
             if re.match(patterns[key], cand):
                 invalid_results[cand].append(key)
