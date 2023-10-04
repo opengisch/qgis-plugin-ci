@@ -232,7 +232,7 @@ class Parameters:
         self.repository_url = get_metadata("repository")
 
     @staticmethod
-    def get_release_version_patterns() -> dict[str, re.Pattern]:
+    def get_release_version_patterns() -> Dict[str, re.Pattern]:
         return {
             "simple": r"\d+\.\d+$",
             "double": r"\d+\.\d+\.\d+$",
