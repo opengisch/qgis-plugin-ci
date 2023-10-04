@@ -207,7 +207,7 @@ class TestRelease(unittest.TestCase):
         # Commit sha1 not in the metadata.txt
         self.assertEqual(0, len(re.findall(r"commitSha1=\d+", str(data))))
 
-    def test_release_version_validated_patterns(self):
+    def test_release_version_valid_invalid(self):
         valid_tags = ["v1.1.1", "v1.1", "1.0.1", "1.1", "1.0.0-alpha", "1.0.0-dev"]
         invalid_tags = ["1", "v1", ".", ".1"]
         valid_results = {tag: [] for tag in valid_tags}

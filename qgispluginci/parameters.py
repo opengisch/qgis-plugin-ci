@@ -246,13 +246,17 @@ class Parameters:
     def validate_args(args: Namespace):
         if not args.release_version:
             return
+
         patterns = Parameters.get_release_version_patterns()
+        if re.match(patterns.pop("semver"), args.release_version) is None:
+            logging.warning(
+                f"Be aware that '{args.release_version}' is not a semver-compliant version."
+            )
+
         if not args.no_validation:
-            msg = f"Disabled release version validation."
-            if not re.match(patterns.pop("semver"), args.release_version):
-                msg += f" Be aware that '{args.release_version}' is not a semver-compliant version."
-            logger.warning(msg)
+            logging.warning("Disabled release version validation.")
             return
+
         if not any(
             re.match(other_pattern, args.release_version)
             for other_pattern in patterns.values()
