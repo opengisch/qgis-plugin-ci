@@ -259,7 +259,7 @@ class Parameters:
             logging.warning("Disabled release version validation.")
             return
 
-        if not semvar_compliance or not any(
+        if semvar_compliance or any(
             re.match(other_pattern, args.release_version)
             for other_pattern in patterns.values()
         ):
