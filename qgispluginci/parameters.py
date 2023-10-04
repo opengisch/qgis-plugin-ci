@@ -246,14 +246,16 @@ class Parameters:
     def validate_args(args: Namespace):
         if not args.release_version:
             return
-        if not args.no_validation:
-            logger.warning(
-                f"Disabled release version validation for '{args.release_version}'."
-            )
-            return
         patterns = Parameters.get_release_version_patterns()
+        if not args.no_validation:
+            msg = f"Disabled release version validation."
+            if not re.match(patterns.pop("semver"), args.release_version):
+                msg += f" Be aware that '{args.release_version}' is not a semver-compliant version."
+            logger.warning(msg)
+            return
         if not any(
-            re.match(pattern, args.release_version) for pattern in patterns.values()
+            re.match(other_pattern, args.release_version)
+            for other_pattern in patterns.values()
         ):
             raise ValueError(
                 f"Unable to validate the release version '{args.release_version}'. You can disable validation by running this command again with an extra '--no-validation' flag. Otherwise please use a release version identifier in the shape of 'v1.1.1', 'v1.1', '1.0.1', '1.1'. Version semantic (semvar) identifiers are recommended. Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
