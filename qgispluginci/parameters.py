@@ -250,7 +250,7 @@ class Parameters:
         patterns = Parameters.get_release_version_patterns()
         semvar_compliance = re.match(patterns.pop("semver"), args.release_version)
 
-        if semvar_compliance is None:
+        if not semvar_compliance:
             logging.warning(
                 f"Be aware that '{args.release_version}' is not a semver-compliant version."
             )
@@ -263,9 +263,11 @@ class Parameters:
             re.match(other_pattern, args.release_version)
             for other_pattern in patterns.values()
         ):
-            raise ValueError(
-                f"Unable to validate the release version '{args.release_version}'. You can disable validation by running this command again with an extra '--no-validation' flag. Otherwise please use a release version identifier in the shape of 'v1.1.1', 'v1.1', '1.0.1', '1.1'. Version semantic (semvar) identifiers are recommended. Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
-            )
+            return
+
+        raise ValueError(
+            f"Unable to validate the release version '{args.release_version}'. You can disable validation by running this command again with an extra '--no-validation' flag. Otherwise please use a release version identifier in the shape of 'v1.1.1', 'v1.1', '1.0.1', '1.1'. Version semantic (semvar) identifiers are recommended. Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
+        )
 
     @staticmethod
     def archive_name(
