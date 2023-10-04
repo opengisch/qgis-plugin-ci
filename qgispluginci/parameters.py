@@ -248,7 +248,9 @@ class Parameters:
             return
 
         patterns = Parameters.get_release_version_patterns()
-        if re.match(patterns.pop("semver"), args.release_version) is None:
+        semvar_compliance = re.match(patterns.pop("semver"), args.release_version)
+
+        if semvar_compliance is None:
             logging.warning(
                 f"Be aware that '{args.release_version}' is not a semver-compliant version."
             )
@@ -257,7 +259,7 @@ class Parameters:
             logging.warning("Disabled release version validation.")
             return
 
-        if not any(
+        if not semvar_compliance or not any(
             re.match(other_pattern, args.release_version)
             for other_pattern in patterns.values()
         ):
