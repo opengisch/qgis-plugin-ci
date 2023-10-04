@@ -272,7 +272,7 @@ class Parameters:
             return
 
         raise ValueError(
-            f"Unable to validate the release version '{args.release_version}'. You can disable validation by running this command again with an extra '--no-validation' flag. Otherwise please use a release version identifier in the shape of 'v1.1.1', 'v1.1', '1.0.1', '1.1'. Version semantic (semvar) identifiers are recommended. Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
+            f"Unable to validate the release version '{args.release_version}'. You can disable validation by running this command again with an extra '--no-validation' flag. Otherwise please use a release version identifier in the shape of 'v1.1.1', 'v1.1', '1.0.1', '1.1'. Semantic versioning (semvar) identifiers are recommended. Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
         )
 
     @staticmethod
