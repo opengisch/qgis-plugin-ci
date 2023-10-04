@@ -107,17 +107,6 @@ class Parameters:
 
     """
 
-    release_version_patterns = {
-        "simple": re.compile(r"\d+\.\d+$"),
-        "double": re.compile(r"\d+\.\d+\.\d+$"),
-        "v2": re.compile(r"^v\d+\.\d+$"),
-        "v3": re.compile(r"^v\d+\.\d+\.\d+$"),
-        # See https://github.com/semver/semver/blob/master/semver.md#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
-        "semver": re.compile(
-            r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
-        ),
-    }
-
     @classmethod
     def make_from(
         cls, *, args: Optional[Any] = None, path_to_config_file: Optional[Path] = None
@@ -243,13 +232,31 @@ class Parameters:
         self.repository_url = get_metadata("repository")
 
     @staticmethod
+    def get_release_version_patterns() -> dict[str, re.Pattern]:
+        return {
+            "simple": r"\d+\.\d+$",
+            "double": r"\d+\.\d+\.\d+$",
+            "v2": r"^v\d+\.\d+$",
+            "v3": r"^v\d+\.\d+\.\d+$",
+            # See https://github.com/semver/semver/blob/master/semver.md#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+            "semver": r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",
+        }
+
+    @staticmethod
     def validate_args(args: Namespace):
-        if args.release_version and not any(
-            re.match(pattern, args.release_version)
-            for pattern in Parameters.release_version_patterns.values()
+        if not args.release_version:
+            return
+        if not args.no_validation:
+            logger.warning(
+                f"Disabled release version validation for '{args.release_version}'."
+            )
+            return
+        patterns = Parameters.get_release_version_patterns()
+        if not any(
+            re.match(pattern, args.release_version) for pattern in patterns.values()
         ):
             raise ValueError(
-                f"Unable to validate the release version '{args.release_version}'. Please use a version name that looks like this: 'v1.1.1', 'v1.1', '1.0.1', '1.1'."
+                f"Unable to validate the release version '{args.release_version}'. You can disable validation by running the very command with an extra '--no-validation'. Otherwise please use a release version identifier in the shape of 'v1.1.1', 'v1.1', '1.0.1', '1.1'. Version semantic (semvar) identifiers are even better. Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
             )
 
     @staticmethod

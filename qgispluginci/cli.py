@@ -89,6 +89,11 @@ def cli():
         "release_version", help="The version to be released (x.y.z)."
     )
     release_parser.add_argument(
+        "--no-validation",
+        action="store_false",
+        help="Turn off validation of `release version`",
+    )
+    release_parser.add_argument(
         "--release-tag",
         help="The release tag, if different from the version (e.g. vx.y.z).",
     )
