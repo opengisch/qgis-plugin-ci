@@ -261,7 +261,7 @@ class Parameters:
                 f"Be aware that '{args.release_version}' is not a semver-compliant version."
             )
 
-        if not args.no_validation:
+        if args.no_validation:
             logging.warning("Disabled release version validation.")
             return
 

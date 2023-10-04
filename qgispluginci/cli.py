@@ -90,7 +90,7 @@ def cli():
     )
     release_parser.add_argument(
         "--no-validation",
-        action="store_false",
+        action="store_true",
         help="Turn off validation of `release version`",
     )
     release_parser.add_argument(

@@ -227,7 +227,7 @@ class TestRelease(unittest.TestCase):
     def test_release_version_validation_on(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("release_version")
-        parser.add_argument("--no-validation", action="store_false")
+        parser.add_argument("--no-validation", action="store_true")
         args = parser.parse_args(["v1"])
         with self.assertRaises(ValueError):
             Parameters.validate_args(args)
@@ -235,7 +235,7 @@ class TestRelease(unittest.TestCase):
     def test_release_version_validation_off(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("release_version")
-        parser.add_argument("--no-validation", action="store_false")
+        parser.add_argument("--no-validation", action="store_true")
         args = parser.parse_args([".", "--no-validation"])
         Parameters.validate_args(args)
 
