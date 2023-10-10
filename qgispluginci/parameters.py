@@ -8,14 +8,17 @@
 # ########## Libraries #############
 # ##################################
 
-# standard library
 import configparser
 import datetime
 import logging
 import os
+import re
 import sys
+
+# standard library
+from argparse import Namespace
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterator, Literal, Optional, Tuple
+from typing import Any, Callable, Dict, Iterator, Optional, Tuple
 
 import toml
 import yaml
@@ -227,6 +230,56 @@ class Parameters:
                 "the plugin on the QGIS official repository."
             )
         self.repository_url = get_metadata("repository")
+
+    @staticmethod
+    def get_release_version_patterns() -> Dict[str, re.Pattern]:
+        return {
+            "simple": r"\d+\.\d+$",
+            "double": r"\d+\.\d+\.\d+$",
+            "v2": r"^v\d+\.\d+$",
+            "v3": r"^v\d+\.\d+\.\d+$",
+            # See https://github.com/semver/semver/blob/master/semver.md#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+            "semver": r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$",
+        }
+
+    @staticmethod
+    def validate_args(args: Namespace):
+        """
+        Raise an exception just in case:
+        - the user didn't opt-out of validation using the `--no-validation` flag; and
+        - the value of `release_version` matches no supported pattern.
+        In any case, warn the user if the value of `release_version` doesn't match the semver pattern.
+        """
+        if not args.release_version:
+            return
+
+        patterns = Parameters.get_release_version_patterns()
+        semver_compliance = re.match(patterns.pop("semver"), args.release_version)
+
+        if not semver_compliance:
+            logging.warning(
+                f"Be aware that '{args.release_version}' is not a semver-compliant version."
+            )
+
+        if args.no_validation:
+            logging.warning("Disabled release version validation.")
+            return
+
+        if semver_compliance or any(
+            re.match(other_pattern, args.release_version)
+            for other_pattern in patterns.values()
+        ):
+            return
+
+        raise ValueError(
+            f"""
+            Unable to validate the release version '{args.release_version}'.
+            Please use a release version identifier such as '1.0.1' (recommended, semantic versioning), 'v1.1.1', 'v1.1', or '1.1'.
+            Otherwise you can disable validation by running this command again with an extra '--no-validation' flag.
+            Semantic versioning (semvar) identifiers are recommended.
+            Take a look at https://en.wikipedia.org/wiki/Software_versioning#Semantic_versioning for a refresher."
+        """
+        )
 
     @staticmethod
     def archive_name(

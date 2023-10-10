@@ -1,11 +1,13 @@
 #! /usr/bin/env python
 
 # standard
+import argparse
 import filecmp
 import os
 import re
 import unittest
 import urllib.request
+from itertools import product
 from pathlib import Path
 from tempfile import mkstemp
 from zipfile import ZipFile
@@ -204,6 +206,45 @@ class TestRelease(unittest.TestCase):
 
         # Commit sha1 not in the metadata.txt
         self.assertEqual(0, len(re.findall(r"commitSha1=\d+", str(data))))
+
+    def test_release_version_valid_invalid(self):
+        valid_tags = ["v1.1.1", "v1.1", "1.0.1", "1.1", "1.0.0-alpha", "1.0.0-dev"]
+        invalid_tags = ["1", "v1", ".", ".1"]
+        expected_valid_results = {
+            "v1.1.1": ["v3"],
+            "v1.1": ["v2"],
+            "1.0.1": ["double", "semver"],
+            "1.1": ["simple"],
+            "1.0.0-alpha": ["semver"],
+            "1.0.0-dev": ["semver"],
+        }
+        valid_results = {tag: [] for tag in valid_tags}
+        patterns = Parameters.get_release_version_patterns()
+        for key, cand in product(patterns, valid_results):
+            if re.match(patterns[key], cand):
+                valid_results[cand].append(key)
+        self.assertEqual(valid_results, expected_valid_results)
+
+        invalid_results = {tag: [] for tag in invalid_tags}
+        for key, cand in product(patterns, invalid_results):
+            if re.match(patterns[key], cand):
+                invalid_results[cand].append(key)
+        self.assertFalse(any(invalid_results.values()))
+
+    def test_release_version_validation_on(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("release_version")
+        parser.add_argument("--no-validation", action="store_true")
+        args = parser.parse_args(["v1"])
+        with self.assertRaises(ValueError):
+            Parameters.validate_args(args)
+
+    def test_release_version_validation_off(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument("release_version")
+        parser.add_argument("--no-validation", action="store_true")
+        args = parser.parse_args([".", "--no-validation"])
+        Parameters.validate_args(args)
 
 
 if __name__ == "__main__":

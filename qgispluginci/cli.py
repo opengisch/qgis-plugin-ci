@@ -89,6 +89,11 @@ def cli():
         "release_version", help="The version to be released (x.y.z)."
     )
     release_parser.add_argument(
+        "--no-validation",
+        action="store_true",
+        help="Turn off validation of `release version`",
+    )
+    release_parser.add_argument(
         "--release-tag",
         help="The release tag, if different from the version (e.g. vx.y.z).",
     )
@@ -152,6 +157,7 @@ def cli():
     push_tr_parser.add_argument("transifex_token", help="The Transifex API token")
 
     args = parser.parse_args()
+    Parameters.validate_args(args)
 
     # set log level depending on verbosity argument
     args.verbosity = 40 - (10 * args.verbosity) if args.verbosity > 0 else 0
