@@ -134,14 +134,14 @@ class TransifexClient(BaseClient):
         )
 
         r = requests.get(url)
-        # transifex returns None encoding and the apparent_encoding is Windows-1254 what leads to malformed result strings. So we set the encoding hardcoded to utf-8.
+        # Transifex returns None encoding and the apparent_encoding is Windows-1254 what leads to malformed
+        # result strings.
+        # So we set the encoding hardcoded to utf-8.
         if not r.encoding:
             r.encoding = "utf-8"
         translated_content = r.text
         with open(path_to_output_file, "w") as fh:
             fh.write(translated_content)
 
-        logger.info(
-            f"Translations downloaded and written to file (resource: {self.config.resource_slug})"
-        )
+        logger.info(f"Translations '{language_code}' downloaded")
         return str(path_to_output_file)
