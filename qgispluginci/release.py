@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import base64
 import logging
 import os
 import re
@@ -433,11 +434,16 @@ def upload_plugin_to_osgeo(
         The plugin archive file path to be uploaded
     """
     if not server_url:
-        server_url = "plugins.qgis.org:443/plugins/RPC2/"
-    address = f"https://{username}:{password}@{server_url}"
+        server_url = "https://plugins.qgis.org:443/plugins/RPC2/"
+
+    encoded_auth_string = base64.b64encode(f"{username}:{password}".encode()).decode(
+        "utf-8"
+    )
 
     server = xmlrpc.client.ServerProxy(
-        address, verbose=(logger.getEffectiveLevel() <= 10)
+        server_url,
+        verbose=(logger.getEffectiveLevel() <= 10),
+        headers=[("Authorization", f"Basic {encoded_auth_string}")],
     )
 
     try:
