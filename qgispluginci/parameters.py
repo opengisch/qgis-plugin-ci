@@ -250,7 +250,7 @@ class Parameters:
         - the value of `release_version` matches no supported pattern.
         In any case, warn the user if the value of `release_version` doesn't match the semver pattern.
         """
-        if not hasattr(args, 'release_version') or not args.release_version:
+        if not hasattr(args, "release_version") or not args.release_version:
             return
 
         patterns = Parameters.get_release_version_patterns()
