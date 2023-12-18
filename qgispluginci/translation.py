@@ -139,7 +139,7 @@ class Translation:
         for lang in existing_langs:
             ts_file = f"{self.parameters.plugin_path}/i18n/{self.parameters.transifex_resource}_{lang}.ts"
             logger.debug(
-                f"Downloading translation file: {ts_file}, resource: {self.config.resource_slug}"
+                f"Downloading translation file: {ts_file}"
             )
             self.tx_client.get_translation(
                 language_code=lang,
