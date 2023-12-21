@@ -146,7 +146,11 @@ class Parameters:
                 if path_to_file.is_file():
                     try:
                         return load_config(path_to_file, path_to_file.name)
-                    except ConfigurationNotFound:
+                    except (
+                        ConfigurationNotFound,
+                        configparser.NoSectionError,
+                        KeyError,
+                    ):
                         pass
             raise configuration_not_found
 

@@ -71,6 +71,11 @@ def cli():
         action="append",
         help="An additional asset path to add. Can be specified multiple times.",
     )
+    package_parser.add_argument(
+        "--no-validation",
+        action="store_true",
+        help="Turn off validation of `release version`",
+    )
 
     # changelog
     changelog_parser = subparsers.add_parser(
@@ -87,11 +92,6 @@ def cli():
     release_parser = subparsers.add_parser("release", help="release the plugin")
     release_parser.add_argument(
         "release_version", help="The version to be released (x.y.z)."
-    )
-    release_parser.add_argument(
-        "--no-validation",
-        action="store_true",
-        help="Turn off validation of `release version`",
     )
     release_parser.add_argument(
         "--release-tag",
