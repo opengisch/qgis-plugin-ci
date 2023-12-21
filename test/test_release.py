@@ -239,7 +239,7 @@ class TestRelease(unittest.TestCase):
         sub_parser = subparsers.add_parser("package")
         sub_parser.add_argument("release_version")
         sub_parser.add_argument("--no-validation", action="store_true")
-        args = parser.parse_args(["v1"])
+        args = parser.parse_args(["package", "v1"])
         with self.assertRaises(ValueError):
             Parameters.validate_args(args)
 
@@ -251,7 +251,7 @@ class TestRelease(unittest.TestCase):
         sub_parser = subparsers.add_parser("package")
         sub_parser.add_argument("release_version")
         sub_parser.add_argument("--no-validation", action="store_true")
-        args = parser.parse_args([".", "--no-validation"])
+        args = parser.parse_args(["package", "v1", "--no-validation"])
         Parameters.validate_args(args)
 
 
