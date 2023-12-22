@@ -262,7 +262,7 @@ class Parameters:
 
         if not semver_compliance:
             logging.warning(
-                f"Be aware that '{args.release_version}' is not a semver-compliant version."
+                f"Be aware that '{args.release_version}' is not a semver-compliant version. It might still comply with acceptable practices."
             )
 
         if args.no_validation:
