@@ -252,9 +252,12 @@ class Parameters:
         Raise an exception just in case:
         - the user didn't opt-out of validation using the `--no-validation` flag; and
         - the value of `release_version` matches no supported pattern.
-        In any case, warn the user if the value of `release_version` doesn't match the semver pattern.
         """
         if not hasattr(args, "release_version") or not args.release_version:
+            return
+
+        if args.no_validation:
+            logging.warning("Disabled release version validation.")
             return
 
         patterns = Parameters.get_release_version_patterns()
@@ -262,12 +265,8 @@ class Parameters:
 
         if not semver_compliance:
             logging.warning(
-                f"Be aware that '{args.release_version}' is not a semver-compliant version."
+                f"Be aware that '{args.release_version}' is not a semver-compliant version. It might still comply with acceptable practices."
             )
-
-        if args.no_validation:
-            logging.warning("Disabled release version validation.")
-            return
 
         if semver_compliance or any(
             re.match(other_pattern, args.release_version)

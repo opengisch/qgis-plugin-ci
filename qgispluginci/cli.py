@@ -34,6 +34,12 @@ def cli():
         version=__version__,
     )
 
+    parser.add_argument(
+        "--no-validation",
+        action="store_true",
+        help="Turn off validation of the version to be released or packaged",
+    )
+
     subparsers = parser.add_subparsers(
         title="commands", description="qgis-plugin-ci command", dest="command"
     )
@@ -70,11 +76,6 @@ def cli():
         "--asset-path",
         action="append",
         help="An additional asset path to add. Can be specified multiple times.",
-    )
-    package_parser.add_argument(
-        "--no-validation",
-        action="store_true",
-        help="Turn off validation of `release version`",
     )
 
     # changelog
