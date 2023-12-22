@@ -252,7 +252,6 @@ class Parameters:
         Raise an exception just in case:
         - the user didn't opt-out of validation using the `--no-validation` flag; and
         - the value of `release_version` matches no supported pattern.
-        In any case, warn the user if the value of `release_version` doesn't match the semver pattern.
         """
         if not hasattr(args, "release_version") or not args.release_version:
             return
