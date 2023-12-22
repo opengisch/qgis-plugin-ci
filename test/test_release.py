@@ -208,7 +208,15 @@ class TestRelease(unittest.TestCase):
         self.assertEqual(0, len(re.findall(r"commitSha1=\d+", str(data))))
 
     def test_release_version_valid_invalid(self):
-        valid_tags = ["v1.1.1", "v1.1", "1.0.1", "1.1", "1.0.0-alpha", "1.0.0-dev"]
+        valid_tags = [
+            "v1.1.1",
+            "v1.1",
+            "1.0.1",
+            "1.1",
+            "1.0.0-alpha",
+            "1.0.0-dev",
+            "latest",
+        ]
         invalid_tags = ["1", "v1", ".", ".1"]
         expected_valid_results = {
             "v1.1.1": ["v3"],
@@ -217,6 +225,7 @@ class TestRelease(unittest.TestCase):
             "1.1": ["simple"],
             "1.0.0-alpha": ["semver"],
             "1.0.0-dev": ["semver"],
+            "latest": ["latest"],
         }
         valid_results = {tag: [] for tag in valid_tags}
         patterns = Parameters.get_release_version_patterns()
