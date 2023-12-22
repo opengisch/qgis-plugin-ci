@@ -257,6 +257,10 @@ class Parameters:
         if not hasattr(args, "release_version") or not args.release_version:
             return
 
+        if args.no_validation:
+            logging.warning("Disabled release version validation.")
+            return
+
         patterns = Parameters.get_release_version_patterns()
         semver_compliance = re.match(patterns.pop("semver"), args.release_version)
 
@@ -264,10 +268,6 @@ class Parameters:
             logging.warning(
                 f"Be aware that '{args.release_version}' is not a semver-compliant version. It might still comply with acceptable practices."
             )
-
-        if args.no_validation:
-            logging.warning("Disabled release version validation.")
-            return
 
         if semver_compliance or any(
             re.match(other_pattern, args.release_version)
