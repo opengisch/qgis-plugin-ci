@@ -249,8 +249,13 @@ def create_archive(
                 fl = f.read()
                 fn = m.name
                 # Get permissions and add it to ZipInfo
-                st = os.stat(m.name)
-                info = zipfile.ZipInfo(fn)
+                st = os.stat(fn)
+
+                # fix directory structure if plugin path is not top level
+                # or if the plugin source directory is not distinctive (src, plugin, etc.)
+                # e.g. plugin/some_dir/metadata.txt => my_plugin/metadata.txt
+                fixed_path = fn.replace(parameters.plugin_path, parameters.plugin_zip_directory)
+                info = zipfile.ZipInfo(fixed_path)
 
                 # Using flags as defined in python zipfile module
                 # code : https://github.com/python/cpython/blob/b885b8f4be9c74ef1ce7923dbf055c31e7f47735/Lib/zipfile.py#L545
