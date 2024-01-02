@@ -254,7 +254,9 @@ def create_archive(
                 # fix directory structure if plugin path is not top level
                 # or if the plugin source directory is not distinctive (src, plugin, etc.)
                 # e.g. plugin/some_dir/metadata.txt => my_plugin/metadata.txt
-                fixed_path = fn.replace(parameters.plugin_path, parameters.plugin_zip_directory)
+                fixed_path = fn.replace(
+                    parameters.plugin_path, parameters.plugin_zip_directory
+                )
                 info = zipfile.ZipInfo(fixed_path)
 
                 # Using flags as defined in python zipfile module
