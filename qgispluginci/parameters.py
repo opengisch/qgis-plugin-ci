@@ -104,6 +104,9 @@ class Parameters:
     pylupdate5_path: str
         The path of pylupdate executable
 
+    use_project_slug_as_plugin_directory: bool
+        If True, the `project_slug` is used for the plugin directory name in the installation.
+        Defaults to False
 
     """
 
@@ -173,6 +176,20 @@ class Parameters:
         get_metadata = self.collect_metadata()
         self.plugin_name = get_metadata("name")
         self.plugin_slug = slugify(self.plugin_name)
+
+        # fix directory in zip file
+        self.use_project_slug_as_plugin_directory = definition.get("use_project_slug_as_plugin_directory", False)
+        # if not top level: force to use project slug
+        if self.plugin_path.count('/') > 0:
+            self.plugin_zip_directory = self.plugin_slug
+        # otherwise use setting
+        elif self.use_project_slug_as_plugin_directory:
+            self.plugin_zip_directory = self.plugin_slug
+        # we cannot force to use project_slug as it would be a breaking change for existing plugins
+        # as this would lead to have 2 versions of the plugin (1 with the old directory name, 1 with the old one)
+        else:
+            self.plugin_zip_directory = self.plugin_path
+
         self.project_slug = definition.get(
             "project_slug",
             os.environ.get("TRAVIS_REPO_SLUG", f".../{self.plugin_slug}").split("/")[1],
