@@ -178,9 +178,11 @@ class Parameters:
         self.plugin_slug = slugify(self.plugin_name)
 
         # fix directory in zip file
-        self.use_project_slug_as_plugin_directory = definition.get("use_project_slug_as_plugin_directory", False)
+        self.use_project_slug_as_plugin_directory = definition.get(
+            "use_project_slug_as_plugin_directory", False
+        )
         # if not top level: force to use project slug
-        if self.plugin_path.count('/') > 0:
+        if self.plugin_path.count("/") > 0:
             self.plugin_zip_directory = self.plugin_slug
         # otherwise use setting
         elif self.use_project_slug_as_plugin_directory:
