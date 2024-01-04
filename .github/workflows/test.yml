@@ -1,4 +1,4 @@
-name: test qgis-plugin-ci
+name: 🧪 Run tests
 
 concurrency: testing_environment
 
