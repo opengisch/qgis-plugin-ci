@@ -98,12 +98,8 @@ class TestRelease(unittest.TestCase):
         and also capital letters
         """
         self.assertEqual(
-            "my_plugin-experimental.0.0.0.zip",
-            Parameters.archive_name("my_plugin", "0.0.0", True),
-        )
-
-        self.assertEqual(
-            "My_Plugin.0.0.0.zip", Parameters.archive_name("My_Plugin", "0.0.0", False)
+            "my_plugin.0.0.0.zip",
+            Parameters.archive_name("my_plugin", "0.0.0"),
         )
 
         with self.assertLogs(

@@ -81,7 +81,6 @@ Both can be achieved in the same process.
 ## Pre-release and experimental
 
 In the case of a pre-release (either from the tag name according to [Semantic Versioning](https://semver.org/) or from the GitHub release), the plugin will be flagged as experimental.
-If pushed to the QGIS plugin repository, the QGIS minimum version will be raised to QGIS 3.14 (only 3.14 and above support testing of experimental versions).
 
 The tool will recognise any label use as a suffix to flag it as pre-release :
 

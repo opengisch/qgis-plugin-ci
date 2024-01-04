@@ -31,7 +31,6 @@ from qgispluginci.exceptions import (
     BuiltResourceInSources,
     GithubReleaseCouldNotUploadAsset,
     GithubReleaseNotFound,
-    MissingChangelog,
     UncommitedChanges,
 )
 from qgispluginci.parameters import Parameters
@@ -571,24 +570,6 @@ def release(
         asset_paths=asset_paths,
     )
 
-    # if pushing to QGIS repo and pre-release, create an extra package with qgisMinVersion to 3.14
-    # since only QGIS 3.14+ supports the beta/experimental plugins trial
-    experimental_archive_name = None
-    if osgeo_username is not None and is_prerelease:
-        experimental_archive_name = parameters.archive_name(
-            parameters.plugin_path, release_version, True
-        )
-        create_archive(
-            parameters,
-            release_version,
-            experimental_archive_name,
-            add_translations=tx_api_token is not None,
-            allow_uncommitted_changes=allow_uncommitted_changes,
-            is_prerelease=True,
-            raise_min_version="3.14",
-            disable_submodule_update=disable_submodule_update,
-        )
-
     if github_token is not None:
         upload_asset_to_github_release(
             parameters,
@@ -627,18 +608,9 @@ def release(
 
     if osgeo_username is not None:
         assert osgeo_password is not None
-        if is_prerelease:
-            assert experimental_archive_name is not None
-            upload_plugin_to_osgeo(
-                username=osgeo_username,
-                password=osgeo_password,
-                archive=experimental_archive_name,
-                server_url=alternative_repo_url,
-            )
-        else:
-            upload_plugin_to_osgeo(
-                username=osgeo_username,
-                password=osgeo_password,
-                archive=archive_name,
-                server_url=alternative_repo_url,
-            )
+        upload_plugin_to_osgeo(
+            username=osgeo_username,
+            password=osgeo_password,
+            archive=archive_name,
+            server_url=alternative_repo_url,
+        )
