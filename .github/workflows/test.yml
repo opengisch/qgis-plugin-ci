@@ -1,6 +1,6 @@
 name: 🧪 Run tests
 
-concurrency: testing_environment
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 on:
   pull_request:
