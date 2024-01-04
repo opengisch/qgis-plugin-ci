@@ -305,9 +305,7 @@ class Parameters:
         )
 
     @staticmethod
-    def archive_name(
-        plugin_name, release_version: str, experimental: bool = False
-    ) -> str:
+    def archive_name(plugin_name, release_version: str) -> str:
         """
         Returns the archive file name
         """
@@ -316,8 +314,7 @@ class Parameters:
         if "-" in plugin_name:
             logger.warning(DASH_WARNING)
 
-        experimental = "-experimental" if experimental else ""
-        return f"{plugin_name}{experimental}.{release_version}.zip"
+        return f"{plugin_name}.{release_version}.zip"
 
     def collect_metadata(self) -> Callable[[str, Optional[Any]], Any]:
         """
