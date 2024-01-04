@@ -127,16 +127,6 @@ GeoMapFish Locator
 VeriVD
 ^^^^^^
 
-* translated on Transifex
-* released on official repo
-:::
-
-:::{card}
-:link: https://github.com/VeriVD/qgis_VeriVD/
-
-VeriVD
-^^^^^^
-
 * released on custom repo as GitHub release
 :::
 
