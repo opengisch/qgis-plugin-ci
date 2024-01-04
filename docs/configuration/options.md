@@ -1,4 +1,6 @@
-# Settings
+# Configuration
+
+## Settings
 
 The plugin must have a configuration, located at the top directory; it can be either:
 
@@ -8,12 +10,11 @@ The plugin must have a configuration, located at the top directory; it can be ei
 
 In the configuration, you should at least provide the following configuration:
 
-- `plugin_path`, the folder where the source code is located
-
-Side note, the plugin path shouldn't have any dash character.
+- `plugin_path`, the folder where the source code is located under the git repository. See
 
 You can find a template `.qgis-plugin-ci` in this repository.
-You can read the docstring of the [Parameters module](/_apidoc/qgispluginci.parameters) to know parameters which are available in the file.
+You can read the docstring of the [Parameters module](/_apidoc/qgispluginci.parameters)
+to know parameters which are available in the file.
 
 ## Conventions
 

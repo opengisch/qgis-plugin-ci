@@ -29,6 +29,7 @@ caption: Configuration
 maxdepth: 1
 ---
 configuration/options
+configuration/plugin_path
 configuration/exclude
 configuration/submodules
 configuration/translation
