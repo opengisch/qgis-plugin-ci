@@ -175,7 +175,7 @@ class Parameters:
 
         get_metadata = self.collect_metadata()
         self.plugin_name = get_metadata("name")
-        self.plugin_slug = slugify(self.plugin_name, separator='_')
+        self.plugin_slug = slugify(self.plugin_name, separator="_")
 
         # fix directory in zip file
         self.use_project_slug_as_plugin_directory = definition.get(
