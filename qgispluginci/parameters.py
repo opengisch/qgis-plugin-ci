@@ -112,7 +112,11 @@ class Parameters:
 
     @classmethod
     def make_from(
-        cls, *, args: Optional[Any] = None, path_to_config_file: Optional[Path] = None
+        cls,
+        *,
+        args: Optional[Any] = None,
+        path_to_config_file: Optional[Path] = None,
+        optional_configuration: bool = False,
     ) -> "Parameters":
         """
         Instantiate from a config file or by exploring the filesystem
@@ -157,6 +161,9 @@ class Parameters:
                         pass
             raise configuration_not_found
 
+        if optional_configuration and not path_to_config_file:
+            return cls({})
+
         if path_to_config_file:
             file_name = path_to_config_file.name
 
@@ -172,6 +179,11 @@ class Parameters:
 
     def __init__(self, definition: Dict[str, Any]):
         self.plugin_path = definition.get("plugin_path")
+        self.changelog_path = definition.get("changelog_path", "CHANGELOG.md")
+
+        if not self.plugin_path:
+            # This tool can be used outside of a QGIS plugin to read a changelog file
+            return
 
         get_metadata = self.collect_metadata()
         self.plugin_name = get_metadata("name")
@@ -230,13 +242,8 @@ class Parameters:
         self.changelog_number_of_entries = definition.get(
             "changelog_number_of_entries", 3
         )
-        self.changelog_path = definition.get("changelog_path", "CHANGELOG.md")
 
         # read from metadata
-        if not self.plugin_path:
-            # This tool can be used outside of a QGIS plugin to read a changelog file
-            return
-
         self.author = get_metadata("author", "")
         self.description = get_metadata("description")
         self.qgis_minimum_version = get_metadata("qgisMinimumVersion")

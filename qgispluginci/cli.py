@@ -84,8 +84,10 @@ def cli():
     )
     changelog_parser.add_argument(
         "release_version",
-        help="The version to be released. If nothing is speficied, \
-                                      the latest version specified into the changelog is used.",
+        help=(
+            "The version to be released. If nothing is specified, the latest version specified into the changelog is "
+            "used."
+        ),
         default="latest",
     )
 
@@ -182,11 +184,12 @@ def cli():
 
     exit_val = 0
 
-    # Initialize Parameters
-    parameters = Parameters.make_from(args=args)
     # CHANGELOG
     if args.command == "changelog":
         try:
+            # Initialize Parameters
+            # Configuration file is optional at this stage
+            parameters = Parameters.make_from(args=args, optional_configuration=True)
             c = ChangelogParser(
                 changelog_path=parameters.changelog_path,
             )
@@ -197,6 +200,10 @@ def cli():
             logger.error("Something went wrong reading the changelog.", exc_info=exc)
 
         return exit_val
+
+    # Initialize Parameters
+    # Configuration file is now required
+    parameters = Parameters.make_from(args=args)
 
     # PACKAGE
     if args.command == "package":
