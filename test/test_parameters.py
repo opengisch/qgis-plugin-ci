@@ -14,11 +14,7 @@ class TestParameters(unittest.TestCase):
         """Test parameters for changelog command."""
         # For the changelog command, the configuration file is optional.
         # It mustn't raise an exception
-        parameters = Parameters.make_from(
-            args={},
-            path_to_config_file=Path("does-not-exist.yml"),
-            optional_configuration=True,
-        )
+        parameters = Parameters.make_from(args={}, optional_configuration=True)
         self.assertIsNone(parameters.plugin_path)
         self.assertEqual("CHANGELOG.md", parameters.changelog_path)
 
