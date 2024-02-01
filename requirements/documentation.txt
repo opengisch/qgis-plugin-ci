@@ -1,7 +1,7 @@
 # Documentation (for devs)
 # -----------------------
 
-furo==2023.*
+furo==2024.*
 myst-parser[linkify]>=0.13,<2.1
 sphinx>=3.1,<8
 sphinx-autobuild==2021.3.14
