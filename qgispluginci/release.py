@@ -542,7 +542,7 @@ def release(
 
     release_tag = release_tag or release_version
 
-    if tx_api_token is not None:
+    if tx_api_token:
         tr = Translation(parameters, create_project=False, tx_api_token=tx_api_token)
         tr.pull()
         tr.compile_strings()
