@@ -11,7 +11,7 @@ import zipfile
 from glob import glob
 from pathlib import Path
 from tempfile import mkstemp
-from typing import List
+from typing import List, Tuple
 
 import git
 from github import Github, GithubException
@@ -55,7 +55,7 @@ def create_archive(
     is_prerelease: bool = False,
     raise_min_version: str = None,
     disable_submodule_update: bool = False,
-    asset_paths: List[str] = [],
+    asset_paths: Tuple[str] = (),
 ):
     repo = git.Repo()
 
@@ -542,7 +542,9 @@ def release(
 
     release_tag = release_tag or release_version
 
+    add_translations = False
     if tx_api_token:
+        add_translations = True
         tr = Translation(parameters, create_project=False, tx_api_token=tx_api_token)
         tr.pull()
         tr.compile_strings()
@@ -563,7 +565,7 @@ def release(
         parameters,
         release_version,
         archive_name,
-        add_translations=tx_api_token is not None,
+        add_translations=add_translations,
         allow_uncommitted_changes=allow_uncommitted_changes,
         is_prerelease=is_prerelease,
         disable_submodule_update=disable_submodule_update,
