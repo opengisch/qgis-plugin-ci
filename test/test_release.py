@@ -82,6 +82,13 @@ class TestRelease(unittest.TestCase):
         print(self.pyproject_params)
         release(self.pyproject_params, RELEASE_VERSION_TEST)
 
+    def test_release_with_empty_tx_token(self):
+        release(
+            self.qgis_plugin_config_params,
+            RELEASE_VERSION_TEST,
+            tx_api_token="",
+        )
+
     @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
     def test_release_with_transifex(self):
         Translation(self.qgis_plugin_config_params, tx_api_token=self.tx_api_token)
