@@ -542,9 +542,7 @@ def release(
 
     release_tag = release_tag or release_version
 
-    add_translations = False
     if tx_api_token:
-        add_translations = True
         tr = Translation(parameters, create_project=False, tx_api_token=tx_api_token)
         tr.pull()
         tr.compile_strings()
@@ -565,7 +563,7 @@ def release(
         parameters,
         release_version,
         archive_name,
-        add_translations=add_translations,
+        add_translations=bool(tx_api_token),
         allow_uncommitted_changes=allow_uncommitted_changes,
         is_prerelease=is_prerelease,
         disable_submodule_update=disable_submodule_update,
