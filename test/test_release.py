@@ -25,7 +25,7 @@ from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
 
 # Tests
-from .utils import can_skip_test
+from .utils import can_skip_test_github
 
 # If changed, also update CHANGELOG.md
 RELEASE_VERSION_TEST = "0.1.2"
@@ -89,7 +89,7 @@ class TestRelease(unittest.TestCase):
             tx_api_token="",
         )
 
-    @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
+    @unittest.skipIf(can_skip_test_github(), "Missing tx_api_token")
     def test_release_with_transifex(self):
         Translation(self.qgis_plugin_config_params, tx_api_token=self.tx_api_token)
         release(
@@ -118,7 +118,7 @@ class TestRelease(unittest.TestCase):
         )  # check that there is only one log message
         self.assertEqual(captured.records[0].getMessage(), DASH_WARNING)
 
-    @unittest.skipIf(can_skip_test(), "Missing github_token")
+    @unittest.skipIf(can_skip_test_github(), "Missing github_token")
     def test_release_upload_github(self):
         release(
             self.qgis_plugin_config_params,

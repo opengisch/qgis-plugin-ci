@@ -13,7 +13,7 @@ from qgispluginci.parameters import Parameters
 from qgispluginci.translation import Translation
 
 # Tests
-from .utils import can_skip_test
+from .utils import can_skip_test_transifex
 
 # Logging
 logger = logging.getLogger(__name__)
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 unittest.TestLoader.sortTestMethodsUsing = None
 
 
-@unittest.skipIf(can_skip_test(), "Missing tx_api_token")
+@unittest.skipIf(can_skip_test_transifex(), "Missing tx_api_token")
 class TestTranslation(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
