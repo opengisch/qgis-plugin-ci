@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 unittest.TestLoader.sortTestMethodsUsing = None
 
 
+@unittest.skipIf(can_skip_test(), "Missing tx_api_token")
 class TestTranslation(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -45,7 +46,6 @@ class TestTranslation(unittest.TestCase):
             logger.debug(error)
         """
 
-    @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
     def test_creation(self):
         """
         Translation initialized from setUp, so we 'fake' a new test
@@ -58,12 +58,10 @@ class TestTranslation(unittest.TestCase):
         self.assertTrue(self.t.tx_client.project_exists(self.parameters.project_slug))
         self.assertEqual(len(self.t.tx_client.list_resources()), 1)
 
-    @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
     def test_push(self):
         self.t.update_strings()
         self.t.push()
 
-    @unittest.skipIf(can_skip_test(), "Missing tx_api_token")
     def test_pull(self):
         self.t.pull()
         self.t.compile_strings()
