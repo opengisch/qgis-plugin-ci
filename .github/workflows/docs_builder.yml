@@ -7,6 +7,7 @@ on:
       - 'docs/**/*'
       - '.github/workflows/docs_builder.yml'
       - 'qgispluginci/**/*.py'
+      - 'requirements/documentation.txt'
     tags:
       - "*"
 
