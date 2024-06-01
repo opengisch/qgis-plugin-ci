@@ -9,4 +9,4 @@ flake8-print>=5
 pre-commit>=3,<4
 
 # for testing
-nose2>=0.10,<0.15
+nose2>=0.10,<0.16
