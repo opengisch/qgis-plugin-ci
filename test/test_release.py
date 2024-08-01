@@ -16,6 +16,9 @@ from zipfile import ZipFile
 import yaml
 from github import Github, GithubException
 
+# Tests
+from utils import can_skip_test_github
+
 # Project
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import GithubReleaseNotFound
@@ -23,9 +26,6 @@ from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
-
-# Tests
-from .utils import can_skip_test_github
 
 # If changed, also update CHANGELOG.md
 RELEASE_VERSION_TEST = "0.1.2"
@@ -196,12 +196,20 @@ class TestRelease(unittest.TestCase):
         # open archive and compare
         with ZipFile(archive_name, "r") as zip_file:
             data = zip_file.read(f"{parameters.plugin_path}/metadata.txt")
+            license_data = zip_file.read(f"{parameters.plugin_path}/LICENSE")
 
         # Changelog
         self.assertGreater(
             data.find(bytes(changelog_lastitems, "utf8")),
             0,
             f"changelog detection failed in release: {data}",
+        )
+
+        # License
+        self.assertGreater(
+            license_data.find(bytes("GNU GENERAL PUBLIC LICENSE", "utf8")),
+            0,
+            "license file content mismatch",
         )
 
         # Commit number
