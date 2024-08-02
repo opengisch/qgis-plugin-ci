@@ -4,6 +4,7 @@ import base64
 import logging
 import os
 import re
+import shutil
 import sys
 import tarfile
 import xmlrpc.client
@@ -193,6 +194,16 @@ def create_archive(
                         continue
                     tt.add(m.name)
 
+    # add LICENSE if not already in plugin path but available in its parent
+    parent_folder_license_copied = False
+    if not Path(f"{parameters.plugin_path}/LICENSE").is_file():
+        parent_license = Path(f"{parameters.plugin_path}/../LICENSE")
+        if parent_license.is_file():
+            shutil.copy(parent_license, f"{parameters.plugin_path}/LICENSE")
+            parent_folder_license_copied = True
+            with tarfile.open(top_tar_file, mode="a") as tt:
+                tt.add(f"{parameters.plugin_path}/LICENSE")
+
     # add translation files
     if add_translations:
         with tarfile.open(top_tar_file, mode="a") as tt:
@@ -264,6 +275,9 @@ def create_archive(
                 info.external_attr = (st[0] & 0xFFFF) << 16  # Unix attributes
                 info.compress_type = zf.compression
                 zf.writestr(info, fl)
+
+    if parent_folder_license_copied:
+        Path(f"{parameters.plugin_path}/LICENSE").unlink()
 
     logger.debug("-" * 40)
     logger.debug(f"Files in ZIP archive ({archive_name}):")
