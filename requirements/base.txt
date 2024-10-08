@@ -2,7 +2,7 @@
 # -----------------------
 
 GitPython>=3.1,<3.2
-PyGithub>=1.54,<2.4
+PyGithub>=1.54,<2.5
 PyQt5>=5.15,<5.16
 pyqt5ac>=1.2,<1.3
 python-slugify>=4.0,<8.1
