@@ -35,7 +35,7 @@ jobs:
           path: dist/
 
       - name: Create/update release on GitHub
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1.16.0
         with:
           allowUpdates: true
           artifacts: "builds**/*"
@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Create/update release on GitHub
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1.16.0
         with:
           allowUpdates: true
           artifacts: "dist/*.tar.gz"
