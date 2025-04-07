@@ -1,13 +1,13 @@
 #! python3  # noqa E265
 
 """
-    Usage from the repo root folder:
+Usage from the repo root folder:
 
-    .. code-block:: bash
-        # for whole tests
-        python -m unittest test.test_changelog
-        # for specific test
-        python -m unittest test.test_changelog.TestChangelog.test_has_changelog
+.. code-block:: bash
+    # for whole tests
+    python -m unittest test.test_changelog
+    # for specific test
+    python -m unittest test.test_changelog.TestChangelog.test_has_changelog
 """
 
 # standard library
