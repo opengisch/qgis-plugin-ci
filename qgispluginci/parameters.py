@@ -262,7 +262,7 @@ class Parameters:
             )
         self.repository_url = get_metadata("repository")
 
-        # check if slugs have not triling slash
+        # check if slugs have not trailing slash
         if any(
             (
                 isinstance(self.plugin_slug, str) and self.plugin_slug.endswith("/"),
