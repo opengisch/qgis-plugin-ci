@@ -1,7 +1,7 @@
 #! python3  # noqa E265
 
 """
-    Parameters management.
+Parameters management.
 """
 
 # ############################################################################
