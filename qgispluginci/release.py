@@ -43,6 +43,9 @@ from qgispluginci.utils import (
     replace_in_file,
 )
 
+if TYPE_CHECKING:
+    from github.Repository import Repository
+
 # GLOBALS
 logger = logging.getLogger(__name__)
 
@@ -362,7 +365,18 @@ def release_is_prerelease(
         return False
 
     slug = f"{parameters.github_organization_slug}/{parameters.project_slug}"
-    repo = Github(github_token).get_repo(slug)
+
+    try:
+        logger.debug(f"Getting GitHub repository: {slug}")
+        gh_client: Github = Github(login_or_token=github_token)
+        repo: Repository = gh_client.get_repo(slug)
+    except GithubException as exc:
+        logger.error(
+            f"Could not get repository details: {slug}. "
+            "Are you sure the user for the given token can access this repo?",
+            exc_info=exc,
+        )
+        sys.exit(1)
     try:
         logger.debug(
             f"Getting release on {parameters.github_organization_slug}"
