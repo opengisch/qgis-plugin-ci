@@ -262,6 +262,21 @@ class Parameters:
             )
         self.repository_url = get_metadata("repository")
 
+        # check if slugs have not trailing slash
+        if any(
+            (
+                isinstance(self.plugin_slug, str) and self.plugin_slug.endswith("/"),
+                isinstance(self.project_slug, str) and self.project_slug.endswith("/"),
+                isinstance(self.github_organization_slug, str)
+                and self.github_organization_slug.endswith("/"),
+            )
+        ):
+            logger.error(
+                ValueError(
+                    "The plugin, project or organization slugs must not have a trailing slash."
+                )
+            )
+
     @staticmethod
     def get_release_version_patterns() -> dict[str, re.Pattern]:
         return {
@@ -293,7 +308,8 @@ class Parameters:
 
         if not semver_compliance:
             logging.warning(
-                f"Be aware that '{args.release_version}' is not a semver-compliant version. It might still comply with acceptable practices."
+                f"Be aware that '{args.release_version}' is not a semver-compliant "
+                "version. It might still comply with acceptable practices."
             )
 
         if semver_compliance or any(
