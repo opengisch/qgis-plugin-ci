@@ -7,6 +7,7 @@ flake8-builtins>=1.5
 flake8-isort>=4.0
 flake8-print>=5
 pre-commit>=3,<5
+ruff>=0.11.7,<0.12
 
 # for testing
 nose2>=0.15.1,<0.16

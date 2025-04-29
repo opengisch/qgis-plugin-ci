@@ -28,6 +28,17 @@ repos:
         args:
           - --py39-plus
 
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.11.7"
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+          - --target-version=py39
+        types_or:
+          - python
+          - pyi
+
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
