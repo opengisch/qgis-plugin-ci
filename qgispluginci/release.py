@@ -12,7 +12,7 @@ import zipfile
 from glob import glob
 from pathlib import Path
 from tempfile import mkstemp
-from typing import List, Tuple
+from typing import TYPE_CHECKING
 
 import git
 from github import Github, GithubException
