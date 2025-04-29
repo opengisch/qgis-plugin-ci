@@ -17,12 +17,13 @@
  ***************************************************************************/
 """
 
-DEBUG = False
 
 import os
 
 from PyQt5.QtCore import QCoreApplication, QLocale, QSettings, QTranslator
 from qgis.gui import QgisInterface
+
+DEBUG = False
 
 
 class QgisPluginCiTesting:
