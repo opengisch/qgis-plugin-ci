@@ -19,7 +19,7 @@ import sys
 from argparse import Namespace
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import toml
 import yaml

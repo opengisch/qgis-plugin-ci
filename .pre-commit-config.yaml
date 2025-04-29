@@ -28,21 +28,23 @@ repos:
         args:
           - --py39-plus
 
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.11.7"
     hooks:
-      - id: black
+      - id: ruff
         args:
+          - --fix
           - --target-version=py39
-
-  - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
-    hooks:
-      - id: isort
+        types_or:
+          - python
+          - pyi
+      - id: ruff-format
         args:
-          - --profile
-          - black
-          - --filter-files
+          - --line-length=88
+          - --target-version=py39
+        types_or:
+          - python
+          - pyi
 
 ci:
   autofix_prs: true

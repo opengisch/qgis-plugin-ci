@@ -5,7 +5,6 @@ Configuration for project documentation using Sphinx.
 """
 
 # standard
-import sys
 from datetime import date, datetime
 from importlib.metadata import version
 from os import environ, path

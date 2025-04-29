@@ -5,8 +5,6 @@ import sys
 from pathlib import Path
 
 from qgispluginci.exceptions import (
-    TransifexManyResources,
-    TransifexNoResource,
     TranslationFailed,
 )
 from qgispluginci.parameters import Parameters
