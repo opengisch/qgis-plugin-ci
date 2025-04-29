@@ -11,7 +11,7 @@ authors = [
     {name = "Julien Moura", email = "dev@ingeoveritas.com"},
 ]
 description = "Let qgis-plugin-ci package and release your QGIS plugins for you. Have a tea or go hiking meanwhile. Contains scripts to perform automated testing and deployment for QGIS plugins. These scripts are written for and tested on GitHub Actions, GitLab CI, Travis-CI, and Transifex."
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 keywords = ["QGIS", "CI", "changelog", "plugin"]
 license = {text = "GPLv3"}
 classifiers = [
@@ -22,10 +22,11 @@ classifiers = [
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Scientific/Engineering :: GIS",
 ]

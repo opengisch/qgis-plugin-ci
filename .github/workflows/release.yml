@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_FOLDER: "qgispluginci"
-  PYTHON_VERSION_RELEASE: "3.8"
+  PYTHON_VERSION_RELEASE: "3.9"
   QGISPLUGINCI_VERSION: ${{ github.ref_name }}
 
 jobs:

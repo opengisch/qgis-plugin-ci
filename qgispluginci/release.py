@@ -56,7 +56,7 @@ def create_archive(
     is_prerelease: bool = False,
     raise_min_version: str = None,
     disable_submodule_update: bool = False,
-    asset_paths: Tuple[str] = (),
+    asset_paths: tuple[str] = (),
 ):
     repo = git.Repo()
 
@@ -510,7 +510,7 @@ def release(
     allow_uncommitted_changes: bool = False,
     plugin_repo_url: str = None,
     disable_submodule_update: bool = False,
-    asset_paths: List[str] = [],
+    asset_paths: list[str] = [],
 ):
     """
 

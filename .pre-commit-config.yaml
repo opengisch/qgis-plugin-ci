@@ -5,7 +5,8 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-added-large-files
-        args: ["--maxkb=500"]
+        args:
+          - --maxkb=500
       - id: check-case-conflict
       - id: check-toml
       - id: check-xml
@@ -14,26 +15,34 @@ repos:
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
       - id: fix-encoding-pragma
-        args: [--remove]
+        args:
+          - --remove
       - id: trailing-whitespace
-        args: [--markdown-linebreak-ext=md]
+        args:
+          - --markdown-linebreak-ext=md
 
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.19.1
     hooks:
       - id: pyupgrade
-        args: [--py38-plus]
+        args:
+          - --py39-plus
 
   - repo: https://github.com/psf/black
     rev: 25.1.0
     hooks:
       - id: black
+        args:
+          - --target-version=py39
 
   - repo: https://github.com/pycqa/isort
     rev: 6.0.1
     hooks:
       - id: isort
-        args: ["--profile", "black", "--filter-files"]
+        args:
+          - --profile
+          - black
+          - --filter-files
 
 ci:
   autofix_prs: true
