@@ -17,8 +17,9 @@ import sys
 
 # standard library
 from argparse import Namespace
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterator, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import toml
 import yaml
@@ -131,7 +132,7 @@ class Parameters:
             ".qgis-plugin-ci or setup.cfg or pyproject.toml with a 'qgis-plugin-ci' section have not been found."
         )
 
-        def load_config(path_to_config_file: Path, file_name: str) -> Dict[str, Any]:
+        def load_config(path_to_config_file: Path, file_name: str) -> dict[str, Any]:
             if file_name == "setup.cfg":
                 config = configparser.ConfigParser()
                 config.read(path_to_config_file)
@@ -147,7 +148,7 @@ class Parameters:
                         raise configuration_not_found
             return arg_dict
 
-        def explore_config() -> Dict[str, Any]:
+        def explore_config() -> dict[str, Any]:
             for file_name in supported_config_file_names:
                 path_to_file = Path(file_name)
                 if path_to_file.is_file():
@@ -177,7 +178,7 @@ class Parameters:
             config_dict = explore_config()
         return cls(config_dict)
 
-    def __init__(self, definition: Dict[str, Any]):
+    def __init__(self, definition: dict[str, Any]):
         self.plugin_path = definition.get("plugin_path")
         self.changelog_path = definition.get("changelog_path", "CHANGELOG.md")
 
@@ -262,7 +263,7 @@ class Parameters:
         self.repository_url = get_metadata("repository")
 
     @staticmethod
-    def get_release_version_patterns() -> Dict[str, re.Pattern]:
+    def get_release_version_patterns() -> dict[str, re.Pattern]:
         return {
             "simple": r"\d+\.\d+$",
             "double": r"\d+\.\d+\.\d+$",
@@ -351,7 +352,7 @@ class Parameters:
 
         return get_metadata
 
-    def __iter__(self) -> Iterator[Tuple[str, Any]]:
+    def __iter__(self) -> Iterator[tuple[str, Any]]:
         """Allows to represent attributes as dict, list, etc."""
         for k in vars(self):
             yield k, self.__getattribute__(k)
