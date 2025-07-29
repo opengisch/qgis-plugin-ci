@@ -34,6 +34,9 @@ optional arguments:
 
 The `CHANGELOG.md` file must follow the convention [Keep A Changelog](https://keepachangelog.com/). For example, see this [repository changelog](https://github.com/opengisch/qgis-plugin-ci/blob/master/CHANGELOG.md).
 
+> **NOTE**
+> Currently the "Unreleased" section and subsections (e.g. "Fixed" etc) are not supported, see [#56](https://github.com/opengisch/qgis-plugin-ci/issues/56).
+
 ## Use cases
 
 - Extract the `CHANGELOG.md` content and copy it into the `changelog` section within plugin `metadata.txt`
