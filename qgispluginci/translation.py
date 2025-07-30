@@ -92,6 +92,15 @@ class Translation:
 
         project_file.unlink()
 
+        output_ts_file = Path(self.ts_file)
+        ts_file_contents = output_ts_file.read_text()
+        # Since the source language sent to Transifex is English and it has two plural forms, the produced output must have the `<numerusform />` tag twice.
+        ts_file_contents = ts_file_contents.replace(
+            "<numerusform></numerusform>",
+            "<numerusform></numerusform><numerusform></numerusform>",
+        )
+        output_ts_file.write_text(ts_file_contents)
+
         if output.returncode != 0:
             logger.error(
                 f"Translation failed: {output.stderr}", exc_info=TranslationFailed()
