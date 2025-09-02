@@ -198,6 +198,7 @@ def cli():
                 print(content)  # noqa: T2
         except Exception as exc:
             logger.error("Something went wrong reading the changelog.", exc_info=exc)
+            exit_val = 1
 
         return exit_val
 
@@ -246,5 +247,9 @@ def cli():
         t = Translation(parameters, args.transifex_token)
         t.update_strings()
         t.push()
+
+    else
+        logger.error(f"Unsupported command {args.command}")
+        exit_val = 1
 
     return exit_val
