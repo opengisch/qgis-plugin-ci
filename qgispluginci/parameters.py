@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 
-if sys.version_info >= (3.11):
+if sys.version_info >= (3, 11):
     import tomllib
 else:
     import tomli as tomllib
@@ -144,14 +144,15 @@ class Parameters:
                 config.read(path_to_config_file)
                 arg_dict = dict(config.items("qgis-plugin-ci"))
             else:
-                with open(path_to_config_file) as fh:
-                    if file_name == ".qgis-plugin-ci":
+                if file_name == ".qgis-plugin-ci":
+                    with open(path_to_config_file) as fh:
                         arg_dict = yaml.safe_load(fh)
-                    elif file_name == "pyproject.toml":
+                elif file_name == "pyproject.toml":
+                    with open(path_to_config_file, "rb") as fh:
                         contents = tomllib.load(fh)
                         arg_dict = contents["tool"]["qgis-plugin-ci"]
-                    else:
-                        raise configuration_not_found
+                else:
+                    raise configuration_not_found
             return arg_dict
 
         def explore_config() -> dict[str, Any]:
