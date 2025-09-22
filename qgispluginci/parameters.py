@@ -23,7 +23,7 @@ from typing import Any, Callable, Optional
 
 
 if sys.version_info >= (3.11):
-    import tomllib 
+    import tomllib
 else:
     import tomli as tomllib
 
