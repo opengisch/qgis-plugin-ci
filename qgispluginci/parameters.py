@@ -21,7 +21,13 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-import toml
+
+if sys.version_info >= (3.11):
+    import tomllib 
+else:
+    import tomli as tomllib
+
+
 import yaml
 
 # 3rd party
@@ -142,7 +148,7 @@ class Parameters:
                     if file_name == ".qgis-plugin-ci":
                         arg_dict = yaml.safe_load(fh)
                     elif file_name == "pyproject.toml":
-                        contents = toml.load(fh)
+                        contents = tomllib.load(fh)
                         arg_dict = contents["tool"]["qgis-plugin-ci"]
                     else:
                         raise configuration_not_found
