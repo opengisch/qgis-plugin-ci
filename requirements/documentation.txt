@@ -6,4 +6,4 @@ sphinx-autobuild>=2024
 sphinx-copybutton>=0.5
 sphinx-design>=0.6.0
 sphinx-sitemap>=2.4
-toml>=0.10.2
+tomli >= 2.2; python_full_version < '3.11'
