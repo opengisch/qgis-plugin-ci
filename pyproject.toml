@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qgis-plugin-ci"
-dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
+dynamic = ["version", "readme", "dependencies"]
 authors = [
     {name = "Denis Rouzaud", email = "denis@opengis.ch"},
     {name = "Etienne Trimaille", email = "etienne.trimaille@gmail.com"},
@@ -39,6 +39,9 @@ homepage = "https://opengisch.github.io/qgis-plugin-ci/"
 documentation = "https://opengisch.github.io/qgis-plugin-ci/"
 repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
+
+[project.optional-dependencies]
+transifex = ["transifex-python>=3.2,<4.0"]
 
 [tool.setuptools]
 packages = ["qgispluginci", "qgispluginci.translation_clients"]

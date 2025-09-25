@@ -9,3 +9,6 @@ ruff>=0.11.7,<0.13
 
 # for testing
 nose2>=0.15.1,<0.16
+
+# for test
+transifex-python>=3.2,<4.0
