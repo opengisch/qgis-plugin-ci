@@ -22,7 +22,7 @@ jobs:
       # to avoid 'race conditions' against Transifex
 
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - uses: actions/setup-python@v5
         with:
