@@ -248,7 +248,7 @@ def cli():
         t.update_strings()
         t.push()
 
-    else
+    else:
         logger.error(f"Unsupported command {args.command}")
         exit_val = 1
 
