@@ -5,14 +5,20 @@ Configuration for project documentation using Sphinx.
 """
 
 # standard
+import sys
 from datetime import date, datetime
 from importlib.metadata import version
 from os import environ, path
 
-import toml
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 
 __version__ = version("qgis-plugin-ci")
-pyproject = toml.load("../pyproject.toml")
+
+with open("../pyproject.toml", "rb") as f:
+    pyproject = tomllib.load(f)
 
 # -- Build environment -----------------------------------------------------
 on_rtd = environ.get("READTHEDOCS", None) == "True"
