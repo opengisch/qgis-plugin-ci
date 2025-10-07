@@ -2,7 +2,7 @@
 
 # standard
 import argparse
-import filecmp
+import datetime
 import os
 import re
 import unittest
@@ -25,7 +25,6 @@ from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
-from qgispluginci.utils import replace_in_file
 
 # If changed, also update CHANGELOG.md
 RELEASE_VERSION_TEST = "0.1.2"
@@ -132,19 +131,11 @@ class TestRelease(unittest.TestCase):
         url = f"https://github.com/opengisch/qgis-plugin-ci/releases/download/{RELEASE_VERSION_TEST}/plugins.xml"
         print(f"retrieve repo from {url}")
         urllib.request.urlretrieve(url, xml_repo)
-        replace_in_file(
-            xml_repo,
-            r"<update_date>[\w-]+<\/update_date>",
-            "<update_date>__TODAY__</update_date>",
-        )
-        if not filecmp.cmp("test/plugins.xml.expected", xml_repo, shallow=False):
-            import difflib
+        
+        expected = Path("test/plugins.xml.expected").read_text()
+        expected = expected.replace("__TODAY__", datetime.date.today().strftime("%Y-%m-%d"))
 
-            with open("test/plugins.xml.expected") as f:
-                text1 = f.readlines()
-            with open(xml_repo) as f:
-                text2 = f.readlines()
-            self.assertFalse(True, "\n".join(difflib.unified_diff(text1, text2)))
+        self.assertEqual(Path(xml_repo).read_text(), expected)
 
         # compare archive file size
         gh_release = self.repo.get_release(id=RELEASE_VERSION_TEST)

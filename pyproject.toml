@@ -50,3 +50,61 @@ enabled = true
 readme = {file = ["README.md"], content-type = "text/markdown"}
 dependencies = {file = ["requirements/base.txt"]}
 optional-dependencies.dev = {file = ["requirements/development.txt"]}
+
+[dependency-groups]
+dev = [
+    {include-group = "lint"},
+
+]
+lint = [
+    "ruff"
+]
+
+#
+# Ruff
+#
+# https://doc.astral.sh/ruff/configuration
+#
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+exclude = [
+    ".venv",
+    "test/fixtures",
+    "docs",
+]
+
+[tool.ruff.format]
+indent-style = "space"
+
+[tool.ruff.lint]
+extend-select = ["E", "F", "I", "ANN", "W", "T", "COM", "RUF"]
+ignore = [
+    "ANN002",
+    "ANN003",
+    "ANN204",
+    "ANN401",
+    "T201",
+    "COM812",
+    # TODO: Temporary ignore linter errors until 
+    # they are fixed
+    "E20",     # Whitespace before/after element
+    "E402",    # E402 Module level import not at top of file
+    "E501",    # Line too long
+    "ANN001",  # Missing type annotation for function argument
+    "ANN201",  # Missing return type annotation for public function
+    "ANN205",  # Missing return type annotation for staticmethod
+    "ANN206",  # Missing return type annotation for classmethod
+    "RUF012",  # Mutable class attributes should be annotated
+    "RUF013",  # PEP 484 prohibits implicit `Optional`
+]
+
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+order-by-type = true
+
+[tool.ruff.lint.flake8-annotations]
+ignore-fully-untyped = true
+suppress-none-returning = true
+suppress-dummy-args = true

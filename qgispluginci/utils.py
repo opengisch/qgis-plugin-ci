@@ -12,14 +12,6 @@ from qgispluginci.version_note import VersionNote
 logger = logging.getLogger(__name__)
 
 
-def replace_in_file(file_path: str, pattern, new: str, encoding: str = "utf8"):
-    with open(file_path, encoding=encoding) as f:
-        content = f.read()
-    content = re.sub(pattern, new, content, flags=re.M)
-    with open(file_path, "w", encoding=encoding) as f:
-        f.write(content)
-
-
 def configure_file(source_file: str, dest_file: str, replace: dict):
     with open(source_file, encoding="utf-8") as f:
         content = f.read()
@@ -47,7 +39,7 @@ def convert_octets(octets: int) -> str:
 
     # conversion
     size_name = ("octets", "Ko", "Mo", "Go", "To", "Po")
-    i = int(floor(math_log(octets, 1024)))
+    i = floor(math_log(octets, 1024))
     p = pow(1024, i)
     s = round(octets / p, 2)
 
