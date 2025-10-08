@@ -10,12 +10,14 @@ import sys
 import tarfile
 import xmlrpc.client
 import zipfile
+
 from glob import glob
 from pathlib import Path
 from tempfile import mkstemp
 from typing import TYPE_CHECKING
 
 import git
+
 from github import Github, GithubException
 
 try:
@@ -85,7 +87,7 @@ def create_archive(
     metadata_file = Path(parameters.plugin_path, "metadata.txt")
 
     metadata = configparser.ConfigParser()
-    metadata.optionxform = str # type: ignore [assignement]
+    metadata.optionxform = str  # type: ignore [assignement]
     metadata.read(metadata_file)
 
     # changelog
@@ -131,7 +133,7 @@ def create_archive(
     if raise_min_version:
         metadata.set("general", "qgisMinimumVersion", raise_min_version)
 
-    # Write back metatada 
+    # Write back metatada
     with metadata_file.open("w") as fh:
         metadata.write(fh)
 
@@ -267,7 +269,7 @@ def create_archive(
         repo.git.checkout("--", ".")
 
     # print the result
-    print(  # noqa: T2
+    print(
         f"Plugin archive created: {archive_name} "
         f"({convert_octets(Path(archive_name).stat().st_size)})"
     )

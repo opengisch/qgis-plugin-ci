@@ -1,4 +1,4 @@
-#! python3  # noqa E265
+#! python3
 
 """
 Changelog parser. Following <https://keepachangelog.com/en/1.0.0/>.
@@ -12,6 +12,7 @@ Changelog parser. Following <https://keepachangelog.com/en/1.0.0/>.
 import logging
 import re
 import sys
+
 from pathlib import Path
 from typing import Union
 

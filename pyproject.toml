@@ -86,7 +86,7 @@ ignore = [
     "ANN401",
     "T201",
     "COM812",
-    # TODO: Temporary ignore linter errors until 
+    # TODO: Temporary ignore linter errors until
     # they are fixed
     "E20",     # Whitespace before/after element
     "E402",    # E402 Module level import not at top of file

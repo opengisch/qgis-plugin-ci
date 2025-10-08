@@ -7,6 +7,7 @@ import os
 import re
 import unittest
 import urllib.request
+
 from itertools import product
 from pathlib import Path
 from tempfile import mkstemp
@@ -14,6 +15,7 @@ from zipfile import ZipFile
 
 # 3rd party
 import yaml
+
 from github import Github, GithubException
 
 # Tests
@@ -131,9 +133,11 @@ class TestRelease(unittest.TestCase):
         url = f"https://github.com/opengisch/qgis-plugin-ci/releases/download/{RELEASE_VERSION_TEST}/plugins.xml"
         print(f"retrieve repo from {url}")
         urllib.request.urlretrieve(url, xml_repo)
-        
+
         expected = Path("test/plugins.xml.expected").read_text()
-        expected = expected.replace("__TODAY__", datetime.date.today().strftime("%Y-%m-%d"))
+        expected = expected.replace(
+            "__TODAY__", datetime.date.today().strftime("%Y-%m-%d")
+        )
 
         self.assertEqual(Path(xml_repo).read_text(), expected)
 

@@ -1,4 +1,4 @@
-#! python3  # noqa E265
+#! python3
 
 """
 Parameters management.
@@ -15,12 +15,12 @@ import os
 import re
 import sys
 
+
 # standard library
 from argparse import Namespace
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any, Callable, Optional
-
 
 if sys.version_info >= (3, 11):
     import tomllib
@@ -29,6 +29,7 @@ else:
 
 
 import yaml
+
 
 # 3rd party
 from slugify import slugify
@@ -354,7 +355,7 @@ class Parameters:
         """
         metadata_file = f"{self.plugin_path}/metadata.txt"
         config = configparser.ConfigParser()
-        config.optionxform = str # type: ignore [assignement]
+        config.optionxform = str  # type: ignore [assignement]
         config.read(metadata_file)
 
         metadata = dict(config["general"].items())

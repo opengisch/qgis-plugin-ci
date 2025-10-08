@@ -1,9 +1,9 @@
 import logging
 import os
 import re
-from math import floor
+
+from math import floor, pow
 from math import log as math_log
-from math import pow
 from typing import Union
 
 from qgispluginci.version_note import VersionNote
