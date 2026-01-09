@@ -19,14 +19,14 @@ repos:
           - --markdown-linebreak-ext=md
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args:
           - --py39-plus
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.13.3"
+    rev: "v0.14.10"
     hooks:
       - id: ruff
         args:
