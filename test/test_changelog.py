@@ -1,4 +1,4 @@
-#! python3  # noqa E265
+#! python3
 
 """
 Usage from the repo root folder:
@@ -13,6 +13,7 @@ Usage from the repo root folder:
 # standard library
 import tempfile
 import unittest
+
 from pathlib import Path
 
 # project

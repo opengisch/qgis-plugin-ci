@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import base64
+import configparser
 import logging
 import os
 import re
@@ -9,12 +10,14 @@ import sys
 import tarfile
 import xmlrpc.client
 import zipfile
+
 from glob import glob
 from pathlib import Path
 from tempfile import mkstemp
 from typing import TYPE_CHECKING
 
 import git
+
 from github import Github, GithubException
 
 try:
@@ -40,7 +43,6 @@ from qgispluginci.utils import (
     configure_file,
     convert_octets,
     parse_tag,
-    replace_in_file,
 )
 
 if TYPE_CHECKING:
@@ -63,7 +65,7 @@ def create_archive(
 ):
     repo = git.Repo()
 
-    top_tar_handle, top_tar_file = mkstemp(suffix=".tar")
+    _top_tar_handle, top_tar_file = mkstemp(suffix=".tar")
 
     # keep track of current state
     initial_stash = None
@@ -82,6 +84,12 @@ def create_archive(
         else:
             initial_stash = repo.git.stash("create")
 
+    metadata_file = Path(parameters.plugin_path, "metadata.txt")
+
+    metadata = configparser.ConfigParser()
+    metadata.optionxform = str  # type: ignore [assignement]
+    metadata.read(metadata_file)
+
     # changelog
     if parameters.changelog_include:
         parser = ChangelogParser(
@@ -94,76 +102,40 @@ def create_archive(
                     count=parameters.changelog_number_of_entries
                 )
                 if content:
-                    replace_in_file(
-                        f"{parameters.plugin_path}/metadata.txt",
-                        r"^changelog=.*$",
-                        f"changelog={content}",
-                    )
+                    metadata.set("general", "changelog", content)
             except Exception as exc:
                 # Do not fail the release process if something is wrong when parsing the changelog
-                replace_in_file(
-                    f"{parameters.plugin_path}/metadata.txt",
-                    r"^changelog=.*$",
-                    "",
-                )
+                metadata.remove_option("general", "changelog")
                 logger.warning(
                     f"An exception occurred while parsing the changelog file: {exc}",
                     exc_info=exc,
                 )
     else:
         # Remove the changelog line
-        replace_in_file(f"{parameters.plugin_path}/metadata.txt", r"^changelog=.*$", "")
+        metadata.remove_option("general", "changelog")
 
     # set version in metadata
-    replace_in_file(
-        f"{parameters.plugin_path}/metadata.txt",
-        r"^version=.*$",
-        f"version={release_version}",
-    )
-
+    metadata.set("general", "version", release_version)
     # Commit number
-    replace_in_file(
-        f"{parameters.plugin_path}/metadata.txt",
-        r"^commitNumber=.*$",
-        f"commitNumber={len(list(repo.iter_commits()))}",
-    )
-
+    metadata.set("general", "commitNumber", str(sum(1 for _ in repo.iter_commits())))
     # Git SHA1
-    replace_in_file(
-        f"{parameters.plugin_path}/metadata.txt",
-        r"^commitSha1=.*$",
-        f"commitSha1={repo.head.object.hexsha}",
-    )
-
+    metadata.set("general", "commitSha1", repo.head.object.hexsha)
     # Date/time in UTC
     date_time = datetime.datetime.now(datetime.timezone.utc).strftime(
         "%Y-%m-%dT%H:%M:%SZ"
     )
-    replace_in_file(
-        f"{parameters.plugin_path}/metadata.txt",
-        r"^dateTime=.*$",
-        f"dateTime={date_time}",
-    )
+    metadata.set("general", "dateTime", date_time)
 
     # set the plugin as experimental on a pre-release
     if is_prerelease:
-        replace_in_file(
-            f"{parameters.plugin_path}/metadata.txt",
-            r"^experimental=.*$",
-            f"experimental={True if is_prerelease else False}",
-        )
+        metadata.set("general", "experimental", "True" if is_prerelease else "False")
 
     if raise_min_version:
-        replace_in_file(
-            f"{parameters.plugin_path}/metadata.txt",
-            r"^qgisMinimumVersion=.*$",
-            f"qgisMinimumVersion={raise_min_version}",
-        )
+        metadata.set("general", "qgisMinimumVersion", raise_min_version)
 
-    # replace any DEBUG=False in all Python files
-    if not is_prerelease:
-        for file in glob(f"{parameters.plugin_path}/**/*.py", recursive=True):
-            replace_in_file(file, r"^DEBUG\s*=\s*True", "DEBUG = False")
+    # Write back metatada
+    with metadata_file.open("w") as fh:
+        metadata.write(fh)
 
     # keep track of current state
     try:
@@ -297,7 +269,7 @@ def create_archive(
         repo.git.checkout("--", ".")
 
     # print the result
-    print(  # noqa: T2
+    print(
         f"Plugin archive created: {archive_name} "
         f"({convert_octets(Path(archive_name).stat().st_size)})"
     )
