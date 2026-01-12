@@ -138,10 +138,16 @@ def cli():
         help="The URL of the endpoint to publish the plugin (defaults to plugins.qgis.org)",
     )
     release_parser.add_argument(
-        "--osgeo-username", help="The Osgeo user name to publish the plugin."
+        "--qgis-token",
+        help="The token from https://plugins.qgis.org to publish the plugin. Incompatible with the OSGeo user name.",
     )
     release_parser.add_argument(
-        "--osgeo-password", help="The Osgeo password to publish the plugin."
+        "--osgeo-username",
+        help="The OSGeo user name to publish the plugin. Incompatible with QGIS token.",
+    )
+    release_parser.add_argument(
+        "--osgeo-password",
+        help="The OSGeo password to publish the plugin. Incompatible with QGIS token.",
     )
 
     # pull-translation
@@ -228,6 +234,7 @@ def cli():
             github_token=args.github_token,
             upload_plugin_repo_github=args.create_plugin_repo,
             alternative_repo_url=args.alternative_repo_url,
+            qgis_token=args.qgis_token,
             osgeo_username=args.osgeo_username,
             osgeo_password=args.osgeo_password,
             allow_uncommitted_changes=args.allow_uncommitted_changes,

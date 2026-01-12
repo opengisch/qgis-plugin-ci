@@ -7,6 +7,7 @@ usage: qgis-plugin-ci release [-h] [--release-tag RELEASE_TAG]
                               [--transifex-token TRANSIFEX_TOKEN]
                               [--github-token GITHUB_TOKEN] [-r] [-c] [-d]
                               [--alternative-repo-url ALTERNATIVE_REPO_URL]
+                              [--qgis-token QGIS_TOKEN]
                               [--osgeo-username OSGEO_USERNAME]
                               [--osgeo-password OSGEO_PASSWORD]
                               release_version
@@ -22,7 +23,7 @@ options:
                         The Transifex API token. If specified translations will be pulled and
                         compiled.
   --github-token GITHUB_TOKEN
-                        The Github API token. If specified, the archive will be pushed to an
+                        The GitHub API token. If specified, the archive will be pushed to an
                         already existing release.
   -r, --create-plugin-repo
                         Will create a XML repo as a Github release asset. Github token is
@@ -39,13 +40,15 @@ options:
                         plugins.qgis.org)
   -a ASSET_PATH, --asset-path ASSET_PATH
                         An additional asset path to add. Can be specified multiple times.
+  --qgis-token QGIS_TOKEN
+                        The token from https://plugins.qgis.org to publish the plugin. Incompatible with the OSGeo user name.
   --osgeo-username OSGEO_USERNAME
-                        The Osgeo user name to publish the plugin.
+                        The OSGeo user name to publish the plugin. Incompatible with QGIS token.
   --osgeo-password OSGEO_PASSWORD
-                        The Osgeo password to publish the plugin.
+                        The OSGeo password to publish the plugin. Incompatible with QGIS token.
 ```
 
-If the exit code is `2`, it means the upload to the QGIS server has failed.
+If the exit code is `2`, it means the upload to the QGIS plugin server has failed.
 
 ## Additional metadata
 
