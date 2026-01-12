@@ -4,6 +4,7 @@ import base64
 import logging
 import os
 import re
+import requests
 import shutil
 import sys
 import tarfile
@@ -48,6 +49,8 @@ if TYPE_CHECKING:
 
 # GLOBALS
 logger = logging.getLogger(__name__)
+
+QGIS_PLUGINS_REPO_URL = "https://plugins.qgis.org"
 
 
 def create_archive(
@@ -186,7 +189,7 @@ def create_archive(
         if not disable_submodule_update:
             submodule.update(init=True)
         sub_repo = submodule.module()
-        logger.info("Git archive submodule: {sub_repo}")
+        logger.info(f"Git archive submodule: {sub_repo}")
         sub_repo.git.archive(
             "HEAD", "--prefix", f"{submodule.path}/", "-o", sub_tar_file
         )
@@ -450,11 +453,58 @@ def create_plugin_repo(
     return xml_repo
 
 
-def upload_plugin_to_osgeo(
+def upload_plugin_to_osgeo_with_token(archive: str, package_name: str, token: str):
+    """
+    Upload the plugin to QGIS repository using a token and a POST request
+
+    Parameters
+    ----------
+    archive
+        The plugin archive file path to be uploaded
+    package_name
+        The name of the package on the QGIS plugins website.
+    token
+        The token created on https://plugins.qgis.org
+    """
+    post_url = f"{QGIS_PLUGINS_REPO_URL}/plugins/api/{package_name}/version/add/"
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+    }
+
+    with open(archive, "rb") as file:
+        try:
+            logger.debug(f"Uploading the archive on {post_url}")
+            response = requests.post(post_url, files={"package": file}, headers=headers)
+            response.raise_for_status()
+            logger.debug(
+                f"Upload to QGIS main repository : response HTTP {response.status_code}"
+            )
+            print(
+                f"Plugin uploaded on {QGIS_PLUGINS_REPO_URL}/plugins/{package_name}/#plugin-versions"
+            )
+        except requests.exceptions.HTTPError as error:
+            logger.error(f"HTTP Error {error}", exc_info=error)
+            sys.exit(2)
+        except requests.exceptions.ConnectionError as error:
+            logger.error(f"HTTP connection error {error}", exc_info=error)
+            sys.exit(2)
+        except requests.exceptions.Timeout as error:
+            logger.error(f"Timeout error {error}", exc_info=error)
+            sys.exit(2)
+        except requests.exceptions.RequestException as error:
+            logger.error(f"Request error {error}", exc_info=error)
+            sys.exit(2)
+        except Exception as error:
+            logger.error(f"Error {error}", exc_info=error)
+            sys.exit(2)
+
+
+def upload_plugin_to_osgeo_xml_rpc(
     username: str, password: str, archive: str, server_url: str = None
 ):
     """
-    Upload the plugin to QGIS repository
+    Upload the plugin to QGIS repository using the XML RPC endpoint
 
     Parameters
     ----------
@@ -468,7 +518,7 @@ def upload_plugin_to_osgeo(
         The plugin archive file path to be uploaded
     """
     if not server_url:
-        server_url = "https://plugins.qgis.org:443/plugins/RPC2/"
+        server_url = f"{QGIS_PLUGINS_REPO_URL}:443/plugins/RPC2/"
 
     encoded_auth_string = base64.b64encode(f"{username}:{password}".encode()).decode(
         "utf-8"
@@ -519,12 +569,13 @@ def release(
     upload_plugin_repo_github: bool = False,
     tx_api_token: str = None,
     alternative_repo_url: str = None,
+    qgis_token: str = None,
     osgeo_username: str = None,
     osgeo_password: str = None,
     allow_uncommitted_changes: bool = False,
     plugin_repo_url: str = None,
     disable_submodule_update: bool = False,
-    asset_paths: list[str] = [],
+    asset_paths: tuple[str] = (),
 ):
     """
 
@@ -538,7 +589,7 @@ def release(
         The release tag (vx.y.z).
         If not given, the release version will be used
     github_token
-        The Github token
+        The GitHub token
     upload_plugin_repo_github
         If true, a custom repo will be created as a release asset on Github and could later be used in QGIS as a custom plugin repository.
     plugin_repo_url
@@ -547,6 +598,8 @@ def release(
         The Transifex token
     alternative_repo_url
         URL of the endpoint to upload the plugin to
+    qgis_token
+        Token from https://plugins.qgis.org to upload the plugin
     osgeo_username
         osgeo username to upload the plugin to official QGIS repository
     osgeo_password
@@ -556,6 +609,8 @@ def release(
         If True and some changes are detected, a hard reset on a stash create will be used to revert changes made by qgis-plugin-ci.
     disable_submodule_update
         If omitted, a git submodule is updated. If specified, git submodules will not be updated/initialized before packaging.
+    asset_paths
+        Additional asset to be packaged/released.
     """
 
     if release_version == "latest":
@@ -634,9 +689,20 @@ def release(
         )
         logger.info(f"Local XML repo file created : {xml_repo}")
 
+    if qgis_token and (osgeo_username or osgeo_password):
+        logger.error("Not possible to have both parameters OSGeo and QGIS token")
+        sys.exit(2)
+
+    if qgis_token is not None:
+        upload_plugin_to_osgeo_with_token(
+            archive=archive_name,
+            package_name=parameters.plugin_zip_directory,
+            token=qgis_token,
+        )
+
     if osgeo_username is not None:
         assert osgeo_password is not None
-        upload_plugin_to_osgeo(
+        upload_plugin_to_osgeo_xml_rpc(
             username=osgeo_username,
             password=osgeo_password,
             archive=archive_name,
