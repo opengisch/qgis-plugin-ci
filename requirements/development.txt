@@ -8,4 +8,4 @@ pre-commit>=3,<5
 ruff>=0.11.7,<0.15
 
 # for testing
-nose2>=0.15.1,<0.16
+nose2>=0.15.1,<0.17
