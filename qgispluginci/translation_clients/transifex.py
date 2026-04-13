@@ -1,7 +1,9 @@
 import logging
+
 from pathlib import Path
 
 import requests
+
 from transifex.api import transifex_api as tx_api
 from transifex.api.jsonapi.exceptions import DoesNotExist
 
