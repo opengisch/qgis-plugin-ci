@@ -66,10 +66,10 @@ def create_archive(
 
     # keep track of current state
     initial_stash = None
-    diff = repo.index.diff(None)
-    if diff:
+    diff_idx = repo.index.diff(None)
+    if diff_idx:
         logger.info("There are uncommitted changes:")
-        for diff in diff:
+        for diff in diff_idx:
             logger.info(diff)
         if not allow_uncommitted_changes:
             err_msg = (
