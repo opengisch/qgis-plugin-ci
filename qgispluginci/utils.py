@@ -1,11 +1,10 @@
 import logging
 import os
 import re
-from math import floor
-from math import log as math_log
-from math import pow
+from math import floor, log as math_log, pow as math_pow
 
 from qgispluginci.version_note import VersionNote
+
 
 # GLOBALS
 logger = logging.getLogger(__name__)
@@ -47,7 +46,7 @@ def convert_octets(octets: int) -> str:
     # conversion
     size_name = ("octets", "Ko", "Mo", "Go", "To", "Po")
     i = int(floor(math_log(octets, 1024)))
-    p = pow(1024, i)
+    p = math_pow(1024, i)
     s = round(octets / p, 2)
 
     return f"{s} {size_name[i]}"

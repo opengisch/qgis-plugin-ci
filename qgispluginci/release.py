@@ -39,6 +39,7 @@ from qgispluginci.utils import (
     replace_in_file,
 )
 
+
 if TYPE_CHECKING:
     from github.Repository import Repository
 

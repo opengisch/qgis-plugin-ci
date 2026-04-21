@@ -74,6 +74,17 @@ documentation = "https://opengisch.github.io/qgis-plugin-ci/"
 repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
 
+[tool.ruff.lint]
+select = [
+    "I",   # isort
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-single-line = false
+lines-after-imports = 2
+split-on-trailing-comma = true
+
 [tool.setuptools]
 packages = ["qgispluginci", "qgispluginci.translation_clients"]
 

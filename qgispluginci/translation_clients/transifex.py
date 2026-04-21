@@ -7,6 +7,7 @@ from transifex.api.jsonapi.exceptions import DoesNotExist
 
 from qgispluginci.translation_clients.baseclient import BaseClient, TranslationConfig
 
+
 # GLOBALS
 logger = logging.getLogger(__name__)
 

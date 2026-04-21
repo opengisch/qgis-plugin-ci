@@ -17,10 +17,9 @@ import sys
 
 # standard library
 from argparse import Namespace
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import Any
-from collections.abc import Callable
 
 
 if sys.version_info >= (3, 11):
@@ -35,6 +34,7 @@ import yaml
 from slugify import slugify
 
 from qgispluginci.exceptions import ConfigurationNotFound
+
 
 # ############################################################################
 # ########## Globals #############
