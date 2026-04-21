@@ -89,7 +89,10 @@ class TestRelease(unittest.TestCase):
             tx_api_token="",
         )
 
-    @unittest.skipIf(can_skip_test_transifex(), "Missing tx_api_token")
+    @unittest.skipIf(
+        can_skip_test_github() or can_skip_test_transifex(),
+        "Missing github_token or tx_api_token",
+    )
     def test_release_with_transifex(self):
         Translation(self.qgis_plugin_config_params, tx_api_token=self.tx_api_token)
         release(
