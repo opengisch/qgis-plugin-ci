@@ -28,12 +28,10 @@ jobs:
         with:
           python-version: "3.10"
           cache: "pip"
-          cache-dependency-path: "requirements/*.txt"
+          cache-dependency-path: pyproject.toml
 
-      - name: install
-        run: |
-          python -m pip install -U -r requirements/development.txt
-          python -m pip install -e .
+      - name: Install project as a package with dev dependencies
+        run: python -m pip install -e .[dev]
 
       - name: Simple cli test
         run: qgis-plugin-ci --help
