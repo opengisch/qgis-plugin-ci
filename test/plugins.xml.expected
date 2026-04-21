@@ -1,21 +1,24 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <plugins>
     <pyqgis_plugin name="QGIS Plugin CI Testing" version="0.1.2">
-        <description><![CDATA[This is a testing plugin for QGIS Plugin CI]]></description>
-        <version>0.1.2</version>
-        <qgis_minimum_version>3.2</qgis_minimum_version>
-        <homepage>https://github.com/opengisch/qgis-plugin-ci</homepage>
-        <file_name>qgis_plugin_CI_testing.0.1.2.zip</file_name>
-        <icon>icons/opengisch.png</icon>
-        <author_name>Denis Rouzaud</author_name>
-        <download_url>https://github.com/opengisch/qgis-plugin-ci/releases/download/0.1.2/qgis_plugin_CI_testing.0.1.2.zip</download_url>
-        <uploaded_by>Denis Rouzaud</uploaded_by>
+        <!-- <about><![CDATA[__ABOUT__]]></about> -->
+        <author_name><![CDATA[Denis Rouzaud]]></author_name>
         <create_date>1985-07-21</create_date>
-        <update_date>__TODAY__</update_date>
-        <experimental>True</experimental>
         <deprecated>False</deprecated>
-        <tracker>https://github.com/opengisch/qgis-plugin-ci/issues</tracker>
-        <repository>https://github.com/opengisch/qgis-plugin-ci</repository>
-        <tags></tags>
+        <description><![CDATA[This is a testing plugin for QGIS Plugin CI]]></description>
+        <download_url>https://github.com/opengisch/qgis-plugin-ci/releases/download/0.1.2/qgis_plugin_CI_testing.0.1.2.zip</download_url>
+        <experimental>True</experimental>
+        <file_name>qgis_plugin_CI_testing.0.1.2.zip</file_name>
+        <homepage><![CDATA[https://github.com/opengisch/qgis-plugin-ci]]></homepage>
+        <icon>icons/opengisch.png</icon>
+        <repository><![CDATA[https://github.com/opengisch/qgis-plugin-ci]]></repository>
+        <!-- <qgis_maximum_version>__QGIS_MAX_VERSION__</qgis_maximum_version> -->
+        <qgis_minimum_version>3.2</qgis_minimum_version>
+        <!-- <server>__SERVER__</server> -->
+        <tags><![CDATA[]]></tags>
+        <tracker><![CDATA[https://github.com/opengisch/qgis-plugin-ci/issues]]></tracker>
+        <update_date>__TODAY__</update_date>
+        <uploaded_by><![CDATA[Denis Rouzaud]]></uploaded_by>
+        <version>0.1.2</version>
     </pyqgis_plugin>
 </plugins>
