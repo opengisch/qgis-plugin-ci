@@ -141,7 +141,6 @@ class Translation:
                 logger.debug(f"Creating missing language: {lang}")
                 self.tx_client.create_language(
                     language_code=lang,
-                    coordinators=[self.parameters.transifex_coordinator],
                 )
                 existing_langs.append(lang)
         for lang in existing_langs:

@@ -67,10 +67,6 @@ class Parameters:
         The project slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).
         Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable.
 
-    transifex_coordinator: str
-        The username of the coordinator in Transifex.
-        Required to create new languages.
-
     transifex_organization: str
         The organization name in Transifex
         Defaults to: the GitHub organization slug
@@ -221,7 +217,6 @@ class Parameters:
             "github_organization_slug",
             os.environ.get("TRAVIS_REPO_SLUG", "").split("/")[0],
         )
-        self.transifex_coordinator = definition.get("transifex_coordinator", "")
         self.transifex_organization = definition.get(
             "transifex_organization", self.github_organization_slug
         )

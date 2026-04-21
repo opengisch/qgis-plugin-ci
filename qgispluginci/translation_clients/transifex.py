@@ -104,13 +104,10 @@ class TransifexClient(BaseClient):
         languages = self.get_project().fetch("languages").all()
         return [lang.code for lang in languages]
 
-    def create_language(self, language_code: str, coordinators):
+    def create_language(self, language_code: str):
         if language := tx_api.Language.get(code=language_code):
             logger.debug(f"Adding {language.code} to {self.config.project_slug}")
             self.get_project().add("languages", [language])
-
-        # if coordinators:
-        #    self.get_project().add("coordinators", coordinators)
 
     def update_source_translation(self):
         with open(self.config.resource_file_path) as fh:
