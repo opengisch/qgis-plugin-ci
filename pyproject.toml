@@ -74,6 +74,13 @@ documentation = "https://opengisch.github.io/qgis-plugin-ci/"
 repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
 
+[tool.nose2]
+start-dir = "test"
+code-directories = [".."]
+
+[tool.nose2.log-capture]
+always-on = true
+
 [tool.ruff.lint]
 select = [
     "I",   # isort
