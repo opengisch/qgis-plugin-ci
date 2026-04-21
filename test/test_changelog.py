@@ -19,6 +19,7 @@ from pathlib import Path
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.version_note import VersionNote
 
+
 # ############################################################################
 # ########## Classes #############
 # ################################

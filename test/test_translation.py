@@ -15,6 +15,7 @@ from qgispluginci.translation import Translation
 # Tests
 from .utils import can_skip_test_transifex
 
+
 # Logging
 logger = logging.getLogger(__name__)
 

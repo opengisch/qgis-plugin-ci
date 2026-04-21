@@ -27,6 +27,7 @@ from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
 
+
 # If changed, also update CHANGELOG.md
 RELEASE_VERSION_TEST = "0.1.2"
 
