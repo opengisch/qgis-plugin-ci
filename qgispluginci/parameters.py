@@ -293,7 +293,7 @@ class Parameters:
         }
 
     @staticmethod
-    def validate_args(args: Namespace):
+    def validate_args(args: Namespace) -> None:
         """
         Raise an exception just in case:
         - the user didn't opt-out of validation using the `--no-validation` flag; and
@@ -303,14 +303,14 @@ class Parameters:
             return
 
         if args.no_validation:
-            logging.warning("Disabled release version validation.")
+            logger.warning("Disabled release version validation.")
             return
 
         patterns = Parameters.get_release_version_patterns()
         semver_compliance = re.match(patterns.pop("semver"), args.release_version)
 
         if not semver_compliance:
-            logging.warning(
+            logger.warning(
                 f"Be aware that '{args.release_version}' is not a semver-compliant "
                 "version. It might still comply with acceptable practices."
             )
@@ -332,7 +332,7 @@ class Parameters:
         )
 
     @staticmethod
-    def archive_name(plugin_name, release_version: str) -> str:
+    def archive_name(plugin_name: str, release_version: str) -> str:
         """
         Returns the archive file name
         """

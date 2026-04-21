@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import NamedTuple
 
 
@@ -7,17 +8,19 @@ class TranslationConfig(NamedTuple):
     project_slug: str
     resource_file_path: str
     resource_slug: str
-
     private: bool = False
-    project_name: str = None
+    project_name: str | None = None
     i18n_type: str = "QT"
-    repository_url: str = None
+    repository_url: str | None = None
     source_language_code: str = "en"
 
 
 class BaseClient:
     def __init__(
-        self, config: TranslationConfig, update_string_fcn, create_project: bool = True
+        self,
+        config: TranslationConfig,
+        update_string_fcn: Callable,
+        create_project: bool = True,
     ):
         """
         Parameters

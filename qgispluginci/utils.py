@@ -10,7 +10,7 @@ from qgispluginci.version_note import VersionNote
 logger = logging.getLogger(__name__)
 
 
-def replace_in_file(file_path: str, pattern, new: str, encoding: str = "utf8"):
+def replace_in_file(file_path: str, pattern: str, new: str, encoding: str = "utf8"):
     with open(file_path, encoding=encoding) as f:
         content = f.read()
     content = re.sub(pattern, new, content, flags=re.M)
@@ -52,7 +52,7 @@ def convert_octets(octets: int) -> str:
     return f"{s} {size_name[i]}"
 
 
-def touch_file(path, update_time: bool = False, create_dir: bool = True):
+def touch_file(path: str, update_time: bool = False, create_dir: bool = True):
     basedir = os.path.dirname(path)
     if create_dir and not os.path.exists(basedir):
         os.makedirs(basedir)

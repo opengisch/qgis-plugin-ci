@@ -61,7 +61,7 @@ class TestRelease(unittest.TestCase):
             try:
                 rel = self.repo.get_release(id=RELEASE_VERSION_TEST)
             except GithubException:
-                raise GithubReleaseNotFound(f"Release {RELEASE_VERSION_TEST} not found")
+                raise GithubReleaseNotFound(f"Release {RELEASE_VERSION_TEST} not found")  # noqa: B904
             if rel:
                 print("deleting release assets")
                 for asset in rel.get_assets():

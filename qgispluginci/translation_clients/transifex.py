@@ -1,4 +1,5 @@
 import logging
+from collections.abc import Callable
 from pathlib import Path
 
 import requests
@@ -14,7 +15,10 @@ logger = logging.getLogger(__name__)
 
 class TransifexClient(BaseClient):
     def __init__(
-        self, config: TranslationConfig, update_string_fcn, create_project: bool = True
+        self,
+        config: TranslationConfig,
+        update_string_fcn: Callable,
+        create_project: bool = True,
     ):
         super().__init__(config, update_string_fcn, create_project)
 

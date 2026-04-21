@@ -13,6 +13,7 @@ import logging
 import re
 import sys
 from pathlib import Path
+from typing import Any
 
 from qgispluginci.version_note import VersionNote
 
@@ -35,7 +36,9 @@ class ChangelogParser:
 
     @classmethod
     def has_changelog(
-        cls, parent_folder: Path | str = Path("."), changelog_path="CHANGELOG.md"
+        cls,
+        parent_folder: Path | str = Path(),
+        changelog_path: Path | str = "CHANGELOG.md",
     ) -> bool:
         """Check if a changelog file exists within the parent folder. If it does, \
         it returns True and the file path is stored as class attribute. If not, it \
@@ -89,12 +92,12 @@ class ChangelogParser:
 
     def __init__(
         self,
-        parent_folder: Path | str = Path("."),
+        parent_folder: Path | str = Path(),
         changelog_path: str = "CHANGELOG.md",
     ):
         self.has_changelog(parent_folder=parent_folder, changelog_path=changelog_path)
 
-    def _parse(self):
+    def _parse(self) -> list[Any] | None:
         if not self.CHANGELOG_FILEPATH:
             return None
 

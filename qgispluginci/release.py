@@ -296,7 +296,7 @@ def create_archive(
         repo.git.checkout("--", ".")
 
     # print the result
-    print(  # noqa: T2
+    print(  # noqa: T201
         f"Plugin archive created: {archive_name} "
         f"({convert_octets(Path(archive_name).stat().st_size)})"
     )
@@ -307,7 +307,7 @@ def upload_asset_to_github_release(
     asset_path: str,
     release_tag: str,
     github_token: str,
-    asset_name: str = None,
+    asset_name: str | None = None,
 ):
     slug = f"{parameters.github_organization_slug}/{parameters.project_slug}"
     repo = Github(github_token).get_repo(slug)
@@ -476,7 +476,7 @@ def upload_plugin_to_osgeo_with_token(archive: str, package_name: str, token: st
             logger.debug(
                 f"Upload to QGIS main repository : response HTTP {response.status_code}"
             )
-            print(
+            print(  # noqa: T201
                 f"Plugin uploaded on {QGIS_PLUGINS_REPO_URL}/plugins/{package_name}/#plugin-versions"
             )
         except requests.exceptions.HTTPError as error:
