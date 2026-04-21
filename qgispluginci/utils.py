@@ -4,7 +4,6 @@ import re
 from math import floor
 from math import log as math_log
 from math import pow
-from typing import Union
 
 from qgispluginci.version_note import VersionNote
 
@@ -65,7 +64,7 @@ def touch_file(path, update_time: bool = False, create_dir: bool = True):
             pass
 
 
-def parse_tag(version_tag: str) -> Union[VersionNote, None]:
+def parse_tag(version_tag: str) -> VersionNote | None:
     """Parse a tag and determine the semantic version."""
     components = version_tag.split("-")
     items = components[0].split(".")

@@ -19,7 +19,8 @@ import sys
 from argparse import Namespace
 from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
+from collections.abc import Callable
 
 
 if sys.version_info >= (3, 11):
@@ -121,8 +122,8 @@ class Parameters:
     def make_from(
         cls,
         *,
-        args: Optional[Any] = None,
-        path_to_config_file: Optional[Path] = None,
+        args: Any | None = None,
+        path_to_config_file: Path | None = None,
         optional_configuration: bool = False,
     ) -> "Parameters":
         """
@@ -347,7 +348,7 @@ class Parameters:
 
         return f"{plugin_name}.{release_version}.zip"
 
-    def collect_metadata(self) -> Callable[[str, Optional[Any]], Any]:
+    def collect_metadata(self) -> Callable[[str, Any | None], Any]:
         """
         Returns a closure capturing a Dict of metadata, allowing to retrieve one
         value after the other while also iterating over the file once.
@@ -360,7 +361,7 @@ class Parameters:
                 if len(split) == 2:
                     metadata[split[0]] = split[1]
 
-        def get_metadata(key: str, default_value: Optional[Any] = None) -> Any:
+        def get_metadata(key: str, default_value: Any | None = None) -> Any:
             if not self.plugin_path:
                 return ""
 
