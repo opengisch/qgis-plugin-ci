@@ -4,9 +4,10 @@ import os
 def can_skip_test_github():
     """Check when the Transifex test can run."""
     is_ci = os.getenv("CI") == "true"
+    is_dependabot = os.getenv("GITHUB_ACTOR") == "dependabot[bot]"
     is_main_repo = os.getenv("GITHUB_REPOSITORY") == "opengisch/qgis-plugin-ci"
 
-    if is_ci and is_main_repo:
+    if is_ci and is_main_repo and not is_dependabot:
         return False
 
     if not os.getenv("github_token"):
