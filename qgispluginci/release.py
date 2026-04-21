@@ -427,6 +427,7 @@ def create_plugin_repo(
         "__REPO__": parameters.project_slug,
         "__REPO_URL__": parameters.repository_url,
         "__QGIS_MIN_VERSION__": parameters.qgis_minimum_version,
+        "__SERVER__": str(parameters.supports_server),
         "__TAGS__": parameters.tags,
     }
     if not plugin_repo_url:
