@@ -1,21 +1,24 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <plugins>
     <pyqgis_plugin name="__PLUGIN_NAME__" version="__RELEASE_VERSION__">
-        <description><![CDATA[__DESCRIPTION__]]></description>
-        <version>__RELEASE_VERSION__</version>
-        <qgis_minimum_version>__QGIS_MIN_VERSION__</qgis_minimum_version>
-        <homepage>__HOMEPAGE__</homepage>
-        <file_name>__PLUGINZIP__</file_name>
-        <icon>__ICON__</icon>
-        <author_name>__AUTHOR__</author_name>
-        <download_url>__DOWNLOAD_URL__</download_url>
-        <uploaded_by>__OSGEO_USERNAME__</uploaded_by>
+        <!-- <about><![CDATA[__ABOUT__]]></about> -->
+        <author_name><![CDATA[__AUTHOR__]]></author_name>
         <create_date>__CREATE_DATE__</create_date>
-        <update_date>__RELEASE_DATE__</update_date>
-        <experimental>__EXPERIMENTAL__</experimental>
         <deprecated>__DEPRECATED__</deprecated>
-        <tracker>__ISSUE_TRACKER__</tracker>
-        <repository>__REPO_URL__</repository>
-        <tags>__TAGS__</tags>
+        <description><![CDATA[__DESCRIPTION__]]></description>
+        <download_url>__DOWNLOAD_URL__</download_url>
+        <experimental>__EXPERIMENTAL__</experimental>
+        <file_name>__PLUGINZIP__</file_name>
+        <homepage><![CDATA[__HOMEPAGE__]]></homepage>
+        <icon>__ICON__</icon>
+        <repository><![CDATA[__REPO_URL__]]></repository>
+        <!-- <qgis_maximum_version>__QGIS_MAX_VERSION__</qgis_maximum_version> -->
+        <qgis_minimum_version>__QGIS_MIN_VERSION__</qgis_minimum_version>
+        <!-- <server>__SERVER__</server> -->
+        <tags><![CDATA[__TAGS__]]></tags>
+        <tracker><![CDATA[__ISSUE_TRACKER__]]></tracker>
+        <update_date>__RELEASE_DATE__</update_date>
+        <uploaded_by><![CDATA[__OSGEO_USERNAME__]]></uploaded_by>
+        <version>__RELEASE_VERSION__</version>
     </pyqgis_plugin>
 </plugins>
