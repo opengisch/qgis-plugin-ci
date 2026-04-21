@@ -12,6 +12,7 @@ from qgispluginci.translation_clients.baseclient import TranslationConfig
 from qgispluginci.translation_clients.transifex import TransifexClient
 from qgispluginci.utils import touch_file
 
+
 # GLOBALS
 logger = logging.getLogger(__name__)
 

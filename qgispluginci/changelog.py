@@ -16,6 +16,7 @@ from pathlib import Path
 
 from qgispluginci.version_note import VersionNote
 
+
 # ############################################################################
 # ########## Globals #############
 # ################################
