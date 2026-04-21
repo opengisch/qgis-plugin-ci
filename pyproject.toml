@@ -46,9 +46,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "ruff>=0.13.1",
-    "flake8-builtins>=1.5",
-    "flake8-print>=5",
     "pre-commit>=4.5,<5",
     "ruff>=0.15.11,<0.16",
     # testing: TODO: move into a separate test section
@@ -74,23 +71,64 @@ documentation = "https://opengisch.github.io/qgis-plugin-ci/"
 repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
 
-[tool.nose2]
+[tool.nose2.unittest]
 start-dir = "test"
 code-directories = [".."]
 
 [tool.nose2.log-capture]
 always-on = true
 
+[tool.ruff]
+exclude = ["qgis_plugin_CI_testing/**"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false
+
 [tool.ruff.lint]
 select = [
+    "A",   # flake8-builtins
+    "ANN", # flake8-annotations
+    "B",   # flake8-bugbear
     "I",   # isort
+    "LOG", # flake8-logging
+    "T20", # flake8-print
 ]
+
+ignore = [
+    "ANN201", # Missing return type annotation for public function
+    "ANN204", #  Missing return type annotation for special method `__init__`
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in `**kwargs`
+    "E501",   # line too long (handled by black)
+    # "E203", # whitespace before ':'
+    # "E226", # missing whitespace around arithmetic operator
+    # "E24",  # multiple spaces after ','
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
 force-single-line = false
 lines-after-imports = 2
 split-on-trailing-comma = true
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore `E402` (import violations) in all `__init__.py` files
+"__init__.py" = ["E402"]
+"docs/conf.py" = [
+    "A001",
+    "ANN001",
+    "ANN2",
+    "S101",
+    "T20",
+] # Ignore rules in Sphinx config
+"test/test_*.py" = ["ANN001", "ANN2", "S101", "T20"] # Ignore rules in tests
 
 [tool.setuptools]
 packages = ["qgispluginci", "qgispluginci.translation_clients"]

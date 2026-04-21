@@ -202,7 +202,7 @@ def cli():
             )
             content = c.content(args.release_version)
             if content:
-                print(content)  # noqa: T2
+                print(content)  # noqa: T201
         except Exception as exc:
             logger.error("Something went wrong reading the changelog.", exc_info=exc)
             exit_val = 1
