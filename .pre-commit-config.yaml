@@ -23,22 +23,22 @@ repos:
     hooks:
       - id: pyupgrade
         args:
-          - --py39-plus
+          - --py310-plus
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.15.9"
+    rev: "v0.15.11"
     hooks:
-      - id: ruff
+      - id: ruff-check
         args:
           - --fix
-          - --target-version=py39
+          - --target-version=py310
         types_or:
           - python
           - pyi
       - id: ruff-format
         args:
           - --line-length=88
-          - --target-version=py39
+          - --target-version=py310
         types_or:
           - python
           - pyi

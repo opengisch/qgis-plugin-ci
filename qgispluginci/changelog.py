@@ -13,7 +13,6 @@ import logging
 import re
 import sys
 from pathlib import Path
-from typing import Union
 
 from qgispluginci.version_note import VersionNote
 
@@ -31,11 +30,11 @@ logger = logging.getLogger(__name__)
 
 
 class ChangelogParser:
-    CHANGELOG_FILEPATH: Union[Path, None] = None
+    CHANGELOG_FILEPATH: Path | None = None
 
     @classmethod
     def has_changelog(
-        cls, parent_folder: Union[Path, str] = Path("."), changelog_path="CHANGELOG.md"
+        cls, parent_folder: Path | str = Path("."), changelog_path="CHANGELOG.md"
     ) -> bool:
         """Check if a changelog file exists within the parent folder. If it does, \
         it returns True and the file path is stored as class attribute. If not, it \
@@ -89,7 +88,7 @@ class ChangelogParser:
 
     def __init__(
         self,
-        parent_folder: Union[Path, str] = Path("."),
+        parent_folder: Path | str = Path("."),
         changelog_path: str = "CHANGELOG.md",
     ):
         self.has_changelog(parent_folder=parent_folder, changelog_path=changelog_path)
@@ -130,7 +129,7 @@ class ChangelogParser:
             output += "\n"
         return output
 
-    def _version_note(self, tag: str) -> Union[VersionNote, None]:
+    def _version_note(self, tag: str) -> VersionNote | None:
         """Get the tuple for a given version."""
         changelog_content = self._parse()
         if not len(changelog_content):
@@ -157,7 +156,7 @@ class ChangelogParser:
         )
         return latest.version
 
-    def content(self, tag: str) -> Union[str, None]:
+    def content(self, tag: str) -> str | None:
         """Get a version content to add in a release according to the version name."""
         version_note = self._version_note(tag)
         if not version_note:
