@@ -14,7 +14,7 @@
         <repository><![CDATA[__REPO_URL__]]></repository>
         <!-- <qgis_maximum_version>__QGIS_MAX_VERSION__</qgis_maximum_version> -->
         <qgis_minimum_version>__QGIS_MIN_VERSION__</qgis_minimum_version>
-        <!-- <server>__SERVER__</server> -->
+        <server>__SERVER__</server>
         <tags><![CDATA[__TAGS__]]></tags>
         <tracker><![CDATA[__ISSUE_TRACKER__]]></tracker>
         <update_date>__RELEASE_DATE__</update_date>
