@@ -17,7 +17,7 @@ import yaml
 from github import Github, GithubException
 
 # Tests
-from utils import can_skip_test_github
+from utils import can_skip_test_github, can_skip_test_transifex
 
 # Project
 from qgispluginci.changelog import ChangelogParser
@@ -89,7 +89,7 @@ class TestRelease(unittest.TestCase):
             tx_api_token="",
         )
 
-    @unittest.skipIf(can_skip_test_github(), "Missing tx_api_token")
+    @unittest.skipIf(can_skip_test_transifex(), "Missing tx_api_token")
     def test_release_with_transifex(self):
         Translation(self.qgis_plugin_config_params, tx_api_token=self.tx_api_token)
         release(
