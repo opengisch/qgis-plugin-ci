@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 
+# standard
 import base64
+import datetime
+import importlib.resources as importlib_resources
 import logging
 import os
 import re
-import requests
 import shutil
 import sys
 import tarfile
@@ -15,18 +17,11 @@ from pathlib import Path
 from tempfile import mkstemp
 from typing import TYPE_CHECKING
 
+# 3rd party
 import git
-from github import Github, GithubException
-
-try:
-    import importlib.resources as importlib_resources
-except ImportError:
-    # In Py<3.7 fall-back to backported `importlib_resources`.
-    import importlib_resources
-
-import datetime
-
 import pyqt5ac
+import requests
+from github import Github, GithubException
 
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import (
