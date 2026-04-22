@@ -257,6 +257,8 @@ class Parameters:
         self.deprecated = get_metadata("deprecated", False)
         self.issue_tracker = get_metadata("tracker")
         self.homepage = get_metadata("homepage", "")
+        self.supports_server = get_metadata("server", False)
+
         if self.homepage == "":
             logger.warning(
                 "Homepage is not given in the metadata. "

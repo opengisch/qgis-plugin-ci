@@ -14,7 +14,7 @@
         <repository><![CDATA[https://github.com/opengisch/qgis-plugin-ci]]></repository>
         <!-- <qgis_maximum_version>__QGIS_MAX_VERSION__</qgis_maximum_version> -->
         <qgis_minimum_version>3.2</qgis_minimum_version>
-        <!-- <server>__SERVER__</server> -->
+        <server>False</server>
         <tags><![CDATA[]]></tags>
         <tracker><![CDATA[https://github.com/opengisch/qgis-plugin-ci/issues]]></tracker>
         <update_date>__TODAY__</update_date>
