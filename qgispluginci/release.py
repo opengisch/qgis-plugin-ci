@@ -409,6 +409,7 @@ def create_plugin_repo(
     Creates the plugin repo as an XML file
     """
     replace_dict = {
+        "__ABOUT__": parameters.about,
         "__AUTHOR__": parameters.author,
         "__CREATE_DATE__": parameters.create_date.strftime("%Y-%m-%d"),
         "__DEPRECATED__": str(parameters.deprecated),

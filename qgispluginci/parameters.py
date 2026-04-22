@@ -27,7 +27,6 @@ if sys.version_info >= (3, 11):
 else:
     import tomli as tomllib
 
-
 import yaml
 
 # 3rd party
@@ -248,6 +247,7 @@ class Parameters:
         )
 
         # read from metadata
+        self.about = get_metadata("about")
         self.author = get_metadata("author", "")
         self.description = get_metadata("description")
         self.qgis_minimum_version = get_metadata("qgisMinimumVersion")

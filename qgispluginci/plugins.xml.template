@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <plugins>
     <pyqgis_plugin name="__PLUGIN_NAME__" version="__RELEASE_VERSION__">
-        <!-- <about><![CDATA[__ABOUT__]]></about> -->
+        <about><![CDATA[__ABOUT__]]></about>
         <author_name><![CDATA[__AUTHOR__]]></author_name>
         <create_date>__CREATE_DATE__</create_date>
         <deprecated>__DEPRECATED__</deprecated>
