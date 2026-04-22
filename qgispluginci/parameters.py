@@ -97,7 +97,7 @@ class Parameters:
         Number of changelog entries to add in the metdata.txt
         Defaults to 3
 
-    create_date: datetime.datetime
+    create_datetime: datetime.datetime
         The date of creation of the plugin.
         The would be used in the custom repository XML.
         Format: YYYY-MM-DD
@@ -107,6 +107,9 @@ class Parameters:
 
     pylupdate5_path: str
         The path of pylupdate executable
+
+    timezone: str
+        The timezone for the plugin creation date. Defaults to: `UTC`.
 
     use_project_slug_as_plugin_directory: bool
         If True, the `project_slug` is used for the plugin directory name in the installation.
@@ -228,9 +231,11 @@ class Parameters:
         self.transifex_resource = definition.get(
             "transifex_resource", self.project_slug
         )
+
+        self.timezone = definition.get("timezone", "UTC")
         self.create_datetime: datetime = set_datetime_zoneinfo(
             input_datetime=definition.get("create_date", datetime.now(timezone.utc)),
-            config_timezone=definition.get("timezone", "UTC"),
+            config_timezone=self.timezone,
         )
 
         self.lrelease_path = definition.get("lrelease_path", "lrelease")
