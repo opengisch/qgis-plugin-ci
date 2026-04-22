@@ -8,6 +8,7 @@ translation_languages:
   - it
   - de
 create_date: 1985-07-21
+timezone: Europe/Paris
 
 repository_url: https://github.com/opengisch/qgis-plugin-ci/
 
