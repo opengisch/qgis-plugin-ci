@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <plugins>
     <pyqgis_plugin name="QGIS Plugin CI Testing" version="0.1.2">
-        <!-- <about><![CDATA[__ABOUT__]]></about> -->
+        <about><![CDATA[Downloading would be useless]]></about>
         <author_name><![CDATA[Denis Rouzaud]]></author_name>
         <create_date>1985-07-21</create_date>
         <deprecated>False</deprecated>
