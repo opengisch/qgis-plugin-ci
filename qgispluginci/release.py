@@ -37,6 +37,7 @@ from qgispluginci.utils import (
     convert_octets,
     parse_tag,
     replace_in_file,
+    set_datetime_zoneinfo,
 )
 
 
@@ -420,7 +421,10 @@ def create_plugin_repo(
         "__OSGEO_USERNAME__": osgeo_username or parameters.author,
         "__PLUGIN_NAME__": parameters.plugin_name,
         "__PLUGINZIP__": archive,
-        "__RELEASE_DATE__": date.today().strftime("%Y-%m-%d"),
+        "__RELEASE_DATE__": set_datetime_zoneinfo(
+            input_datetime=datetime.now(timezone.utc),
+            config_timezone=parameters.timezone,
+        ).isoformat(),
         "__RELEASE_TAG__": release_tag or release_version,
         "__RELEASE_VERSION__": release_version,
         "__REPO__": parameters.project_slug,
