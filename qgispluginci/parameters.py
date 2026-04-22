@@ -258,6 +258,7 @@ class Parameters:
         self.about = get_metadata("about")
         self.author = get_metadata("author", "")
         self.description = get_metadata("description")
+        self.qgis_maximum_version = get_metadata("qgisMaximumVersion", "")
         self.qgis_minimum_version = get_metadata("qgisMinimumVersion")
         self.icon = get_metadata("icon", "")
         self.tags = get_metadata("tags", "")
