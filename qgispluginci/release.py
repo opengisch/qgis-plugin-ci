@@ -403,31 +403,31 @@ def create_plugin_repo(
     archive: str,
     osgeo_username: str,
     is_prerelease: bool = False,
-    plugin_repo_url: str = None,
+    plugin_repo_url: str | None = None,
 ) -> str:
     """
     Creates the plugin repo as an XML file
     """
     replace_dict = {
-        "__RELEASE_VERSION__": release_version,
-        "__RELEASE_TAG__": release_tag or release_version,
-        "__PLUGIN_NAME__": parameters.plugin_name,
-        "__RELEASE_DATE__": datetime.date.today().strftime("%Y-%m-%d"),
-        "__CREATE_DATE__": parameters.create_date.strftime("%Y-%m-%d"),
-        "__ORG__": parameters.github_organization_slug,
-        "__REPO__": parameters.project_slug,
-        "__PLUGINZIP__": archive,
-        "__OSGEO_USERNAME__": osgeo_username or parameters.author,
-        "__DEPRECATED__": str(parameters.deprecated),
-        "__EXPERIMENTAL__": str(is_prerelease or parameters.experimental),
-        "__TAGS__": parameters.tags,
-        "__ICON__": parameters.icon,
         "__AUTHOR__": parameters.author,
-        "__QGIS_MIN_VERSION__": parameters.qgis_minimum_version,
+        "__CREATE_DATE__": parameters.create_date.strftime("%Y-%m-%d"),
+        "__DEPRECATED__": str(parameters.deprecated),
         "__DESCRIPTION__": parameters.description,
-        "__ISSUE_TRACKER__": parameters.issue_tracker,
+        "__EXPERIMENTAL__": str(is_prerelease or parameters.experimental),
         "__HOMEPAGE__": parameters.homepage,
+        "__ICON__": parameters.icon,
+        "__ISSUE_TRACKER__": parameters.issue_tracker,
+        "__ORG__": parameters.github_organization_slug,
+        "__OSGEO_USERNAME__": osgeo_username or parameters.author,
+        "__PLUGIN_NAME__": parameters.plugin_name,
+        "__PLUGINZIP__": archive,
+        "__RELEASE_DATE__": datetime.date.today().strftime("%Y-%m-%d"),
+        "__RELEASE_TAG__": release_tag or release_version,
+        "__RELEASE_VERSION__": release_version,
+        "__REPO__": parameters.project_slug,
         "__REPO_URL__": parameters.repository_url,
+        "__QGIS_MIN_VERSION__": parameters.qgis_minimum_version,
+        "__TAGS__": parameters.tags,
     }
     if not plugin_repo_url:
         orgs = replace_dict["__ORG__"]
