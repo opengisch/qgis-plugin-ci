@@ -30,3 +30,4 @@ htmlcov
 junit
 .coverage
 coverage.xml
+plugins.xml
