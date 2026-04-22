@@ -13,23 +13,27 @@ In the configuration, you should at least provide the following configuration:
 - `plugin_path`, the folder where the source code is located under the git repository. See
 
 You can find a template `.qgis-plugin-ci` in this repository.
-You can read the docstring of the [Parameters module](/_apidoc/qgispluginci.parameters)
+You can read the docstring of the [Parameters module](../_apidoc/qgispluginci.parameters)
 to know parameters which are available in the file.
 
 ## Conventions
 
 QGIS-Plugin-CI is best served if you use these two conventions :
 
-* [Semantic versioning](https://semver.org/)
-* [Keep A Changelog](https://keepachangelog.com)
+- [Semantic versioning](https://semver.org/)
+- [Keep A Changelog](https://keepachangelog.com)
 
 ## Options
 
 | Name | Required | Description | Example |
 | :--- | :------: | :---------- | :------ |
-| `github_organization_slug` | no | The *organization* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. |  |
+| `create_date` | no | Plugin creation date. Used as `create_date` attribute in the custom `plugins.xml` repository. Defaults to build timestamp. | `1985-07-21` |
+| `github_organization_slug` | no | The *organization* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. | `opengisch` |
 | `plugin_path` | **yes** | The folder where the source code is located. Shouldn't have any dash character. Defaults to: `slugify(plugin_name)`. | qgis_plugin_CI_testing |
-| `project_slug` | no | The *project* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. |  |
+| `project_slug` | no | The *project* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. | `qgis-plugin-ci` |
+| `timezone` | no | The timezone for the plugin creation date. Defaults to: `UTC`. | `Europe/Paris` |
+
+----
 
 ## Examples
 
@@ -49,6 +53,7 @@ plugin_path = QuickOSM
 github_organization_slug = 3liz
 project_slug = QuickOSM
 ```
+
 ### Using TOML file `pyproject.toml`
 
 ```toml

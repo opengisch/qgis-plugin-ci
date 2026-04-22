@@ -2,7 +2,6 @@
 
 # standard
 import base64
-import datetime
 import importlib.resources as importlib_resources
 import logging
 import os
@@ -12,6 +11,7 @@ import sys
 import tarfile
 import xmlrpc.client
 import zipfile
+from datetime import date, datetime, timezone
 from glob import glob
 from pathlib import Path
 from tempfile import mkstemp
@@ -135,9 +135,7 @@ def create_archive(
     )
 
     # Date/time in UTC
-    date_time = datetime.datetime.now(datetime.timezone.utc).strftime(
-        "%Y-%m-%dT%H:%M:%SZ"
-    )
+    date_time = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     replace_in_file(
         f"{parameters.plugin_path}/metadata.txt",
         r"^dateTime=.*$",
@@ -411,7 +409,7 @@ def create_plugin_repo(
     replace_dict = {
         "__ABOUT__": parameters.about,
         "__AUTHOR__": parameters.author,
-        "__CREATE_DATE__": parameters.create_date.strftime("%Y-%m-%d"),
+        "__CREATE_DATE__": parameters.create_datetime.isoformat(),
         "__DEPRECATED__": str(parameters.deprecated),
         "__DESCRIPTION__": parameters.description,
         "__EXPERIMENTAL__": str(is_prerelease or parameters.experimental),
@@ -422,7 +420,7 @@ def create_plugin_repo(
         "__OSGEO_USERNAME__": osgeo_username or parameters.author,
         "__PLUGIN_NAME__": parameters.plugin_name,
         "__PLUGINZIP__": archive,
-        "__RELEASE_DATE__": datetime.date.today().strftime("%Y-%m-%d"),
+        "__RELEASE_DATE__": date.today().strftime("%Y-%m-%d"),
         "__RELEASE_TAG__": release_tag or release_version,
         "__RELEASE_VERSION__": release_version,
         "__REPO__": parameters.project_slug,

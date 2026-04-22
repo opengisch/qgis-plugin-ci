@@ -3,7 +3,7 @@
     <pyqgis_plugin name="QGIS Plugin CI Testing" version="0.1.2">
         <about><![CDATA[Downloading would be useless]]></about>
         <author_name><![CDATA[Denis Rouzaud]]></author_name>
-        <create_date>1985-07-21</create_date>
+        <create_date>1985-07-21T00:00:00+02:00</create_date>
         <deprecated>False</deprecated>
         <description><![CDATA[This is a testing plugin for QGIS Plugin CI]]></description>
         <download_url>https://github.com/opengisch/qgis-plugin-ci/releases/download/0.1.2/qgis_plugin_CI_testing.0.1.2.zip</download_url>
