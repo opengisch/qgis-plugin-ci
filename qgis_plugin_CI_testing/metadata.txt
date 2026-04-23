@@ -1,7 +1,7 @@
-
 [general]
 name=QGIS Plugin CI Testing
 qgisMinimumVersion=3.2
+qgisMaximumVersion=4.99.16
 description=This is a testing plugin for QGIS Plugin CI
 about=Downloading would be useless
 version=dev
