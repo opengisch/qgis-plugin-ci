@@ -102,6 +102,10 @@ class Parameters:
         The would be used in the custom repository XML.
         Format: YYYY-MM-DD
 
+    repository_plugin_id: str
+        The plugin identifier in the repository where it is published or is intended to be published.
+        Defaults to None.
+
     lrelease_path: str
         The path of lrelease executable
 
@@ -237,6 +241,7 @@ class Parameters:
             input_datetime=definition.get("create_date", datetime.now(timezone.utc)),
             config_timezone=self.timezone,
         )
+        self.repository_plugin_id: str | None = definition.get("repository_plugin_id")
 
         self.lrelease_path = definition.get("lrelease_path", "lrelease")
         self.pylupdate5_path = definition.get("pylupdate5_path", "pylupdate5")

@@ -428,6 +428,11 @@ def create_plugin_repo(
         "__RELEASE_TAG__": release_tag or release_version,
         "__RELEASE_VERSION__": release_version,
         "__REPO__": parameters.project_slug,
+        " __REPO_PLUGIN_ID__": (
+            f' plugin_id="{parameters.repository_plugin_id}"'
+            if parameters.repository_plugin_id
+            else ""
+        ),
         "__REPO_URL__": parameters.repository_url,
         "        __QGIS_MAX_VERSION_LINE__\n": (
             f"        <qgis_maximum_version>{parameters.qgis_maximum_version}</qgis_maximum_version>\n"

@@ -11,5 +11,6 @@ create_date: 1985-07-21
 timezone: Europe/Paris
 
 repository_url: https://github.com/opengisch/qgis-plugin-ci/
+repository_plugin_id: plugins.qgis.org:99999
 
 #lrelease_path: /usr/local/opt/qt5/bin/lrelease

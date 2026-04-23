@@ -31,6 +31,7 @@ QGIS-Plugin-CI is best served if you use these two conventions :
 | `github_organization_slug` | no | The *organization* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. | `opengisch` |
 | `plugin_path` | **yes** | The folder where the source code is located. Shouldn't have any dash character. Defaults to: `slugify(plugin_name)`. | qgis_plugin_CI_testing |
 | `project_slug` | no | The *project* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. | `qgis-plugin-ci` |
+| `repository_plugin_id` | no | The plugin identifier in the repository where it is published or is intended to be published. | Typically the same `plugin_id` value than on the official repository, i.e. `"3951"`. Or using a DNS prefix: `plugins.myorg.com:99999` |
 | `timezone` | no | The timezone for the plugin creation date. Defaults to: `UTC`. | `Europe/Paris` |
 
 ----
