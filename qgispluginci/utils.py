@@ -1,8 +1,14 @@
+#! python3
+
+# standard library
 import logging
 import os
 import re
+from datetime import date, datetime, timezone
 from math import floor, log as math_log, pow as math_pow
+from zoneinfo import ZoneInfo
 
+# package
 from qgispluginci.version_note import VersionNote
 
 
@@ -77,3 +83,38 @@ def parse_tag(version_tag: str) -> VersionNote | None:
             return VersionNote(major=items[0], minor=items[1], patch=items[2])
     except IndexError:
         return VersionNote()
+
+
+def set_datetime_zoneinfo(
+    input_datetime: date | datetime, config_timezone: str = "UTC"
+) -> datetime:
+    """Apply timezone to a naive datetime or date.
+
+    Args:
+        input_datetime (date | datetime): offset-naive datetime
+        config_timezone (str, optional): name of timezone as registered in IANA
+            database. Defaults to "UTC". Example : Europe/Paris.
+
+    Returns:
+        datetime: offset-aware datetime
+    """
+    if isinstance(input_datetime, date):
+        input_datetime = datetime.combine(date=input_datetime, time=datetime.min.time())
+        logger.debug(
+            f"Input is a date, converted to datetime with time set to 00:00:00: {input_datetime}"
+        )
+
+    if input_datetime.tzinfo:
+        logger.debug(
+            f"Input datetime already has timezone info: {input_datetime.tzinfo}, no conversion applied."
+        )
+        return input_datetime
+    elif not config_timezone:
+        logger.debug("No timezone provided in config, applying UTC timezone.")
+        return input_datetime.replace(tzinfo=timezone.utc)
+    else:
+        config_tz = ZoneInfo(config_timezone)
+        logger.debug(
+            f"Applying timezone from config: {config_timezone} to input datetime."
+        )
+        return input_datetime.replace(tzinfo=config_tz)

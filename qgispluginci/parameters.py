@@ -8,16 +8,15 @@ Parameters management.
 # ########## Libraries #############
 # ##################################
 
+# standard library
 import configparser
-import datetime
 import logging
 import os
 import re
 import sys
-
-# standard library
 from argparse import Namespace
 from collections.abc import Callable, Iterator
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -32,7 +31,9 @@ import yaml
 # 3rd party
 from slugify import slugify
 
+# package
 from qgispluginci.exceptions import ConfigurationNotFound
+from qgispluginci.utils import set_datetime_zoneinfo
 
 
 # ############################################################################
@@ -96,7 +97,7 @@ class Parameters:
         Number of changelog entries to add in the metdata.txt
         Defaults to 3
 
-    create_date: datetime.date
+    create_datetime: datetime.datetime
         The date of creation of the plugin.
         The would be used in the custom repository XML.
         Format: YYYY-MM-DD
@@ -106,6 +107,9 @@ class Parameters:
 
     pylupdate5_path: str
         The path of pylupdate executable
+
+    timezone: str
+        The timezone for the plugin creation date. Defaults to: `UTC`.
 
     use_project_slug_as_plugin_directory: bool
         If True, the `project_slug` is used for the plugin directory name in the installation.
@@ -227,9 +231,13 @@ class Parameters:
         self.transifex_resource = definition.get(
             "transifex_resource", self.project_slug
         )
-        self.create_date = datetime.datetime.strptime(
-            str(definition.get("create_date", datetime.date.today())), "%Y-%m-%d"
+
+        self.timezone = definition.get("timezone", "UTC")
+        self.create_datetime: datetime = set_datetime_zoneinfo(
+            input_datetime=definition.get("create_date", datetime.now(timezone.utc)),
+            config_timezone=self.timezone,
         )
+
         self.lrelease_path = definition.get("lrelease_path", "lrelease")
         self.pylupdate5_path = definition.get("pylupdate5_path", "pylupdate5")
         changelog_include = definition.get("changelog_include", True)

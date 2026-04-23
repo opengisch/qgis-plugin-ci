@@ -8,7 +8,7 @@ To build it:
 
 ```bash
 # install additional dependencies
-python -m pip install -U -r requirements/documentation.txt
+python -m pip install -U -e .[doc]
 # build it
 sphinx-build -b html docs docs/_build/html
 ```

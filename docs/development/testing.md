@@ -1,5 +1,7 @@
 # Tests
 
+Install [development dependencies](./environment.md) and run tests to check that everything is working as expected.
+
 ## System requirements
 
 ```bash

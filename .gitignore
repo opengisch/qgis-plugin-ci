@@ -23,10 +23,11 @@ qgis_plugin_CI_testing/resources_rc.py
 .idea
 .DS_Store
 .venv
-.vscode/settings.json
+.vscode/
 dev_precommit_black.log
 
 htmlcov
 junit
 .coverage
 coverage.xml
+plugins.xml
