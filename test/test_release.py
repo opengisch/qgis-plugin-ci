@@ -138,7 +138,7 @@ class TestRelease(unittest.TestCase):
         urllib.request.urlretrieve(url, xml_repo)
         replace_in_file(
             xml_repo,
-            r"<update_date>[\w-]+<\/update_date>",
+            r"<update_date>[^<]+<\/update_date>",
             "<update_date>__TODAY__</update_date>",
         )
         if not filecmp.cmp("test/plugins.xml.expected", xml_repo, shallow=False):
