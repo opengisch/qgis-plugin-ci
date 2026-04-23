@@ -16,9 +16,6 @@ from zipfile import ZipFile
 import yaml
 from github import Github, GithubException
 
-# Tests
-from utils import can_skip_test_github, can_skip_test_transifex
-
 # Project
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import GithubReleaseNotFound
@@ -26,6 +23,9 @@ from qgispluginci.parameters import DASH_WARNING, Parameters
 from qgispluginci.release import release
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
+
+# Tests
+from test.utils import can_skip_test_github, can_skip_test_transifex
 
 
 # If changed, also update CHANGELOG.md

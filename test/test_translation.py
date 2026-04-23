@@ -20,6 +20,7 @@ from .utils import can_skip_test_transifex
 logger = logging.getLogger(__name__)
 
 # Ensuring proper ordering for tests sensitive to state
+# Note: no effect under pytest (which preserves declaration order natively)
 unittest.TestLoader.sortTestMethodsUsing = None
 
 

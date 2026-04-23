@@ -49,8 +49,8 @@ dev = [
     "pre-commit>=4.5,<5",
     "ruff>=0.15.11,<0.16",
     # testing: TODO: move into a separate test section
-    "nose2>=0.15.1,<0.17"
-    ]
+    "pytest-cov>=7.1.0,<8",
+]
 
 doc = [
     "furo>=2024",
@@ -71,12 +71,40 @@ documentation = "https://opengisch.github.io/qgis-plugin-ci/"
 repository = "https://github.com/opengisch/qgis-plugin-ci/"
 tracker = "https://github.com/opengisch/qgis-plugin-ci/issues"
 
-[tool.nose2.unittest]
-start-dir = "test"
-code-directories = [".."]
+# -- TOOLING --
+[tool.coverage.report]
+exclude_lines = [
+    "if self.debug:",
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+ignore_errors = true
+show_missing = true
 
-[tool.nose2.log-capture]
-always-on = true
+[tool.coverage.run]
+branch = true
+include = ["qgispluginci/*"]
+omit = [".venv/*", "*tests*"]
+
+[tool.pytest.ini_options]
+addopts = """
+    --junitxml=junit/test-results.xml
+    --cov-append test/
+    --cov-config=pyproject.toml
+    --cov=qgispluginci
+    --cov-report=html
+    --cov-report=term
+    --cov-report=xml
+    --ignore=test/_wip/
+"""
+junit_family = "xunit2"
+log_cli = true
+log_cli_level = "DEBUG"
+minversion = "5.0"
+norecursedirs = ".* build dev development dist docs CVS fixtures _darcs {arch} *.egg venv _wip"
+python_files = "test_*.py"
+testpaths = ["test"]
 
 [tool.ruff]
 exclude = ["qgis_plugin_CI_testing/**"]
