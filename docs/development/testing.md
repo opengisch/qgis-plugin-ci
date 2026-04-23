@@ -21,7 +21,7 @@ export transifex_token={CHANGE_WITH_A_REAL_TRANSIFEX_TOKEN}
 Run all tests:
 
 ```bash
-nose2 -v
+pytest
 ```
 
 Run a specific test:
