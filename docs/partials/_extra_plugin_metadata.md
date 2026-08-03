@@ -17,4 +17,8 @@ commitSha1=
 dateTime=
 ```
 
+This same section can also hold **static configuration options**
+(e.g. `github_organization_slug`, `timezone`) when the main config file contains
+only `plugin_path`. See [Minimal configuration with `metadata.txt`](../configuration/options.md#combining-minimal-configuration-with-metadata-txt).
+
 :::

@@ -153,6 +153,18 @@ class Parameters:
         )
 
         def load_config(path_to_config_file: Path, file_name: str) -> dict[str, Any]:
+            """Load configuration from a file.
+
+            Args:
+                path_to_config_file (Path): path to the configuration file.
+                file_name (str): file name.
+
+            Raises:
+                configuration_not_found: if any proper configuration is found in the file.
+
+            Returns:
+                dict[str, Any]: configuration as dict
+            """
             if file_name == "setup.cfg":
                 config = configparser.ConfigParser()
                 config.read(path_to_config_file)
@@ -197,6 +209,39 @@ class Parameters:
             config_dict = load_config(path_to_config_file, file_name)
         else:
             config_dict = explore_config()
+
+        # load config from metadata.txt
+        _extra_config_keys = {
+            k for k in config_dict if k not in ("plugin_path", "changelog_path")
+        }
+        if config_dict.get("plugin_path") and not _extra_config_keys:
+            _metadata_txt = Path(config_dict["plugin_path"]) / "metadata.txt"
+            if not _metadata_txt.is_file():
+                logger.warning(
+                    f"Config only defines 'plugin_path' but {_metadata_txt.resolve()} "
+                    "does not exist. Add a '[tool:qgis-plugin-ci]' section in "
+                    "metadata.txt to configure remaining options."
+                )
+            else:
+                _meta_cfg = configparser.ConfigParser()
+                _meta_cfg.read(_metadata_txt)
+                if not _meta_cfg.has_section("tool:qgis-plugin-ci"):
+                    logger.warning(
+                        f"No [tool:qgis-plugin-ci] section found in "
+                        f"{_metadata_txt.resolve()}. "
+                        "Add it to avoid keeping a separate config file."
+                    )
+                else:
+                    _meta_dict = dict(_meta_cfg.items("tool:qgis-plugin-ci"))
+                    config_dict = {
+                        **_meta_dict,
+                        **config_dict,
+                    }
+                    logger.info(
+                        f"Loaded config from {_metadata_txt.resolve()} "
+                        f"[tool:qgis-plugin-ci]: {_meta_dict}"
+                    )
+
         return cls(config_dict)
 
     def __init__(self, definition: dict[str, Any]):

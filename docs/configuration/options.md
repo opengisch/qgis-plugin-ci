@@ -7,6 +7,7 @@ The plugin must have a configuration, located at the top directory; it can be ei
 - a YAML file named `.qgis-plugin-ci`
 - an INI file named `setup.cfg` with a `[qgis-plugin-ci]` section
 - a TOML file (= your actual `pyproject.toml` file) with a `[tool.qgis-plugin-ci]` section.
+- a section `[tool:qgis-plugin-ci]` in the plugin's metadata.txt, but `plugin_path` at least has to defined in one of the above configuration files
 
 In the configuration, you should at least provide the following configuration:
 
@@ -65,3 +66,36 @@ plugin_path = "qgis_plugin_ci_testing"
 github_organization_slug = "qgis"
 project_slug = "qgis-plugin-ci"
 ```
+
+### Combining minimal configuration with `metadata.txt`
+
+When the main configuration file only sets `plugin_path` (and optionally `changelog_path`), qgis-plugin-ci will look for a `[tool:qgis-plugin-ci]` section in  `{plugin_path}/metadata.txt` and merge any options found there. Values in the main config file always take precedence.
+
+This allows reducing the main config file to a single line:
+
+```yaml
+# .qgis-plugin-ci
+plugin_path: qtribu
+```
+
+With the remaining options in `qtribu/metadata.txt`:
+
+```ini
+[general]
+name=QTribu
+[...]
+
+[tool:qgis-plugin-ci]
+create_date = 2021-03-02
+github_organization_slug=geotribu
+project_slug=qtribu
+repository_url_raw = https://raw.githubusercontent.com/geotribu/qtribu/
+repository_plugin_id = 2733
+timezone=Europe/Paris
+```
+
+If `metadata.txt` is missing at the expected path, or if the `[tool:qgis-plugin-ci]` section is missing, a warning is emitted and qgis-plugin-ci continues with the minimal configuration.
+
+:::{note}
+The `[tool:qgis-plugin-ci]` section is already used by qgis-plugin-ci at packaging time to write runtime values (`commitNumber`, `commitSha1`, `dateTime`). Static configuration options and runtime-written keys can coexist in the same section.
+:::
