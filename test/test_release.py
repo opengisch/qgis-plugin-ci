@@ -7,6 +7,7 @@ import filecmp
 import os
 import re
 import unittest
+import unittest.mock
 import urllib.request
 from itertools import product
 from pathlib import Path
@@ -22,7 +23,11 @@ from qgispluginci import __version__
 from qgispluginci.changelog import ChangelogParser
 from qgispluginci.exceptions import GithubReleaseNotFound
 from qgispluginci.parameters import DASH_WARNING, Parameters
-from qgispluginci.release import create_plugin_repo, release
+from qgispluginci.release import (
+    create_plugin_repo,
+    release,
+    upload_plugin_to_osgeo_with_token,
+)
 from qgispluginci.translation import Translation
 from qgispluginci.utils import replace_in_file
 
@@ -382,6 +387,40 @@ class TestRelease(unittest.TestCase):
                 )
             finally:
                 os.chdir(original_dir)
+
+
+class TestUploadPluginWithToken(unittest.TestCase):
+    def setUp(self):
+        import tempfile
+        import zipfile
+
+        self.tmp = tempfile.NamedTemporaryFile(suffix=".zip", delete=False)
+        with zipfile.ZipFile(self.tmp.name, "w") as zf:
+            zf.writestr("my_plugin/metadata.txt", "name=My Plugin\nversion=1.0.0\n")
+        self.tmp.close()
+
+    def tearDown(self):
+        import os
+
+        os.unlink(self.tmp.name)
+
+    @unittest.mock.patch("qgispluginci.release.requests.post")
+    def test_auto_approve_sends_field(self, mock_post):
+        mock_post.return_value = unittest.mock.MagicMock(status_code=200)
+        upload_plugin_to_osgeo_with_token(
+            self.tmp.name, "my_plugin", "token123", auto_approve=True
+        )
+        _, kwargs = mock_post.call_args
+        self.assertEqual(kwargs["data"], {"auto_approve_after_scan": "true"})
+
+    @unittest.mock.patch("qgispluginci.release.requests.post")
+    def test_no_auto_approve_omits_field(self, mock_post):
+        mock_post.return_value = unittest.mock.MagicMock(status_code=200)
+        upload_plugin_to_osgeo_with_token(
+            self.tmp.name, "my_plugin", "token123", auto_approve=False
+        )
+        _, kwargs = mock_post.call_args
+        self.assertEqual(kwargs["data"], {})
 
 
 if __name__ == "__main__":

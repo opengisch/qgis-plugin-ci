@@ -517,7 +517,9 @@ def create_plugin_repo(
     return xml_repo
 
 
-def upload_plugin_to_osgeo_with_token(archive: str, package_name: str, token: str):
+def upload_plugin_to_osgeo_with_token(
+    archive: str, package_name: str, token: str, auto_approve: bool
+):
     """
     Upload the plugin to QGIS repository using a token and a POST request
 
@@ -529,6 +531,8 @@ def upload_plugin_to_osgeo_with_token(archive: str, package_name: str, token: st
         The name of the package on the QGIS plugins website.
     token
         The token created on https://plugins.qgis.org
+    auto_approve
+        If true auto-approval after server security scan
     """
     post_url = f"{QGIS_PLUGINS_REPO_URL}/plugins/api/{package_name}/version/add/"
 
@@ -539,7 +543,10 @@ def upload_plugin_to_osgeo_with_token(archive: str, package_name: str, token: st
     with open(archive, "rb") as file:
         try:
             logger.debug(f"Uploading the archive on {post_url}")
-            response = requests.post(post_url, files={"package": file}, headers=headers)
+            data = {"auto_approve_after_scan": "true"} if auto_approve else {}
+            response = requests.post(
+                post_url, files={"package": file}, data=data, headers=headers
+            )
             response.raise_for_status()
             logger.debug(
                 f"Upload to QGIS main repository : response HTTP {response.status_code}"
@@ -646,6 +653,7 @@ def release(
     tx_api_token: str | None = None,
     alternative_repo_url: str | None = None,
     qgis_token: str | None = None,
+    auto_approve: bool = True,
     osgeo_username: str | None = None,
     osgeo_password: str | None = None,
     allow_uncommitted_changes: bool = False,
@@ -677,6 +685,8 @@ def release(
         URL of the endpoint to upload the plugin to
     qgis_token
         Token from https://plugins.qgis.org to upload the plugin
+    auto_approve
+        If true, the plugin will be auto-approved after security scan
     osgeo_username
         osgeo username to upload the plugin to official QGIS repository
     osgeo_password
@@ -779,6 +789,7 @@ def release(
             archive=archive_name,
             package_name=parameters.plugin_zip_directory,
             token=qgis_token,
+            auto_approve=auto_approve,
         )
 
     if osgeo_username is not None:

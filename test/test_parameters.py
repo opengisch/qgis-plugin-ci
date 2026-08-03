@@ -46,3 +46,19 @@ class TestParameters(unittest.TestCase):
         self.assertEqual(
             "https://qgis.github.io/qgis-plugin-ci/", parameters.plugin_repo_url
         )
+
+    def test_auto_approve_defaults_to_true(self):
+        """auto_approve must default to True when not set in the config file."""
+        parameters = Parameters.make_from(
+            path_to_config_file=Path("test/fixtures/.qgis-plugin-ci")
+        )
+        self.assertTrue(parameters.auto_approve)
+
+    def test_auto_approve_from_config(self):
+        """auto_approve must be read from the config file when set."""
+        parameters = Parameters.make_from(
+            path_to_config_file=Path(
+                "test/fixtures/auto_approve_disabled/.qgis-plugin-ci"
+            )
+        )
+        self.assertFalse(parameters.auto_approve)

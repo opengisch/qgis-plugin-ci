@@ -27,6 +27,7 @@ QGIS-Plugin-CI is best served if you use these two conventions:
 
 | Name | Required | Description | Example |
 | :--- | :------: | :---------- | :------ |
+| `auto_approve` | no | Whether to request auto-approval after the server security scan when uploading via `--qgis-token` (token uploads only; only takes effect if the token owner has approval rights on plugins.qgis.org). Equivalent to and can be overridden by the `--auto-approve`/`--no-auto-approve` CLI option. Defaults to `true`. | `false` |
 | `create_date` | no | Plugin creation date. Used as `create_date` attribute in the custom `plugins.xml` repository. Defaults to build timestamp. | `1985-07-21` |
 | `github_organization_slug` | no | The *organization* slug on SCM host (e.g. Github) and translation platform (e.g. Transifex).<br/>Not required when running on Travis since deduced from `$TRAVIS_REPO_SLUG`environment variable. | `qgis` |
 | `plugin_path` | **yes** | The folder where the source code is located. Shouldn't have any dash character. Defaults to: `slugify(plugin_name)`. | qgis_plugin_CI_testing |

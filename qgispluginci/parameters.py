@@ -226,6 +226,10 @@ class Parameters:
         else:
             self.plugin_zip_directory = self.plugin_path
 
+        # allow explicit override of the zip directory / upload slug
+        if "plugin_zip_directory" in definition:
+            self.plugin_zip_directory = definition["plugin_zip_directory"]
+
         self.project_slug = definition.get(
             "project_slug",
             os.environ.get("TRAVIS_REPO_SLUG", f".../{self.plugin_slug}").split("/")[1],
@@ -236,6 +240,7 @@ class Parameters:
         )
         self.repository_url_raw: str | None = definition.get("repository_url_raw")
         self.plugin_repo_url: str | None = definition.get("repository_plugin_url")
+        self.auto_approve: bool = definition.get("auto_approve", True)
 
         self.transifex_organization = definition.get(
             "transifex_organization", self.github_organization_slug
